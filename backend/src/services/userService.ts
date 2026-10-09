@@ -22,3 +22,4 @@ export const createUser = async (email: string, password: string, role: string, 
 
     return result[0] as User;
 };  
+
