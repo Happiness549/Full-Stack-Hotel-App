@@ -1,6 +1,8 @@
 
 import { neon } from "@neondatabase/serverless";
 import dotenv from "dotenv";
+import * as userService from '../services/userService'
+import jwt from 'jsonwebtoken'
 
 dotenv.config();
 
@@ -20,6 +22,7 @@ export const testDBConnection = async () => {
         throw error;
     }
 };
+
 
 
 
