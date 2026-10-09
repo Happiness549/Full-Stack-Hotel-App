@@ -23,3 +23,43 @@ export const createUser = async (email: string, password: string, role: string, 
     return result[0] as User;
 };  
 
+
+export const findAllUsers = async (): Promise<User[]> => {
+    const results = await query(
+        "SELECT id, email, role, name, phone FROM users ORDER BY id DESC"
+
+    );
+    return results as User[]
+}
+
+export const findUserById = async (id: number): Promise<User | null> => {
+    const results = await query("SELECT * FROM users WHERE id = $1", [
+        id,
+
+    ]);
+    return results[0] as User|| null;
+}
+
+
+// The following is google crud 
+
+export const createGoogleUser = async (google_id: string,email: string,name: string,surname: string | null,profile_image: string | null): Promise<User> => {
+    const result = await query(
+        `INSERT INTO users
+        (google_id, email, name, surname, profile_image, role)
+        VALUES ($1, $2, $3, $4, $5, 'User')
+        RETURNING id, google_id, email, name, surname, profile_image, role`,
+        [google_id, email, name, surname, profile_image]
+    );
+
+    return result[0] as User;
+};
+
+export const findUserByGoogleId = async (google_id: string): Promise<User | null> => {
+    const result = await query(
+        "SELECT * FROM users WHERE google_id = $1",
+        [google_id]
+    );
+
+    return (result[0] as User) || null;
+};
