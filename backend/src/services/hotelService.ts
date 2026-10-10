@@ -34,3 +34,10 @@ export const updateHotel = async (id: number, hotelData:Hotel): Promise<Hotel | 
     );
     return (results[0] as Hotel)|| null;
 };
+
+export const deleteHotel = async (id:number): Promise<Hotel | null> =>{
+    const results = await query(" DELETE FROM hotels WHERE id = $1 RETURNING *", [id]
+
+    );
+    return (results[0] as Hotel  || null );
+};
