@@ -1,4 +1,4 @@
-import {Hotel} from '../models/hotel.types'
+import {Hotel, User} from '../models/hotel.types'
 import {query} from '../config/database'
 
 
@@ -22,3 +22,11 @@ export const findAllHotels = async (): Promise<Hotel[]> => {
     );
     return result as Hotel[];
 };
+
+export const findHotelById = async (id: number): Promise<Hotel | null> => {
+    const results = await query("SELECT * FROM hotels WHERE id = $1", [
+        id,
+
+    ]);
+      return (results[0] as Hotel) || null;
+}
