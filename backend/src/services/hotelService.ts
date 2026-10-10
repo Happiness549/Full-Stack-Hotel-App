@@ -13,3 +13,12 @@ export const createHotel = async (hotelData: Hotel, adminId:number): Promise<Hot
   
   return result[0] as Hotel;
 };
+
+
+export const findAllHotels = async (): Promise<Hotel[]> => {
+    const result = await query(
+        "SELECT * FROM hotels ORDER BY created_at"
+
+    );
+    return result as Hotel[];
+};

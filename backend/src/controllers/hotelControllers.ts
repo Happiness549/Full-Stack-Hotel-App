@@ -16,3 +16,16 @@ export const addHotel = async (req: Request, res: Response) => {
     }
 };
 
+
+
+export const getAllHotels = async (req: Request, res: Response) => {
+    try{
+        const hotels = await hotelService.findAllHotels();
+        res.status(200).json(hotels);
+    }catch(error){
+        console.error("Error Error:", error);
+        res.status(500).json({message: "Error retrieving hotels"});
+    }
+};
+
+
