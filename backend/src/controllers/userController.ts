@@ -2,7 +2,7 @@ import { Request, Response } from "express";
 import * as UserService from '../services/userService'
 import bcrypt from 'bcryptjs'
 import jwt from 'jsonwebtoken'
-import { User } from "../types/hotel.types";
+import { User } from "../models/hotel.types";
 
 
 

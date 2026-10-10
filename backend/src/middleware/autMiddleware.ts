@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from "express";
 import jwt from "jsonwebtoken";
 import { findUserByEmail } from "../services/userService";
-import { User } from "../types/hotel.types";
+import { User } from "../models/hotel.types";
 
 interface JwtPayload {
     email: string;
@@ -35,8 +35,16 @@ export const protect = async (req: Request, res: Response, next: NextFunction) =
 };
 
 
+export const adminOnlyAddHotel = (req: Request, res: Response, next: NextFunction) => {
+   if ((req.user as User)?.role !== "Admin") {
+        return res.status(403).json({ message: "Only admins can add projects"});
+    }
+
+    next();
+};
+
 export const adminOnly = (req: Request,res: Response,next: NextFunction) => {
-   if ((req.user as (User & { role?: string }) | undefined)?.role !== "Admin") {
+   if ((req.user as User)?.role !== "Admin") {
         return res.status(403).json({ message: "Access denied. Admins only."});
     }
     next();

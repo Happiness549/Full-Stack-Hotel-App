@@ -1,7 +1,7 @@
 import { query } from "../config/database";
 import { neon } from '@neondatabase/serverless';
 import bcrypt from 'bcryptjs'
-import { User } from "../types/hotel.types";
+import { User } from "../models/hotel.types";
 
 
 export const findUserByEmail = async (email: string | null): Promise<User> => { 
