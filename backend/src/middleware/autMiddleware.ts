@@ -37,7 +37,7 @@ export const protect = async (req: Request, res: Response, next: NextFunction) =
 
 export const adminOnlyAddHotel = (req: Request, res: Response, next: NextFunction) => {
    if ((req.user as User)?.role !== "Admin") {
-        return res.status(403).json({ message: "Only admins can add projects"});
+        return res.status(403).json({ message: "Not authorised, admins only."});
     }
 
     next();

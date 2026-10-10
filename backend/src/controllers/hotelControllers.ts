@@ -16,8 +16,6 @@ export const addHotel = async (req: Request, res: Response) => {
     }
 };
 
-
-
 export const getAllHotels = async (req: Request, res: Response) => {
     try{
         const hotels = await hotelService.findAllHotels();
@@ -25,6 +23,23 @@ export const getAllHotels = async (req: Request, res: Response) => {
     }catch(error){
         console.error("Error Error:", error);
         res.status(500).json({message: "Error retrieving hotels"});
+    }
+};
+
+export const updateHotelById = async(req: Request, res:Response) => {
+    try{
+        const id = parseInt(String(req.params.id));
+        const updatedHotel = await hotelService.updateHotel(id, req.body);
+        
+        if(!updatedHotel){
+            return res.status(404).json({message: "Hotel not found"});
+        }
+
+        res.status(200).json(updatedHotel);
+        
+    }catch(error){
+        res.status(500).json({message: "Error updating Hotel"});
+
     }
 };
 

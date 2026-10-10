@@ -22,3 +22,15 @@ export const findAllHotels = async (): Promise<Hotel[]> => {
     );
     return result as Hotel[];
 };
+
+export const updateHotel = async (id: number, hotelData:Hotel): Promise<Hotel | null> =>{
+     const { name, description, address,city , country,  facilities } = hotelData;
+       const results = await query(
+        `UPDATE hotels 
+         SET name = $1, description = $2, address = $3, city = $4, country = $5, facilities = $6 
+         WHERE id = $7 
+         RETURNING id, name, description, address, city, country, facilities`, 
+        [ name,description, address, city, country, facilities, id]
+    );
+    return (results[0] as Hotel)|| null;
+};
