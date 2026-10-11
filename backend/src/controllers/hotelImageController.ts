@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import { addHotelImage } from "../services/hotelImageService";
+import { getHotelImages } from "../services/hotelImageService";
 
 export const addHotelImageByHotelId = async (req: Request, res: Response) => {
     try {
@@ -19,5 +20,20 @@ export const addHotelImageByHotelId = async (req: Request, res: Response) => {
     } catch (error) {
         console.log("Error adding hotel image:", error);
         res.status(500).json({ message: "Error adding hotel image" });
+    }
+};
+
+
+
+export const getHotelImagesByHotelId = async (req: Request, res: Response) => {
+    try {
+         const hotel_id = parseInt(String(req.params.id))
+
+        const hotelImages = await getHotelImages(hotel_id);
+
+        res.status(200).json(hotelImages);
+    } catch (error) {
+        console.log("Error getting hotel images:", error);
+        res.status(500).json({ message: "Error getting hotel images" });
     }
 };
