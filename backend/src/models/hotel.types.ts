@@ -26,3 +26,11 @@ export interface Hotel {
     status: string;
     created_at: Date;
 }
+
+export interface HotelImage {
+    id: number;
+    hotel_id: number;
+    image_url: string;
+    is_primary: boolean;
+    created_at: Date;
+}
