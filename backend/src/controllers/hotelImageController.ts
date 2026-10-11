@@ -1,5 +1,7 @@
 import { Request, Response } from "express";
 import { addHotelImage, setPrimaryHotelImage,getHotelImages, updateHotelImage, deleteHotelImage } from "../services/hotelImageService";
+import { uploadImage } from "../services/cloudinaryService";
+
 
 
 export const addHotelImageByHotelId = async (req: Request, res: Response) => {
@@ -22,9 +24,6 @@ export const addHotelImageByHotelId = async (req: Request, res: Response) => {
         res.status(500).json({ message: "Error adding hotel image" });
     }
 };
-
-
-
 
 
 
@@ -120,6 +119,37 @@ export const deleteHotelImageById = async (req: Request, res: Response) => {
         console.log("Error deleting hotel image:", error);
         return res.status(500).json({
             message: "Error deleting hotel image"
+        });
+    }
+};
+
+
+export const uploadHotelImage = async (req: Request, res: Response) => {
+    try {
+        const hotel_id = parseInt(String(req.params.id));
+
+        if (!req.file) {
+            return res.status(400).json({
+                message: "Please upload an image"
+            });
+        }
+
+        const uploadedImage = await uploadImage(req.file);
+
+        const hotelImage = await addHotelImage(
+            hotel_id,
+            uploadedImage.secure_url
+        );
+
+        return res.status(201).json({
+            message: "Hotel image uploaded successfully",
+            hotelImage
+        });
+    } catch (error) {
+        console.log("Error uploading hotel image:", error);
+
+        return res.status(500).json({
+            message: "Error uploading hotel image"
         });
     }
 };

@@ -2,6 +2,7 @@ import { Request, Response, NextFunction } from "express";
 import jwt from "jsonwebtoken";
 import { findUserByEmail } from "../services/userService";
 import { User } from "../models/hotel.types";
+import multer from "multer";
 
 interface JwtPayload {
     email: string;
@@ -49,3 +50,22 @@ export const adminOnly = (req: Request,res: Response,next: NextFunction) => {
     }
     next();
 };
+
+
+
+
+const storage = multer.memoryStorage();
+
+export const upload = multer({
+    storage,
+    limits: {
+        fileSize: 5 * 1024 * 1024
+    },
+    fileFilter: (req, file, cb) => {
+        if (file.mimetype.startsWith("image/")) {
+            cb(null, true);
+        } else {
+            cb(new Error("Only image files are allowed"));
+        }
+    }
+});
