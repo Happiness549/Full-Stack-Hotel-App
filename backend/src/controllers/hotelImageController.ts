@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
-import { addHotelImage } from "../services/hotelImageService";
-import { getHotelImages } from "../services/hotelImageService";
+import { addHotelImage, setPrimaryHotelImage,getHotelImages } from "../services/hotelImageService";
+
 
 export const addHotelImageByHotelId = async (req: Request, res: Response) => {
     try {
@@ -25,9 +25,12 @@ export const addHotelImageByHotelId = async (req: Request, res: Response) => {
 
 
 
+
+
+
 export const getHotelImagesByHotelId = async (req: Request, res: Response) => {
     try {
-         const hotel_id = parseInt(String(req.params.id))
+        const hotel_id = parseInt(String(req.params.id));
 
         const hotelImages = await getHotelImages(hotel_id);
 
@@ -35,5 +38,33 @@ export const getHotelImagesByHotelId = async (req: Request, res: Response) => {
     } catch (error) {
         console.log("Error getting hotel images:", error);
         res.status(500).json({ message: "Error getting hotel images" });
+    }
+};
+        
+
+
+
+export const setPrimaryHotelImageById = async (req: Request, res: Response) => {
+    try {
+        const hotel_id = parseInt(String(req.params.id));
+        const image_id = parseInt(String(req.params.imageId));
+
+        const primaryImage = await setPrimaryHotelImage(hotel_id, image_id);
+
+        if (!primaryImage) {
+            return res.status(404).json({
+                message: "Hotel image not found"
+            });
+        }
+
+        return res.status(200).json({
+            message: "Primary hotel image updated successfully",
+            primaryImage
+        });
+    } catch (error) {
+        console.log("Error setting primary hotel image:", error);
+        return res.status(500).json({
+            message: "Error setting primary hotel image"
+        });
     }
 };
