@@ -11,3 +11,22 @@ export const addHotelImage = async (hotel_id: number, image_url: string): Promis
 
     return result[0] as HotelImage;
 };
+
+export const setPrimaryHotelImage = async (image_id: number, hotel_id: number): Promise<HotelImage | null> => {
+    await query(
+        `UPDATE hotel_images
+         SET is_primary = FALSE
+         WHERE hotel_id = $1`,
+        [hotel_id]
+    );
+
+    const result = await query(
+        `UPDATE hotel_images
+         SET is_primary = TRUE
+         WHERE id = $1 AND hotel_id = $2
+         RETURNING *`,
+        [image_id, hotel_id]
+    );
+
+    return (result[0] as HotelImage) || null;
+};
