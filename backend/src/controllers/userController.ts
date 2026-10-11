@@ -7,7 +7,7 @@ import { User } from "../models/hotel.types";
 
 
 export const register = async (req: Request, res: Response) => {
-    const { email, password, role, name, phone, surname } = req.body;
+    const { email, password, role, name, phone, surname, profile_image } = req.body;
 
     if (!email || !password || !role || !name || !phone ||!surname) {
         return res.status(400).json({message: "fill all required fields"});
@@ -23,7 +23,7 @@ export const register = async (req: Request, res: Response) => {
             return res.status(409).json({message: "Email is already in use"});
         }
 
-        await UserService.createUser(email, password, role, name, phone, surname);
+        await UserService.createUser(email, password, role, name, phone, surname, profile_image);
         return res.status(201).json({message: "User registered successfully"});
 
     } catch (error) {
@@ -84,6 +84,33 @@ export const getAllUsers = async (req: Request, res: Response) => {
     }catch(error){
         console.error("Login Error:", error);
         return res.status(500).json({message: "Error retrieving users"});
+    }
+};
+
+
+
+export const updateUserById = async (req: Request, res: Response) => {
+    try {
+        const id = parseInt(String(req.params.id));
+
+        if (req.body.password) {
+            req.body.password_hash = await bcrypt.hash(req.body.password, 10);
+             console.log("Hash generated:", req.body.password_hash.startsWith("$2"));
+            delete req.body.password;
+        }
+
+        const updatedUser = await UserService.updateUser(id, req.body);
+        
+
+        if (!updatedUser) {
+            return res.status(404).json({ message: "User not found" });
+        }
+
+        res.status(200).json(updatedUser);
+
+    } catch (error) {
+        console.log("error:", error);
+        res.status(500).json({ message: "Error updating user" });
     }
 };
 
