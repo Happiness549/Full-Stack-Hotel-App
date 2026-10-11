@@ -59,6 +59,13 @@ export const updateUser = async (id: number, userData: Partial<User>): Promise<U
 };
 
 
+export const deleteUser = async (id:number): Promise<User | null> =>{
+    const results = await query(" DELETE FROM users WHERE id = $1 RETURNING *", [id]
+
+    );
+    return (results[0] as User || null);
+};
+
 
 
 // The following is google crud 
