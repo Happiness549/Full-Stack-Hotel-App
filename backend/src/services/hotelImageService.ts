@@ -56,3 +56,15 @@ export const updateHotelImage = async (hotel_id: number, image_id: number, image
 
     return (result[0] as HotelImage) || null;
 };
+
+
+export const deleteHotelImage = async (hotel_id: number, image_id: number): Promise<HotelImage | null> => {
+    const result = await query(
+        `DELETE FROM hotel_images
+         WHERE hotel_id = $1 AND id = $2
+         RETURNING *`,
+        [hotel_id, image_id]
+    );
+
+    return (result[0] as HotelImage) || null;
+};

@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { addHotelImage, setPrimaryHotelImage,getHotelImages, updateHotelImage } from "../services/hotelImageService";
+import { addHotelImage, setPrimaryHotelImage,getHotelImages, updateHotelImage, deleteHotelImage } from "../services/hotelImageService";
 
 
 export const addHotelImageByHotelId = async (req: Request, res: Response) => {
@@ -98,6 +98,28 @@ export const updateHotelImageById = async (req: Request, res: Response) => {
         console.log("Error updating hotel image:", error);
         return res.status(500).json({
             message: "Error updating hotel image"
+        });
+    }
+};
+
+
+
+export const deleteHotelImageById = async (req: Request, res: Response) => {
+    try {
+        const hotel_id = parseInt(String(req.params.id));
+        const image_id = parseInt(String(req.params.imageId));
+
+        const deletedImage = await deleteHotelImage(hotel_id, image_id);
+
+        if (!deletedImage) {
+            return res.status(404).json({message: "Hotel image not found"});
+        }
+
+        return res.status(200).json({message: "Hotel image deleted successfully",deletedImage});
+    } catch (error) {
+        console.log("Error deleting hotel image:", error);
+        return res.status(500).json({
+            message: "Error deleting hotel image"
         });
     }
 };
