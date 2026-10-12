@@ -40,5 +40,26 @@ export const confirmPayment = async (id: number): Promise<Payment | null> => {
     return payment;
 };
 
+export const findPaymentById = async (id: number): Promise<Payment | null> => {
+    const result = await query(
+        `SELECT * FROM payments WHERE id = $1`,
+        [id]
+    );
+
+    return (result[0] as Payment) || null;
+};
+
+
+export const findPaymentsByUserId = async (user_id: number): Promise<Payment[]> => {
+    const result = await query(
+        `SELECT * FROM payments
+         WHERE user_id = $1
+         ORDER BY created_at DESC`,
+        [user_id]
+    );
+
+    return result as Payment[];
+};
+
 
 

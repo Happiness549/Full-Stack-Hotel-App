@@ -61,3 +61,39 @@ export const confirmPaymentController = async (req: Request, res: Response) => {
         return res.status(500).json({message: "Error confirming payment"});
     }
 };
+
+export const getPaymentByIdController = async (req: Request, res: Response) => {
+    try {
+        const id = parseInt(String(req.params.id));
+
+        if (!Number.isInteger(id) || id <= 0) {
+            return res.status(400).json({ message: "Invalid payment ID" });
+        }
+
+        const payment = await paymentService.findPaymentById(id);
+
+        if (!payment) {
+            return res.status(404).json({ message: "Payment not found" });
+        }
+
+        return res.status(200).json({ payment });
+    } catch (error) {
+        console.error("Error fetching payment:", error);
+        return res.status(500).json({ message: "Error fetching payment" });
+    }
+};
+
+export const getMyPaymentsController = async (req: Request, res: Response) => {
+    try {
+        const user_id = (req.user as User).id;
+
+        const payments = await paymentService.findPaymentsByUserId(user_id);
+
+        return res.status(200).json({ payments });
+    } catch (error) {
+        console.error("Error fetching user payments:", error);
+        return res.status(500).json({
+            message: "Error fetching your payments"
+        });
+    }
+};
