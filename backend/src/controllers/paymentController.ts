@@ -97,3 +97,14 @@ export const getMyPaymentsController = async (req: Request, res: Response) => {
         });
     }
 };
+
+export const getAllPaymentsController = async (req: Request, res: Response) => {
+    try {
+        const payments = await paymentService.findAllPayments();
+
+        return res.status(200).json({ payments });
+    } catch (error) {
+        console.error("Error fetching all payments:", error);
+        return res.status(500).json({message: "Error fetching payments"});
+    }
+};

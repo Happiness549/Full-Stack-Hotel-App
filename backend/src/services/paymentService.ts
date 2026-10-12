@@ -61,5 +61,12 @@ export const findPaymentsByUserId = async (user_id: number): Promise<Payment[]> 
     return result as Payment[];
 };
 
+export const findAllPayments = async (): Promise<Payment[]> => {
+    const result = await query(
+        `SELECT * FROM payments
+         ORDER BY created_at DESC`
+    );
 
+    return result as Payment[];
+};
 
