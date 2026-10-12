@@ -112,13 +112,12 @@ export const updateUserById = async (req: Request, res: Response) => {
 
         if (req.body.password) {
             req.body.password_hash = await bcrypt.hash(req.body.password, 10);
-             console.log("Hash generated:", req.body.password_hash.startsWith("$2"));
+            console.log("Hash generated:", req.body.password_hash.startsWith("$2"));
             delete req.body.password;
         }
 
         const updatedUser = await UserService.updateUser(id, req.body);
         
-
         if (!updatedUser) {
             return res.status(404).json({ message: "User not found" });
         }

@@ -37,3 +37,10 @@ export const updateRoom = async (id: number, hotel_id: number, room_type: string
 
     return (result[0] as Room) || null;
 };
+
+export const deleteRoom = async (id:number): Promise<Room | null> =>{
+    const results = await query(" DELETE FROM rooms WHERE id = $1 RETURNING *", [id]
+
+    );
+    return (results[0] as Room || null);
+};
