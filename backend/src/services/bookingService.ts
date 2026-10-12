@@ -3,7 +3,7 @@ import {Booking, bookingStatus} from '../models/hotel.types'
 
 
 export const createBooking = async (room_id: number, user_id: number, checkin: Date, checkout: Date, guests: number,
-    room_booked: number, total_price: number, status: bookingStatus): Promise<Booking | null> => {
+    room_booked: number, total_price: number): Promise<Booking | null> => {
 
 
     const result = await query(
@@ -11,7 +11,7 @@ export const createBooking = async (room_id: number, user_id: number, checkin: D
         (room_id, user_id, check_in, check_out, guests, rooms_booked, total_price, status)
         VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
         RETURNING *`,
-        [room_id, user_id, checkin, checkout, guests, room_booked, total_price, status]
+        [room_id, user_id, checkin, checkout, guests, room_booked, total_price]
     );
 
     return (result[0] as Booking) || null;

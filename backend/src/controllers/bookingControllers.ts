@@ -6,7 +6,7 @@ import * as bookingService from '../services/bookingService'
 
 export const createBookingController = async (req: Request, res: Response) => {
     try {
-        const { checkin, checkout, guests, room_booked, total_price,status } = req.body;
+        const { checkin, checkout, guests, room_booked, total_price} = req.body;
 
         const room_id = Number(req.params.room_id);
         const user_id = Number(req.params.user_id);
@@ -23,7 +23,7 @@ export const createBookingController = async (req: Request, res: Response) => {
 
     
 
-        const booking = await bookingService.createBooking(room_id, user_id,new Date(checkin), new Date(checkout), guests, room_booked, total_price, status );
+        const booking = await bookingService.createBooking(room_id, user_id,new Date(checkin), new Date(checkout), guests, room_booked, total_price );
 
         return res.status(201).json({message: "Booking created successfully",booking});
     } catch (error) {

@@ -14,3 +14,31 @@ export const createPayment = async (booking_id: number, user_id: number, amount:
 };
 
 
+export const confirmPayment = async (id: number): Promise<Payment | null> => {
+    const result = await query(
+        `UPDATE payments
+         SET status = 'successful',
+             paid_at = CURRENT_TIMESTAMP,
+             updated_at = CURRENT_TIMESTAMP
+         WHERE id = $1 AND status = 'pending'
+         RETURNING *`,
+        [id]
+    );
+
+    const payment = (result[0] as Payment) || null;
+
+    if (!payment) return null;
+
+    await query(
+        `UPDATE bookings
+         SET status = 'Confirmed',
+             updated_at = CURRENT_TIMESTAMP
+         WHERE id = $1`,
+        [payment.booking_id]
+    );
+
+    return payment;
+};
+
+
+

@@ -37,3 +37,27 @@ export const createPaymentController = async (req: Request, res: Response) => {
         return res.status(500).json({message: "Error creating payment"});
     }
 };
+
+
+export const confirmPaymentController = async (req: Request, res: Response) => {
+    try {
+        const id = parseInt(String(req.params.id));
+
+        if (!Number.isInteger(id) || id <= 0) {
+            return res.status(400).json({ message: "Invalid payment ID" });
+        }
+
+        const payment = await paymentService.confirmPayment(id);
+
+        if (!payment) {
+            return res.status(404).json({message: "Pending payment not found"});
+        }
+
+        return res.status(200).json({
+            message: "Payment and booking confirmed successfully",payment
+        });
+    } catch (error) {
+        console.error("Error confirming payment:", error);
+        return res.status(500).json({message: "Error confirming payment"});
+    }
+};
