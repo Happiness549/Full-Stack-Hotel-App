@@ -37,5 +37,14 @@ export const findAllBookings = async (): Promise<Booking[]> => {
     return results as Booking[]
 }
 
+export const findBookingById = async (id: number): Promise<Booking | null> => {
+    const results = await query(
+        "SELECT * FROM bookings WHERE id = $1",
+        [id]
+    );
+
+    return (results[0] as Booking) || null;
+};
+
 
 

@@ -43,3 +43,17 @@ export const getAllBookings = async (req: Request, res: Response) => {
         return res.status(500).json({message: "Error retrieving bookings"});
     }
 };
+
+export const getBookingById = async (req: Request, res: Response) => {
+    try{
+        const id = parseInt(String(req.params.id))
+        const booking = await bookingService.findBookingById(id)
+        if(!booking){
+            return res.status(404).json({message: "Booking not found"})
+        }
+        return res.status(200).json(booking)
+    }catch(error){
+        res.status(500).json({message: "Error retrieving user"})
+
+    }
+};
