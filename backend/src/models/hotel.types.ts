@@ -49,3 +49,17 @@ export interface Room {
     created_at: Date;
     updated_at: Date;
 }
+
+export type bookingStatus = 'Confirmed' | 'Pending' | 'Cancelled'| 'Approved';
+export interface Booking{
+    id: number;
+    user_id: number;
+    room_id: number;
+    check_in: Date;
+    check_out: Date;
+    guests: number;
+    room_booked: number;
+    total_price: number;
+    status: bookingStatus;
+    created_at: Date;
+}

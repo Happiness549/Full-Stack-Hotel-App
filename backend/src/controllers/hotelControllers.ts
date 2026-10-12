@@ -1,6 +1,5 @@
 import { Request, Response } from "express";
 import * as hotelService from '../services/hotelService'
-import { query } from "../config/database";
 import { User } from "../models/hotel.types";
 
 
