@@ -7,6 +7,7 @@ import hotelImageRoutes from "./routes/hotelImageRoutes";
 import roomRoutes from "./routes/roomRoutes";
 import bookingRoutes from './routes/bookingRoutes'
 import paymentRoutes from './routes/paymentRoutes'
+import notificationRoutes from './routes/notificationRoutes'
 import dotenv from "dotenv";
 
 dotenv.config();
@@ -28,6 +29,7 @@ const startServer = async () => {
     app.use("/api/hotels", roomRoutes);
     app.use("/api/bookings", bookingRoutes);
     app.use("/api/payments", paymentRoutes);
+    app.use('/api/notifications', notificationRoutes)
     
 
     
