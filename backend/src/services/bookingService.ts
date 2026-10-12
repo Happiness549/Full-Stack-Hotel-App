@@ -47,4 +47,15 @@ export const findBookingById = async (id: number): Promise<Booking | null> => {
 };
 
 
+export const deleteBooking = async (id: number): Promise<Booking | null> => {
+    const result = await query(
+        `DELETE FROM bookings
+        WHERE id = $1
+        RETURNING *`,
+        [id]
+    );
+
+    return (result[0] as Booking) || null;
+};
+
 

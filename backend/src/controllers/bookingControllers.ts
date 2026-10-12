@@ -57,3 +57,25 @@ export const getBookingById = async (req: Request, res: Response) => {
 
     }
 };
+
+export const deleteBookingController = async (req: Request, res: Response) => {
+    try {
+        const id = parseInt(String(req.params.id));
+
+        if (!Number.isInteger(id) || id <= 0) {
+            return res.status(400).json({message: "Invalid booking ID"});
+        }
+
+        const booking = await bookingService.deleteBooking(id);
+
+        if (!booking) {
+            return res.status(404).json({message: "Booking not found"});
+        }
+
+        return res.status(200).json({message: "Booking deleted successfully", booking});
+    } catch (error) {
+        console.error("Error deleting booking:", error);
+
+        return res.status(500).json({message: "Error deleting booking"});
+    }
+};
