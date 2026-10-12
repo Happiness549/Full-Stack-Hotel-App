@@ -37,3 +37,12 @@ export const updateRoom = async (id: number, hotel_id: number, room_type: string
 
     return (result[0] as Room) || null;
 };
+
+
+export const findAllRooms = async (): Promise<Room[]> => {
+    const results = await query(
+        "SELECT id, room_type, description, price_per_night, capacity, quantity, facilities FROM rooms ORDER BY id DESC"
+
+    );
+    return results as Room[]
+}
