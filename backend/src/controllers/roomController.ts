@@ -1,6 +1,7 @@
 
 import { Request, Response } from "express";
 import { createRoom } from "../services/roomService";
+import { updateRoom } from "../services/roomService";
 
 
 
@@ -25,5 +26,42 @@ export const createRoomController = async (req: Request, res: Response) => {
         console.error("Error creating room:", error);
 
         return res.status(500).json({message: "Error creating room"});
+    }
+};
+
+
+
+
+
+export const updateRoomController = async ( req: Request, res: Response) => {
+    try {
+        
+        const id = Number(req.params.id);
+        const hotel_id = Number(req.params.hotelId);
+
+        const {room_type, description, price_per_night, capacity, quantity,facilities} = req.body;
+
+        if (
+            !Number.isInteger(id) || id <= 0 ||
+            !Number.isInteger(hotel_id) || hotel_id <= 0
+        ) {
+            return res.status(400).json({message: "Invalid room ID or hotel ID"});
+        }
+
+        if (!room_type || price_per_night == null || price_per_night <= 0 || !capacity || capacity <= 0 || !quantity || quantity <= 0) {
+            return res.status(400).json({message: "Please provide all required room details"});
+        }
+
+        const room = await updateRoom(id,hotel_id, room_type, description, price_per_night, capacity, quantity, facilities);
+
+        if (!room) {
+            return res.status(404).json({message: "Room not found for this hotel"});
+        }
+
+        return res.status(200).json({message: "Room updated successfully", room});
+    } catch (error) {
+        console.error("Error updating room:", error);
+
+        return res.status(500).json({message: "Error updating room"});
     }
 };
