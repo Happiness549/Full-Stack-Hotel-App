@@ -63,3 +63,20 @@ export interface Booking{
     status: bookingStatus;
     created_at: Date;
 }
+
+
+export type PaymentStatus = 'pending' | 'successful' | 'failed' | 'refunded';
+
+export interface Payment {
+    id: number;
+    booking_id: number;
+    user_id: number;
+    amount: number;
+    currency: string;
+    payment_method: string | null;
+    transaction_id: string | null;
+    status: PaymentStatus;
+    paid_at: Date | null;
+    created_at: Date;
+    updated_at: Date;
+}

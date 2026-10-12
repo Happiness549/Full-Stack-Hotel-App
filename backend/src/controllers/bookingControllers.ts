@@ -53,7 +53,7 @@ export const getBookingById = async (req: Request, res: Response) => {
         }
         return res.status(200).json(booking)
     }catch(error){
-        res.status(500).json({message: "Error retrieving user"})
+        res.status(500).json({message: "Error retrieving booking"})
 
     }
 };
