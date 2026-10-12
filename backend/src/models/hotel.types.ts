@@ -34,3 +34,18 @@ export interface HotelImage {
     is_primary: boolean;
     created_at: Date;
 }
+
+
+export interface Room {
+    id: number;
+    hotel_id: number;
+    room_type: string;
+    description: string | null;
+    price_per_night: number;
+    capacity: number;
+    quantity: number;
+    facilities: string | null;
+    status: string;
+    created_at: Date;
+    updated_at: Date;
+}
