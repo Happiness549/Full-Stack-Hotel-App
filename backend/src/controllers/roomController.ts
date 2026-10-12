@@ -1,7 +1,7 @@
 
 import { Request, Response } from "express";
-import { createRoom } from "../services/roomService";
-import { updateRoom } from "../services/roomService";
+import * as roomService from '../services/roomService'
+
 
 
 
@@ -19,7 +19,7 @@ export const createRoomController = async (req: Request, res: Response) => {
             return res.status(400).json({message: "Please provide all required room details"});
         }
 
-        const room = await createRoom(hotel_id, room_type, description, price_per_night, capacity, quantity, facilities);
+        const room = await roomService.createRoom(hotel_id, room_type, description, price_per_night, capacity, quantity, facilities);
 
         return res.status(201).json({message: "Room created successfully",room});
     } catch (error) {
@@ -52,7 +52,7 @@ export const updateRoomController = async ( req: Request, res: Response) => {
             return res.status(400).json({message: "Please provide all required room details"});
         }
 
-        const room = await updateRoom(id,hotel_id, room_type, description, price_per_night, capacity, quantity, facilities);
+        const room = await roomService.updateRoom(id,hotel_id, room_type, description, price_per_night, capacity, quantity, facilities);
 
         if (!room) {
             return res.status(404).json({message: "Room not found for this hotel"});
@@ -63,5 +63,15 @@ export const updateRoomController = async ( req: Request, res: Response) => {
         console.error("Error updating room:", error);
 
         return res.status(500).json({message: "Error updating room"});
+    }
+};
+
+export const getAllRooms = async (req: Request, res: Response) => {
+    try{
+        const rooms = await roomService.findAllRooms();
+        return res.status(200).json(rooms);
+    }catch(error){
+        console.error("Login Error:", error);
+        return res.status(500).json({message: "Error retrieving users"});
     }
 };
