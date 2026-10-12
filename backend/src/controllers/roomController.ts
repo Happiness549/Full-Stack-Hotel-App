@@ -77,7 +77,7 @@ export const getAllRooms = async (req: Request, res: Response) => {
 export const deleteRoomById = async (req: Request, res: Response) => {
     try{
         const id = parseInt(String(req.params.id));
-          const hotel_id = parseInt(String(req.params.id));
+          const hotel_id = parseInt(String(req.params.hotel_id));
 
         const deletedRoom= await roomService.deleteRoom(id, hotel_id)
         if(!deletedRoom){
@@ -87,6 +87,7 @@ export const deleteRoomById = async (req: Request, res: Response) => {
         return res.status(200).json({message: "Room deleted successfully"})
          
     }catch(error){
+        console.log("error deleting the Room:", error);
         return res.status(500).json({message: "Error deleting the Room"})
 
     }

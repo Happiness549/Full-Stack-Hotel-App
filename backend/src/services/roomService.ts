@@ -48,7 +48,7 @@ export const findAllRooms = async (): Promise<Room[]> => {
 
 
 export const deleteRoom = async (id:number, hotel_id: number): Promise<Room | null> =>{
-    const results = await query(" DELETE FROM rooms WHERE id = $2 RETURNING *", [id, hotel_id]
+    const results = await query(" DELETE FROM rooms WHERE id = $1 AND hotel_id = $2 RETURNING *", [id, hotel_id]
 
     );
     return (results[0] as Room || null);
