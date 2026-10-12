@@ -25,7 +25,7 @@ const startServer = async () => {
     app.use('/api/hotels', hotelRoutes)
     app.use("/api/hotels", hotelImageRoutes);
     app.use("/api/hotels", roomRoutes);
-    app.use("/api/booking", bookingRoutes);
+    app.use("/api/bookings", bookingRoutes);
     
 
     

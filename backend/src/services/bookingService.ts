@@ -30,4 +30,12 @@ export const checkRoomAvailability = async (room_id: number, check_in: Date, che
     return result.length === 0;
 };
 
+export const findAllBookings = async (): Promise<Booking[]> => {
+    const results = await query(
+        "SELECT * FROM bookings ORDER BY id DESC"
+    );
+    return results as Booking[]
+}
+
+
 

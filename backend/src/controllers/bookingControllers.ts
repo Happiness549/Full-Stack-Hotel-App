@@ -32,3 +32,14 @@ export const createBookingController = async (req: Request, res: Response) => {
         return res.status(500).json({message: "Error creating booking"});
     }
 };
+
+
+export const getAllBookings = async (req: Request, res: Response) => {
+    try{
+        const bookings = await bookingService.findAllBookings();
+        return res.status(200).json(bookings);
+    }catch(error){
+        console.error("Booking Error:", error);
+        return res.status(500).json({message: "Error retrieving bookings"});
+    }
+};
