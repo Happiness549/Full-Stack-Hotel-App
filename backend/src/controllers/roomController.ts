@@ -73,21 +73,22 @@ export const getAllRooms = async (req: Request, res: Response) => {
 };
 
 
-export const deleteRoomById = async (req: Request, res: Response) => {
-    try{
-        const id = parseInt(String(req.params.id));
-          const hotel_id = parseInt(String(req.params.hotel_id));
 
-        const deletedRoom= await roomService.deleteRoom(id, hotel_id)
-        if(!deletedRoom){
-            return res.status(404).json({message: "Room not found"});
+export const deleteRoomById = async (req: Request, res: Response) => {
+    try {
+        const id = parseInt(String(req.params.id));
+        const hotel_id = parseInt(String(req.params.hotelId));
+
+        const deletedRoom = await roomService.deleteRoom(id, hotel_id);
+
+        if (!deletedRoom) {
+            return res.status(404).json({ message: "Room not found" });
         }
 
-        return res.status(200).json({message: "Room deleted successfully"})
-         
-    }catch(error){
-        console.log("error deleting the Room:", error);
-        return res.status(500).json({message: "Error deleting the Room"})
+        return res.status(200).json({ message: "Room deleted successfully" });
 
+    } catch (error) {
+        console.log("Error deleting the Room:", error);
+        return res.status(500).json({ message: "Error deleting the Room" });
     }
 };
