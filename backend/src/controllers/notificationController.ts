@@ -45,3 +45,26 @@ export const markNotificationAsReadController = async (req: Request, res: Respon
     }
 };
 
+
+export const deleteNotificationController = async (req: Request, res: Response) => {
+    try {
+        const id = Number(req.params.id);
+        const user = req.user as User;
+
+        if (!Number.isInteger(id) || id <= 0) {
+            return res.status(400).json({message: "Valid notification ID is required"});
+        }
+
+        const notification = await notificationService.deleteNotification(id, user.id);
+
+        if (!notification) {
+            return res.status(404).json({message: "Notification not found"});
+        }
+
+        return res.status(200).json({message: "Notification deleted successfully",notification});
+    } catch (error) {
+        console.error("Delete notification error:", error);
+
+        return res.status(500).json({message: "Failed to delete notification" });
+    }
+};
