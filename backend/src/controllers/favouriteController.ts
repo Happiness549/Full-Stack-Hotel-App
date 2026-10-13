@@ -8,8 +8,6 @@ export const createFavouriteController = async (req: Request, res: Response) => 
         const user = req.user as User
         const hotel_id = Number(req.params.hotelId);
        
-
-
         if (!Number.isInteger(hotel_id) || hotel_id <= 0) {
             return res.status(400).json({message: "Invalid hotel ID"});
         }
@@ -17,8 +15,6 @@ export const createFavouriteController = async (req: Request, res: Response) => 
         if (!Number.isInteger(user.id) || user.id <= 0) {
       return res.status(401).json({ message: "Invalid user ID" });
     }
-
-
 
         const favourites = await favouriteService.createFavourite( hotel_id, user.id);
 
@@ -28,3 +24,17 @@ export const createFavouriteController = async (req: Request, res: Response) => 
         return res.status(500).json({message: "Error creating favourites"});
     }
 };
+
+export const getMyFavouritesController = async (req: Request, res: Response) => {
+    try {
+        const user = req.user as User;
+        const favourites = await favouriteService.getMyFavourites(user.id);
+
+        return res.status(200).json({count: favourites.length, favourites});
+    } catch (error) {
+        console.error("Get favourites error:", error);
+
+        return res.status(500).json({message: "Failed to retrieve favourites"});
+    }
+};
+
