@@ -44,3 +44,13 @@ export const updateReviewById = async(req: Request, res:Response) => {
 
     }
 };
+
+export const getAllReviews = async (req: Request, res: Response) => {
+    try{
+        const reviews = await reviewService.findAllReviews();
+        return res.status(200).json(reviews);
+    }catch(error){
+        console.error("Login Error:", error);
+        return res.status(500).json({message: "Error retrieving reviews"});
+    }
+};

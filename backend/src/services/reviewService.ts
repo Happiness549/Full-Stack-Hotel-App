@@ -28,22 +28,11 @@ export const updateReview = async (id: number, rating: number, comment: string):
     return (results[0] as Review) || null;
 };
 
+export const findAllReviews = async (): Promise<Review[]> => {
+    const results = await query(
+        "SELECT id, user_id, hotel_id, rating, comment FROM reviews ORDER BY id DESC"
 
-// export const updateUser = async (id: number, userData: Partial<User>): Promise<User | null> => {
-//     const { email, name, surname, profile_image, password_hash } = userData;
+    );
+    return results as Review[]
+}
 
-//     const results = await query(
-//         `UPDATE users
-//          SET email = COALESCE($2, email),
-//              name = COALESCE($3, name),
-//              surname = COALESCE($4, surname),
-//              profile_image = COALESCE($5, profile_image),
-//              password_hash = COALESCE($6, password_hash)
-//          WHERE id = $1
-//          RETURNING id, email, name, surname, profile_image, password_hash`,
-//         [id, email ?? null, name ?? null, surname ?? null, profile_image ?? null, password_hash ?? null]
-//     );
-
-//     return (results[0] as User) || null;
-// };
-     
