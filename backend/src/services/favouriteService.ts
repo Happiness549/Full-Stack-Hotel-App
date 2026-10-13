@@ -40,3 +40,17 @@ export const getFavouriteByHotelId = async (user_id: number, hotel_id: number): 
 };
 
 
+
+export const deleteFavourite = async (user_id: number, hotel_id: number): Promise<Favourite | null> => {
+    const result = await query(
+        `DELETE FROM favourites
+         WHERE user_id = $1 AND hotel_id = $2
+         RETURNING *`,
+        [user_id, hotel_id]
+    );
+
+    return (result[0] as Favourite) || null;
+};
+
+
+
