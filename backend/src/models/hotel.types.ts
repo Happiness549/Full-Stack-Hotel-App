@@ -101,3 +101,10 @@ export interface Review {
     created_at: Date;
     updated_at: Date;
 }
+
+export interface Favourite {
+    id: number;
+    user_id: number;
+    hotel_id: number;
+    created_at: Date;
+}
