@@ -4,7 +4,8 @@ import { createNotificationController, markNotificationAsReadController, deleteN
 
 const router = Router();
 
-router.post("/:userId", protect, createNotificationController);
+
+router.post("/", protect, createNotificationController);
 router.patch("/:id/read", protect, markNotificationAsReadController);
 router.delete("/:id", protect, deleteNotificationController);
 
