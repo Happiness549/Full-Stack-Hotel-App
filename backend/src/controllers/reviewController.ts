@@ -1,6 +1,6 @@
 
 import { Request, Response } from "express";
-import { createReview } from "../services/reviewService";
+import * as reviewService from "../services/reviewService";
 import { User } from "../models/hotel.types";
 
 export const createReviewController = async (req: Request, res: Response) => {
@@ -17,12 +17,30 @@ export const createReviewController = async (req: Request, res: Response) => {
             return res.status(400).json({ message: "Rating must be an integer between 1 and 5"});
         }
 
-        const review = await createReview(user_id, hotel_id, rating,comment
+        const review = await reviewService.createReview(user_id, hotel_id, rating,comment
         );
 
         return res.status(201).json({message: "Review created successfully",review});
     } catch (error) {
         console.error("Create review error:", error);
         return res.status(500).json({message: "Failed to create review"});
+    }
+};
+
+export const updateReviewById = async(req: Request, res:Response) => {
+    try{
+        const id = parseInt(String(req.params.id));
+        const {rating, comment} = req.body;
+        const updatedReview = await reviewService.updateReview(id, rating, comment);
+        
+        if(!updatedReview){
+            return res.status(404).json({message: "Review not found"});
+        }
+
+        res.status(200).json(updatedReview);
+        
+    }catch(error){
+        res.status(500).json({message: "Error updating review"});
+
     }
 };

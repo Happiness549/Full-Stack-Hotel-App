@@ -54,8 +54,7 @@ export const confirmPaymentController = async (req: Request, res: Response) => {
         }
 
         return res.status(200).json({
-            message: "Payment and booking confirmed successfully",payment
-        });
+            message: "Payment and booking confirmed successfully",payment});
     } catch (error) {
         console.error("Error confirming payment:", error);
         return res.status(500).json({message: "Error confirming payment"});
