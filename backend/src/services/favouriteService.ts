@@ -14,3 +14,16 @@ export const createFavourite = async (hotel_id: number, user_id: number): Promis
 
     return (result[0] as Favourite) || null;
 };
+
+
+export const getMyFavourites = async (user_id: number): Promise<Favourite[]> => {
+    const result = await query(
+        `SELECT * FROM favourites
+         WHERE user_id = $1
+         ORDER BY created_at DESC`,
+        [user_id]
+    );
+
+    return result as Favourite[];
+};
+
