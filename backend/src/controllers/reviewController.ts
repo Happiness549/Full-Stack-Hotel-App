@@ -54,3 +54,17 @@ export const getAllReviews = async (req: Request, res: Response) => {
         return res.status(500).json({message: "Error retrieving reviews"});
     }
 };
+
+export const getReviewById = async (req: Request, res: Response) => {
+    try{
+        const id = parseInt(String(req.params.id))
+        const review = await reviewService.findReviewById(id)
+        if(!review){
+            return res.status(404).json({message: "Review not found"})
+        }
+        return res.status(200).json(review)
+    }catch(error){
+        res.status(500).json({message: "Error retrieving review"})
+
+    }
+};

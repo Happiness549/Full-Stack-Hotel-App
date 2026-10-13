@@ -36,3 +36,11 @@ export const findAllReviews = async (): Promise<Review[]> => {
     return results as Review[]
 }
 
+export const findReviewById = async (id: number): Promise<Review | null> => {
+    const results = await query("SELECT * FROM reviews WHERE id = $1", [
+        id,
+
+    ]);
+    return results[0] as Review|| null;
+}
+
