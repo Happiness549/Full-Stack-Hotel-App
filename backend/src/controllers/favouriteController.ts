@@ -38,3 +38,28 @@ export const getMyFavouritesController = async (req: Request, res: Response) => 
     }
 };
 
+
+export const getFavouriteByHotelIdController = async (req: Request, res: Response) => {
+    try {
+        const user = req.user as User;
+        const hotel_id = Number(req.params.hotelId);
+
+        if (!Number.isInteger(hotel_id) || hotel_id <= 0) {
+            return res.status(400).json({message: "Valid hotel ID is required"});
+        }
+
+        const favourite = await  favouriteService.getFavouriteByHotelId(user.id, hotel_id);
+
+        if (!favourite) {
+            return res.status(404).json({message: "Hotel is not in your favourites"});
+        }
+
+        return res.status(200).json({ favourite });
+    } catch (error) {
+        console.error("Get favourite error:", error);
+
+        return res.status(500).json({message: "Failed to retrieve favourite"});
+    }
+};
+
+
