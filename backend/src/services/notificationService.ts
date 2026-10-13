@@ -25,3 +25,15 @@ export const markNotificationAsRead = async (id: number, user_id: number): Promi
 
     return (result[0] as Notification) || null;
 };
+
+
+export const deleteNotification = async (id: number, user_id: number): Promise<Notification | null> => {
+    const result = await query(
+        `DELETE FROM notifications
+         WHERE id = $1 AND user_id = $2
+         RETURNING *`,
+        [id, user_id]
+    );
+
+    return (result[0] as Notification) || null;
+};
