@@ -44,3 +44,10 @@ export const findReviewById = async (id: number): Promise<Review | null> => {
     return results[0] as Review|| null;
 }
 
+
+export const deleteReview = async (id:number): Promise<Review | null> =>{
+    const results = await query(" DELETE FROM reviews WHERE id = $1 RETURNING *", [id]
+
+    );
+    return (results[0] as Review || null);
+};
