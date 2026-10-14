@@ -8,9 +8,6 @@ const store = configureStore({
     reducer: {
         user: RegisterReducer
      
-
-
-
     },
      
 })
