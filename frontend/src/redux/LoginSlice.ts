@@ -1,14 +1,14 @@
 import {createSlice, createAsyncThunk,type PayloadAction} from '@reduxjs/toolkit'
 
-export type userRoles = 'Admin' | 'User';
+
 export interface UserData{
     id: number;
     name: string;
     surname: string;
-    role: userRoles;
+    role: string;
     email: string;
-    cellNumbere: string;
-    password_hash: string;
+    cellNumber: string;
+    password: string;
 }
 
 export interface signupForm{
