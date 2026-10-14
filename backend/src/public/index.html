@@ -1,0 +1,26 @@
+!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document for endpoints</title>
+</head>
+<body>
+    <h1>Endpoints</h1>
+    <ul>
+        <li>POST /api/hotels - Create a new hotel (Admin only)</li>
+        <li>GET /api/hotels - Get all hotels</li>
+        <li>GET /api/hotels/:id - Get a specific hotel by ID</li>
+        <li>PUT /api/hotels/:id - Update a specific hotel by ID (Admin only)</li>
+        <li>DELETE /api/hotels/:id - Delete a specific hotel by ID (Admin only)</li>
+        <li>POST /api/reviews/:hotelId - Create a review for a specific hotel (Authenticated users only)</li>
+        <li>PUT /api/reviews/:id - Update a specific review by ID (Authenticated users only)</li>
+        <li>GET /api/reviews - Get all reviews (Authenticated users only)</li>
+        <li>GET /api/reviews/:id - Get a specific review by ID (Authenticated users only)</li>
+        <li>DELETE /api/reviews/:id - Delete a specific review by ID (Authenticated users only)</li>
+        <li>POST /api/notifications - Create a new notification (Admin only)</li>
+        <li>PUT /api/notifications/:id - Mark a notification as read (Authenticated users only)</li>
+        <li>DELETE /api/notifications/:id - Delete a specific notification by ID (Authenticated users only)</li>
+    </ul>
+</body>
+</html>
