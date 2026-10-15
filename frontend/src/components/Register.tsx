@@ -29,10 +29,10 @@ export const Register = () => {
 
 
     return(
-         <section className="bg-[url('https://res.cloudinary.com/g1cepfbn/image/upload/v1791985971/About_Us_Real_Estate_Agency.jpg')] bg-cover bg-center h-screen w-full">
-        <Card className='bg-white w-[40]'>
-            <Text variant='h1' className=''>Create your account </Text>
-            <Text variant='h1' className=''>Join shoply and start shopping smarter </Text>
+         <section className="bg-[url('https://res.cloudinary.com/g1cepfbn/image/upload/v1792049897/Facebook.jpg')]  bg-cover bg-center transform-gpu will-change-transform w-full h-screen">
+        <Card className='bg-white/50 backdrop-blur-md w-150 ml-290'>
+            <Text variant='h1' className='text-2xl'>Create your account </Text>
+           
 
             <form className='mt-7 flex flex-col gap-8' onSubmit={handleSubmit}>
                 <Input
@@ -58,7 +58,7 @@ export const Register = () => {
 
                 <Input
                 
-                label='role'
+                label='Role'
                 type='text'
                 name='role'
                 value={signupForm.role}
@@ -77,7 +77,7 @@ export const Register = () => {
 
                 
                 <Input
-                label='email'
+                label='Email'
                 type='text'
                 name='email'
                 value={signupForm.email}
@@ -86,7 +86,7 @@ export const Register = () => {
                 />
                 
                 <Input
-                label='password'
+                label='Password'
                 type='text'
                 name='password'
                 value={signupForm.password}
