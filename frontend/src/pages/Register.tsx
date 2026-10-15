@@ -29,8 +29,8 @@ export const Register = () => {
 
 
     return(
-         <section className="bg-[url('https://res.cloudinary.com/g1cepfbn/image/upload/v1792049897/Facebook.jpg')]  bg-cover bg-center transform-gpu will-change-transform w-full h-screen">
-        <Card className='bg-white/50 backdrop-blur-md w-150 ml-290'>
+         <section className="h-screen w-full bg-[url('https://res.cloudinary.com/g1cepfbn/image/upload/v1792065964/Modern_Glass_House_with_Reflective_Pool.png')]  h-full w-full object-cover object-center">
+        <Card className='bg-white/55 backdrop-blur-xl border border-white/40 shadow-xl p-8 w-150 ml-290'>
             <Text variant='h1' className='text-2xl'>Create your account </Text>
            
 
