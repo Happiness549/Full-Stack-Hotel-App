@@ -11,11 +11,15 @@ import notificationRoutes from './routes/notificationRoutes'
 import reviewRoutes from "./routes/reviewRoutes";
 import favouriteRoutes from "./routes/favouriteRoutes";
 import dotenv from "dotenv";
+import cors from "cors";
 
 dotenv.config();
 
 
 const app = express();
+app.use(cors({
+    origin: "http://localhost:5173"
+}));
 const PORT = process.env.PORT || 5000;
 
 app.use(express.json());
