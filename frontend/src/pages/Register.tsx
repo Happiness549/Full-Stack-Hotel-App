@@ -29,12 +29,12 @@ export const Register = () => {
 
 
     return(
-         <section className="h-screen w-full bg-[url('https://res.cloudinary.com/g1cepfbn/image/upload/v1792065964/Modern_Glass_House_with_Reflective_Pool.png')]  h-full w-full object-cover object-center">
-        <Card className='bg-white/55 backdrop-blur-xl border border-white/40 shadow-xl p-8 w-150 ml-290'>
-            <Text variant='h1' className='text-2xl'>Create your account </Text>
+         <section className="h-screen w-full bg-[url('https://res.cloudinary.com/g1cepfbn/image/upload/v1792065964/Modern_Glass_House_with_Reflective_Pool.png')] bg-contain   bg-center bg-no-repeat bg-neutral-900">
+        <Card className='bg-white/55 backdrop-blur-md border-[#7E9E85]/40 h-150 shadow-xl p-8 w-120 ml-200'>
+            <Text variant='h1' className='text-sm'>Create your account </Text>
            
 
-            <form className='mt-7 flex flex-col gap-8' onSubmit={handleSubmit}>
+            <form className='mt-7 flex flex-col gap-5' onSubmit={handleSubmit}>
                 <Input
                 
                 label='Name'
@@ -97,11 +97,11 @@ export const Register = () => {
                 
                 
                 <Button text='Create Account'
-                className='w-100 ml-9'/>
+                className='w-80 '/>
           
-            <div className='flex ml-60'>
-            <Text>Already have an account?</Text>
-            <Text variant='p' className='text-[#0C5776]'><Link to='/login'>Login</Link></Text>
+            <div className='flex '>
+            <Text className='text-sm'>Already have an account?</Text>
+            <Text variant='p' className='text-[#0C5776] text-sm'><Link to='/login'>Login</Link></Text>
 
             </div>
 

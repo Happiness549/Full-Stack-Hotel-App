@@ -43,11 +43,11 @@ export const Login = () => {
   };
 
   return (
-    <Card  className='h-full mt-20 w-200 ml-50'>
-       <Text variant={'h1'} className='text-[#001C44] text-5xl text-center font-bold'> Sign in or create an account</Text>
-       
-        <Text variant={'h1'} className='text-[#001C44] text-2xl text-center mt-9'> Login to your page </Text>
-      <form onSubmit={handleSubmit} className='mt-15  flex flex-col text-center gap-8 items-start'>
+    <div  className='h-full mt-20 w-150 ml-50'>
+       <Text variant={'h1'} className='text-[#001C44] text-xl ml-20 text-bold '> Sign in or create an account</Text>
+        <Text variant={'h1'} className='text-[#001C44] text-sm ml-20 mt-10'>You can sign in using your StayClear account to access</Text>
+        <Text variant={'h1'} className='text-[#001C44] text-sm ml-20'> our service.</Text>
+      <form onSubmit={handleSubmit} className='mt-10  flex flex-col ml-20 gap-8 items-start'>
         
         <Input
           type="email"
@@ -67,29 +67,22 @@ export const Login = () => {
           onChange={handleChange}
         />
 
-           <div className='flex gap-35 ml-46'>
-            <Text variant={'p'} >Remember me</Text>
-             <Text variant={'p'} className='text-[#0C5776]'>Forgot password?</Text>
+           <div className='flex gap-3 '>
+            <Text variant={'p'} className="text-sm" >Lost access to your email? </Text>
+             <Text variant={'p'} className='text-[#0C5776] text-sm'>Recover your account</Text>
          </div>
 
         <Button
           text={loading ? "Logging in..." : "Login"}
-          className="text-white -mt-4 w-100 ml-40"
+          className="text-white -mt-4 w-80 "
         />
 
-        <div className="flex gap-29 -mt-4 ml-45 ">
-          <Text variant="p">
-            Don't have an account?
+        <div className="flex gap-29 -mt-4 ">
+          <Text variant="p" className="text-sm">
+           By signing in or creating an account, you agree with <br/>our Terms & conditions and Privacy notice
           </Text>
 
-          <Text
-            variant="p"
-            className="text-[#0C5776]"
-          >
-            <Link to="/signup">
-              Create one
-            </Link>
-          </Text>
+        
         </div>
 
         {error && (
@@ -111,7 +104,7 @@ export const Login = () => {
         )}
 
       </form>
-    </Card>
+    </div>
   );
 };
 
