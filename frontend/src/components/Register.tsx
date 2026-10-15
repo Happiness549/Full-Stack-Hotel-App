@@ -16,7 +16,7 @@ export const Register = () => {
 
     const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
         dispatch(updatedInputField({
-            field: e.target.name as "name" | "surname"| "role" | "email" | "password"  | "cellNumber", 
+            field: e.target.name as "name" | "surname"| "role" | "email" | "password"  | "phone", 
             value: e.target.value
         })
     );
@@ -67,10 +67,10 @@ export const Register = () => {
                 />
 
                 <Input
-                label='Cell Number'
+                label='Phone Number'
                 type='number'
-                name="cellNumber"
-                value={signupForm.cellNumber}
+                name="phone"
+                value={signupForm.phone}
                 onChange= {handleChange}
                 placeholder='Enter phone number'
                 /> 
