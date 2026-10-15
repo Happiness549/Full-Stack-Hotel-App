@@ -8,14 +8,5 @@ export default defineConfig({
     react(),
     tailwindcss()
   ],
-  server: {
-    proxy: {
-      '/api': {
-        target: 'https://onrender.com',
-        changeOrigin: true,
-        secure: false,
-      }
-    }
-  }
 })
 
