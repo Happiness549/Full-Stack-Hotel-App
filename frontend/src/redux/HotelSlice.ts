@@ -3,14 +3,16 @@ import type { RootState } from "../store";
 
 export interface Hotel {
   id?: number;
+  added_by?: number;
   name: string;
   description: string;
   address: string;
   city: string;
   country: string;
   star_rating: number;
-  facilities: string[];
+  facilities: string;
   status?: string;
+  created_at: Date;
 }
 
 
@@ -18,15 +20,17 @@ interface HotelState {
   hotels: Hotel[];
   loading: boolean;
   error: string | null;
+  isListModalOpen: boolean;
 }
 
 const initialState: HotelState = {
   hotels: [],
   loading: false,
   error: null,
+  isListModalOpen: false,
 };
 
-// ADD HOTEL — Admin only
+
 export const addHotel = createAsyncThunk(
   "hotels/addHotel",
   async (
@@ -34,38 +38,32 @@ export const addHotel = createAsyncThunk(
     { getState, rejectWithValue }
   ) => {
     try {
+
       const state = getState() as RootState;
-      const user = state.login.user;
       const token = state.login.token;
-
-      if (!user || !token) {
-        return rejectWithValue("You must be logged in");
+      if(!token){
+        return rejectWithValue("No authentication token found");
       }
 
-      if (user.role !== "Admin") {
-        return rejectWithValue("Only admins can add hotels");
-      }
 
       const response = await fetch(
         "https://full-stack-hotel-app.onrender.com/api/hotels",
         {
-          method: "POST",
+          method: 'POST',
           headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`,
           },
           body: JSON.stringify(newHotel),
         }
       );
 
-      if (!response.ok) {
-        const errorData = await response.json().catch(() => ({}));
-        return rejectWithValue(
-          errorData.message || "Failed to add hotel"
-        );
+    if (!response.ok) {
+        throw new Error("Failed to add list");
       }
 
       const data: Hotel = await response.json();
+
       return data;
     } catch (error) {
       return rejectWithValue(

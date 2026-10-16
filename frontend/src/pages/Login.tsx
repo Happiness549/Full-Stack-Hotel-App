@@ -5,7 +5,6 @@ import type { RootState, AppDispatch } from "../store";
 import { loginUser } from "../redux/LoginSlice";
 import { updatedInputField } from "../redux/RegisterSlice";
 import {Input} from "../components/ui/Input";
-import {Card} from "../components/ui/Card";
 import {Text} from "../components/ui/Text";
 import {Button} from "../components/ui/Button";
 
@@ -33,14 +32,23 @@ export const Login = () => {
     );
   };
 
-  const handleSubmit = async(e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    const result = await dispatch(loginUser());
-    if(loginUser.fulfilled.match(result)){
-      navigate("/home")
-    }
+const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+  e.preventDefault();
+  
+  const result = await dispatch(loginUser());
+  
+  if (loginUser.fulfilled.match(result)) {
     
-  };
+    const userRole = result.payload?.user?.role; 
+
+    if (userRole === "admin") {
+      navigate("/dashboard");
+    } else {
+      navigate("/home");
+    }
+  }
+};
+
 
   return (
     <div  className='h-full mt-20 w-150 ml-50'>

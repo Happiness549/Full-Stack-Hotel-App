@@ -1,7 +1,7 @@
 import {configureStore} from '@reduxjs/toolkit'
 import {type TypedUseSelectorHook, useSelector } from 'react-redux'
 import RegisterReducer from './redux/RegisterSlice'
-import LoginReducer from './redux/RegisterSlice'
+import LoginReducer from './redux/LoginSlice'
 
 
 
