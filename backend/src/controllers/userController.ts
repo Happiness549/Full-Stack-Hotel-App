@@ -44,6 +44,7 @@ export const login = async (req: Request, res: Response) => {
         if(!user){
             return res.status(401).json({message: "Invalid credentials"});
         }
+        
         const isMatch = await bcrypt.compare(password, user.password_hash);
         if(!isMatch){
             return res.status(401).json({message: "Invalid email or password"});
@@ -54,7 +55,7 @@ export const login = async (req: Request, res: Response) => {
         });
 
          console.log(`User ${email} logged in successfully`);
-        return res.status(200).json({message: "Login Successful", token})
+        return res.status(200).json({message: "Login Successful", token, user})
 
     }catch(error){
         console.error("Login Error:", error);
