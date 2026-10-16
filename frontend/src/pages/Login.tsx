@@ -7,6 +7,7 @@ import { updatedInputField } from "../redux/RegisterSlice";
 import {Input} from "../components/ui/Input";
 import {Text} from "../components/ui/Text";
 import {Button} from "../components/ui/Button";
+import { jwtDecode } from "jwt-decode";
 
 
 export const Login = () => {
@@ -38,10 +39,12 @@ const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
   const result = await dispatch(loginUser());
   
   if (loginUser.fulfilled.match(result)) {
+    console.log("Full Payload:", result.payload);
+
     
     const userRole = result.payload?.user?.role; 
 
-    if (userRole === "admin") {
+    if (userRole === "Admin") {
       navigate("/dashboard");
     } else {
       navigate("/home");
