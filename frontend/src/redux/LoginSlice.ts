@@ -1,120 +1,159 @@
-import {createSlice, createAsyncThunk,type PayloadAction} from '@reduxjs/toolkit'
+import { createAsyncThunk, createSlice} from '@reduxjs/toolkit';
+import type { RootState } from '../store';
+import type { UserData } from './RegisterSlice';
+import { getUser, saveUser, removeUser } from '../utils/localStoprage'; 
 
-
-export interface UserData{
-    id: number;
-    name: string;
-    surname: string;
-    role: string;
-    email: string;
-    phone: string;
-    password: string;
+interface LoginResponse {
+  user: UserData;
+  token: string;
 }
 
-export interface signupForm{
-    name: string;
-    surname: string; 
-    role: string;
-    email: string;
-    phone: string;
-    password: string;
-   
+
+interface LoginState {
+  userData: UserData | null;
+  token: string | null;
+  loading: boolean;
+  error: string | null;
+  success: string | null;
 }
 
-export interface AuthState{
-    user: UserData | null;
-    signupForm: signupForm;
-    loading: boolean;
-    error: string | null;
-    success: string | null;
-}
 
-const initialState: AuthState = {
-    user: null,
-    loading: false,
-    error: null,
-    success: null,
-    signupForm: {
-        name: '',
-        surname: '',
-        role: '',
-        email: '', 
-        phone: '',
-        password: '',
-        
-    },
-    
-}
+const initialState: LoginState = {
+  userData: getUser()?.user ?? null,
+  token: getUser()?.token ?? null,
+  loading: false,
+  error: null,
+  success: null,
+};
 
-    
-export const AuthRegistration = createAsyncThunk('auth/registration',
-    async(newUser: Omit<UserData, "id">) =>{
-        const response = await fetch('https://full-stack-hotel-app.onrender.com/api/users/register',{
-            method: "POST",
-            headers: { 
-                'Content-Type': 'application/json' },
-            body: JSON.stringify(newUser),
-        });
-        if(!response.ok){
-            throw new Error("failed to add list")
+export const loginUser = createAsyncThunk(
+  'login/loginUser',
+  async (_, { getState, rejectWithValue }) => {
+    try {
+      const state = getState() as RootState;
+      const email = state.user.signupForm.email;
+      const password = state.user.signupForm.password;
+
+      if (!email || !password) {
+        return rejectWithValue('Please enter your email and password');
+      }
+
+      const response = await fetch(
+        'https://full-stack-hotel-app.onrender.com/api/users/login',
+        {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email, password }),
         }
+      );
 
-        const userData = await response.json();
-        return userData;
-        
+      if (!response.ok) {
+        const errorData = await response.json().catch(() => ({}));
+        throw new Error(errorData.message || 'Failed to log in');
+      }
+
+      const data: LoginResponse = await response.json();
+      return data;
+    } catch (error) {
+      return rejectWithValue(
+        error instanceof Error ? error.message : 'Something went wrong'
+      );
     }
+  }
 );
 
+export const updateUser = createAsyncThunk(
+  'login/updateUser',
+  async (updatedUser: UserData, { rejectWithValue }) => {
+    try {
+      const response = await fetch(
+        `https://full-stack-hotel-app.onrender.com/api/users/${updatedUser.id}`,
+        {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(updatedUser),
+        }
+      );
 
-const signUpSlice = createSlice({
-    name: "users",
-    initialState,
-    reducers: {
-        updatedInputField: (state, action: PayloadAction<{
-        field: keyof signupForm;
-        value: string;
-    }>) => {
+      if (!response.ok) {
+        throw new Error('Failed to update profile');
+      }
 
-        state.signupForm[action.payload.field] = action.payload.value;
-        },
+      const data = await response.json();
+      return data.user ?? data;
+    } catch (error) {
+      return rejectWithValue(
+        error instanceof Error ? error.message : 'Something went wrong'
+      );
+    }
+  }
+);
 
-        resetForm: (state) => {
-      state.signupForm = { 
-        name: '', 
-        surname: '', 
-        role: '',
-        email: '', 
-        phone: '', 
-        password: '',
-        
-    };
+const LoginSlice = createSlice({
+  name: 'login',
+  initialState,
+  reducers: {
+    logout: (state) => {
+      state.userData = null;
+      state.token = null;
+      state.loading = false;
+      state.error = null;
+      state.success = null;
+      removeUser();
     },
+
+    clearLoginMessage: (state) => {
+      state.error = null;
+      state.success = null;
     },
+  },
 
-       extraReducers: (builder) => {
-        builder
-        .addCase(AuthRegistration.pending, (state) => {
-            state.loading = true;
-            state.error = null;
-            state.success = null;
-        })
+  extraReducers: (builder) => {
+    builder
+      .addCase(loginUser.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+        state.success = null;
+      })
 
-        .addCase(AuthRegistration.fulfilled, (state, action) => {
-            state.loading = false;
-            state.success = "Account created successfully"
-            state.user = action.payload
-        
-        })
+      .addCase(loginUser.fulfilled, (state, action) => {
+        state.loading = false;
+        state.userData = action.payload.user;
+        state.token = action.payload.token;
 
-        .addCase(AuthRegistration.rejected, (state,action) => {
-            state.loading = false;
-            state.error = action.error.message || "SignUp failed.";
+        saveUser(action.payload);
 
-        });
+        state.success = 'Login successful!';
+        state.error = null;
+      })
 
-    },
+      .addCase(loginUser.rejected, (state, action) => {
+        state.loading = false;
+        state.error = (action.payload as string) || 'Invalid email or password';
+        state.success = null;
+      })
+
+      .addCase(updateUser.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+
+      .addCase(updateUser.fulfilled, (state, action) => {
+        state.loading = false;
+        state.userData = action.payload;
+
+        state.success = 'Profile updated successfully!';
+        state.error = null;
+      })
+
+      .addCase(updateUser.rejected, (state, action) => {
+        state.loading = false;
+        state.error = (action.payload as string) || 'Failed to update profile';
+        state.success = null;
+      });
+  },
 });
 
-export const {updatedInputField, resetForm} = signUpSlice.actions
+export const { logout, clearLoginMessage } = LoginSlice.actions;
 
-export default signUpSlice.reducer
+export default LoginSlice.reducer;

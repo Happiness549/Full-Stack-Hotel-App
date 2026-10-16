@@ -15,6 +15,10 @@ export const addHotel = async (req: Request, res: Response) => {
     }
 };
 
+
+
+
+
 export const getAllHotels = async (req: Request, res: Response) => {
     try{
         const hotels = await hotelService.findAllHotels();

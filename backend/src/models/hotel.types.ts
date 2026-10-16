@@ -9,8 +9,8 @@ export interface User{
     email: string;
     phone: string;
     password_hash: string;
-    created_at: Date;
-    updated_at: Date;
+    created_at?: Date;
+    updated_at?: Date;
 }
 
 export interface Hotel {
