@@ -13,6 +13,7 @@ export interface Hotel {
   status?: string;
 }
 
+
 interface HotelState {
   hotels: Hotel[];
   loading: boolean;
