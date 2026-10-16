@@ -8,6 +8,7 @@ interface LoginResponse {
   token: string;
 }
 
+
 interface LoginState {
   userData: UserData | null;
   token: string | null;
@@ -15,6 +16,7 @@ interface LoginState {
   error: string | null;
   success: string | null;
 }
+
 
 const initialState: LoginState = {
   userData: getUser()?.user ?? null,
