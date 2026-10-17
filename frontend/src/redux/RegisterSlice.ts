@@ -7,7 +7,7 @@ export interface UserData{
     surname: string;
     role: string;
     email: string;
-    cellNumber: string;
+    phone: string;
     password: string;
 }
 
@@ -16,7 +16,7 @@ export interface signupForm{
     surname: string; 
     role: string;
     email: string;
-    cellNumber: string;
+    phone: string;
     password: string;
    
 }
@@ -39,7 +39,7 @@ const initialState: AuthState = {
         surname: '',
         role: '',
         email: '', 
-        cellNumber: '',
+        phone: '',
         password: '',
         
     },
@@ -84,7 +84,7 @@ const signUpSlice = createSlice({
         surname: '', 
         role: '',
         email: '', 
-        cellNumber: '', 
+        phone: '', 
         password: '',
         
     };

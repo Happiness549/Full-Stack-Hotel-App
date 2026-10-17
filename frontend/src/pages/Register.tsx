@@ -16,8 +16,9 @@ export const Register = () => {
 
     const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
         dispatch(updatedInputField({
-            field: e.target.name as "name" | "surname"| "role" | "email" | "password"  | "phone", 
-            value: e.target.value
+            // field: e.target.name as "name" | "surname"| "role" | "email" | "password"  | "phone",  
+            field: e.target.name as keyof typeof signupForm,
+            value: e.target.value 
         })
     );
     };
