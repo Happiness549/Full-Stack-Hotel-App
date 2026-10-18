@@ -1,5 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import type { RootState } from "../store";
+import type{ PayloadAction } from "@reduxjs/toolkit";
 
 export interface Hotel {
   id?: number;
@@ -11,7 +12,6 @@ export interface Hotel {
   country: string;
   star_rating: number;
   facilities: string;
-  status?: string;
   created_at: Date;
 }
 
@@ -20,14 +20,16 @@ interface HotelState {
   hotels: Hotel[];
   loading: boolean;
   error: string | null;
-  isListModalOpen: boolean;
+  isHotelModalOpen: boolean;
+  editingHotel: Hotel | null;
 }
 
 const initialState: HotelState = {
   hotels: [],
   loading: false,
   error: null,
-  isListModalOpen: false,
+  isHotelModalOpen: false,
+  editingHotel: null,
 };
 
 
@@ -107,7 +109,25 @@ export const fetchHotels = createAsyncThunk(
 const HotelSlice = createSlice({
   name: "hotels",
   initialState,
-  reducers: {},
+  reducers: {
+    openHotelModal: (state) => {
+      state.isHotelModalOpen = true;
+    },
+    closeHotelModal: (state) => {
+      state.isHotelModalOpen = false;
+    },
+    setHotelModal: (state, action: PayloadAction<boolean>) => {
+      state.isHotelModalOpen = action.payload;
+    },
+     startEditHotel: (state, action: PayloadAction<Hotel>) => {
+      state.editingHotel =action.payload;
+      state.isHotelModalOpen = true; 
+    },
+    clearEditHotel: (state) => {
+      state.editingHotel = null;
+      state.isHotelModalOpen =false;
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(addHotel.pending, (state) => {
@@ -142,5 +162,7 @@ const HotelSlice = createSlice({
       })
   },
 });
+
+export const { openHotelModal, closeHotelModal, setHotelModal  } = HotelSlice.actions;
 
 export default HotelSlice.reducer;
