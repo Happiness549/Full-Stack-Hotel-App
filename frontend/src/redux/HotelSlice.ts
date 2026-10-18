@@ -106,6 +106,41 @@ export const fetchHotels = createAsyncThunk(
   }
 );
 
+export const updateListItem = createAsyncThunk(
+  "items/updateListItem",
+  async (
+    updatedHotel: Hotel,
+    { rejectWithValue }
+  ) => {
+    try {
+      const response = await fetch(
+        `https://full-stack-hotel-app.onrender.com/api/hotels${updatedHotel.id}`,
+        {
+          method: "PATCH",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(updatedHotel),
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error("Failed to update item");
+      }
+
+      const data: Hotel = await response.json();
+
+      return data;
+    } catch (error) {
+      return rejectWithValue(
+        error instanceof Error
+          ? error.message
+          : "Something went wrong"
+      );
+    }
+  }
+);
+
 const HotelSlice = createSlice({
   name: "hotels",
   initialState,
@@ -160,8 +195,31 @@ const HotelSlice = createSlice({
             ? action.payload
             : "Failed to fetch shopping lists";
       })
-  },
-});
+
+      .addCase(updateListItem.pending, (state) => {
+          state.loading = true;
+          state.error = null;
+        })
+
+        .addCase(updateListItem.fulfilled, (state, action) => {
+          state.loading = false;
+          const index = state.hotels.findIndex((item) => item.id === action.payload.id);
+
+          if (index !== -1) {
+            state.hotels[index] = action.payload;
+          }
+
+          state.editingHotel = null;
+          state.isHotelModalOpen = false;
+        })
+
+        .addCase(updateListItem.rejected, (state, action) => {
+          state.loading = false;
+          state.error =
+            typeof action.payload === "string" ? action.payload : "Failed to update item";
+        })
+        },
+        });
 
 export const { openHotelModal, closeHotelModal, setHotelModal  } = HotelSlice.actions;
 
