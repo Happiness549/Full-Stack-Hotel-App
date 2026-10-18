@@ -1,16 +1,27 @@
 import { query } from "../config/database";
 import { HotelImage } from "../models/hotel.types";
 
-export const addHotelImage = async (hotel_id: number, image_url: string): Promise<HotelImage> => {
+
+export const addHotelImage = async (hotel_id: number,image_url: string): Promise<HotelImage> => {
+    const existingImages = await query(
+        `SELECT id FROM hotel_images WHERE hotel_id = $1`,
+        [hotel_id]
+    );
+
+    const is_primary = existingImages.length === 0;
+
     const result = await query(
-        `INSERT INTO hotel_images (hotel_id, image_url)
-         VALUES ($1, $2)
+        `INSERT INTO hotel_images (hotel_id, image_url, is_primary)
+         VALUES ($1, $2, $3)
          RETURNING *`,
-        [hotel_id, image_url]
+        [hotel_id, image_url, is_primary]
     );
 
     return result[0] as HotelImage;
 };
+
+
+
 
 export const getHotelImages = async (
     hotel_id: number
