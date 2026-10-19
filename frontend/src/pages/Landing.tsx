@@ -1,6 +1,7 @@
 import {Text} from '../components/ui/Text'
 // import Trolley from '../assets/Trolley.webp'
 import { Link } from 'react-router-dom'
+import {HotelList} from '../components/ui/HotelList'
 
 
 export const Landing = () => {
@@ -18,11 +19,10 @@ export const Landing = () => {
             <Text variant={'h4'} className='text-[#1A2E1F] text-4xl'>Find your perfect property for your</Text>
             <Text variant={'h4'} className='text-[#1A2E1F] text-4xl italic mt-6'>Next Chapter</Text>
         </div>
-       
-
-        
             
         </section>
+
+        <HotelList limit={4} />
 
         
         </>

@@ -30,9 +30,18 @@ export const Register = () => {
 
 
     return(
-         <section className="h-screen w-full bg-[url('https://res.cloudinary.com/g1cepfbn/image/upload/v1792065964/Modern_Glass_House_with_Reflective_Pool.png')] bg-contain   bg-center bg-no-repeat bg-neutral-900">
-        <Card className='bg-white/55 backdrop-blur-md border-[#7E9E85]/40 h-150 shadow-xl p-8 w-120 ml-200'>
-            <Text variant='h1' className='text-sm'>Create your account </Text>
+        <>
+       
+         <div className="h-screen w-full bg-[url('https://res.cloudinary.com/g1cepfbn/image/upload/v1792064903/istockphoto-853258138-1024x1024.jpg')] bg-cover   bg-center bg-no-repeat ">
+         <div className='flex ml-10 absolute mt-10'>
+             <Text variant={'h1'} className='text-[#7E9E85] font-bold text-3xl'>Stay</Text>
+             <Text variant={'h1'} className='text-white font-bold text-3xl'>Clear</Text>
+            
+             
+         </div>
+        
+        <Card className='bg-white/40 shadow-xl backdrop-blur-sm border border-white/50 h-150  p-8 w-120 ml-200 absolute mt-15'>
+            <Text variant='h1' className='text-sm text-center font-bold'>Create your account </Text>
            
 
             <form className='mt-7 flex flex-col gap-5' onSubmit={handleSubmit}>
@@ -100,21 +109,19 @@ export const Register = () => {
                 <Button text='Create Account'
                 className='w-80 '/>
           
-            <div className='flex '>
+            <div className='flex gap-5'>
             <Text className='text-sm'>Already have an account?</Text>
             <Text variant='p' className='text-[#0C5776] text-sm'><Link to='/login'>Login</Link></Text>
 
             </div>
 
             {error && (<Text variant='p'>{error}</Text>)}
-            <button type='submit' disabled={loading}>
-            {loading ? "Signing up..." : "Sign Up"}
-            </button>
             {success && (<Text variant='p'>{success}</Text>)}
        </form>
         </Card>
 
-        </section>
+        </div>
+        </>
 
     )
 }
