@@ -2,23 +2,24 @@ import React, { useState, useEffect } from "react";
 import { Input } from "../ui/Input";
 import { useDispatch } from "react-redux";
 import { Button } from "../ui/Button";
-import {addHotel} from "../../redux/HotelSlice";
+import {addHotel, updateListItem, clearEditHotel} from "../../redux/HotelSlice";
 import type { AppDispatch } from "../../store";
 import { useSelector } from "react-redux";
 import type{ RootState } from "../../store";
 
-interface ListFormProps{
-    listId: number;
-}
 
-export const ListForm = ({ listId }: ListFormProps) => { 
+
+
+export const HotelForm = () => { 
   const dispatch = useDispatch<AppDispatch>();
   const isOpen = useSelector((state: RootState) => state.hotels.isHotelModalOpen);
   const editingList = useSelector((state: RootState) => state.hotels.editingHotel);
+  const [image, setImage] = useState<File | null>(null);
+  const [imagePreview, setImagePreview] = useState("");
 
   const [form, setForm] = useState({
     name: "",
-    star_rating: "",
+    star_rating: 0,
     address: "",
     city: "",
     country: "",
@@ -41,73 +42,70 @@ export const ListForm = ({ listId }: ListFormProps) => {
 }, [editingList]);
 
 
-  const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
-    const { name, value } = e.target;
+const handleChange = (
+  e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+) => {
+  const { name, value } = e.target;
 
-    setForm((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
-  };
+  setForm((prev) => ({
+    ...prev,
+    [name]: name === "star_rating" ? Number(value) : value,
+  }));
+};
 
-  const handleImageChange = (
-    e: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    const file = e.target.files?.[0];
+const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const file = e.target.files?.[0];
 
-    if (!file) return;
+  if (!file) return;
 
-    const reader = new FileReader();
-
-    reader.onloadend = () => {
-      setForm((prev) => ({
-        ...prev,
-        image: reader.result as string,
-      }));
-    };
-
-    reader.readAsDataURL(file);
-  };
+  setImage(file);
+  setImagePreview(URL.createObjectURL(file));
+};
 
   const handleSubmit = (e: React.FormEvent) => {
   e.preventDefault();
+
 
   if (editingList) {
     dispatch(
       updateListItem({
         ...editingList,
-        title: form.title,
-        category: form.category,
-        notes: form.notes,
-        Quantity: form.Quantity,
-        image: form.image,
-        listId: listId,
+        name: form.name,
+        star_rating: form.star_rating,
+        address: form.address,
+        city: form.city,
+        country: form.country,
+        description: form.description,
+        facilities: form.facilities,
+        
+        
       })
     );
   } else {
     dispatch(
       addHotel({
-        listId: listId,
-        title: form.title,
-        category: form.category,
-        notes: form.notes,
-        Quantity: form.Quantity,
-        image: form.image,
+        name: form.name,
+        star_rating: form.star_rating,
+        address: form.address,
+        city: form.city,
+        country: form.country,
+        description: form.description,
+        facilities: form.facilities,
       })
     );
   }
 
   setForm({
-    title: "",
-    category: "",
-    notes: "",
-    Quantity: "",
-    image: "",
+    name: "",
+    star_rating: 0,
+    address: "",
+    city: "",
+    country: "",
+    description: "",
+    facilities: "",
   });
 
-  dispatch(clearEditList());
+  dispatch(clearEditHotel());
 };
 
 
@@ -119,59 +117,88 @@ export const ListForm = ({ listId }: ListFormProps) => {
      <div className="bg-white rounded-4xl p-8 w-140">
       <form onSubmit={handleSubmit}>
         <Input
-          label="Title"
+          label="Hotel name"
           placeholder="Enter your list title"
           type="text"
-          name="title"
-          value={form.title}
+          name="name"
+          value={form.name}
           onChange={handleChange}
         />
 
         <Input
-          label="Category"
-          placeholder="Enter your list title"
-          type="text"
-          name="category"
-          value={form.category}
-          onChange={handleChange}
-        />
+            label="Star Rating"
+            placeholder="Enter the star rating"
+            type="number"
+            name="star_rating"
+            value={String(form.star_rating)}
+            onChange={handleChange}
+            />
         <Input
-        label='Notes'
-         name="notes"
-          value={form.notes}
-          placeholder="Add notes"
-          onChange={handleChange}
+         label='Adress'
+         name="address"
+         type="text"
+         value={form.address}
+         placeholder="Add notes"
+         onChange={handleChange}
         
         />
-
-        <Input
-          label="Quantity"
-          type="number"
-          name="Quantity"
-          placeholder="Add quantity"
-          value={form.Quantity}
+<Input
+          label="City"
+          placeholder="Enter city"
+          type="text"
+          name="city"
+          value={form.city}
           onChange={handleChange}
         />
 
-        <label>Image</label>
-
-        <input
-          type="file"
-          accept="image/*"
-          onChange={handleImageChange}
+         <Input
+          label="Country"
+          type="text"
+          name="country"
+          placeholder="Add country"
+          value={form.country}
+          onChange={handleChange}
         />
 
-        {form.image && (
-          <img
-            src={form.image}
-            alt="Selected item"
-            className='w-15 h-15'
-          />
+        <Input
+          label="Description"
+          placeholder="Enter description"
+          type="text"
+          name="description"
+          value={form.description}
+          onChange={handleChange}
+        />
+
+         <Input
+          label="Facilities"
+          placeholder="Enter facilities"
+          type="text"
+          name="facilities"
+          value={form.facilities}
+          onChange={handleChange}
+        />
+
+
+
+        
+
+        <input
+            type="file"
+            accept="image/*"
+            onChange={handleImageChange}
+        />
+
+        {imagePreview && (
+        <img
+            src={imagePreview}
+            alt="Hotel preview"
+            className="mt-3 h-40 w-full rounded-t-xl object-cover"
+        />
         )}
 
         <div className="flex gap-5 mt-3">
            <Button text="Submit" />
-           <Button text="Cancel" onClick={() => dispatch(clearEditList())}/>
+           <Button text="Cancel" onClick={() => dispatch(clearEditHotel())}/>
         </div>
 
        
