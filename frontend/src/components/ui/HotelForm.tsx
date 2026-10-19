@@ -3,11 +3,10 @@ import { Input } from "../ui/Input";
 import { useDispatch } from "react-redux";
 import { Button } from "../ui/Button";
 import {addHotel, updateListItem, clearEditHotel} from "../../redux/HotelSlice";
+import {uploadHotelImage} from '../../redux/ImageSlice'
 import type { AppDispatch } from "../../store";
 import { useSelector } from "react-redux";
 import type{ RootState } from "../../store";
-
-
 
 
 export const HotelForm = () => { 
@@ -62,49 +61,62 @@ const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
   setImagePreview(URL.createObjectURL(file));
 };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
   e.preventDefault();
 
+  try {
+    if (editingList) {
+      await dispatch(
+        updateListItem({
+          ...editingList,
+          name: form.name,
+          star_rating: form.star_rating,
+          address: form.address,
+          city: form.city,
+          country: form.country,
+          description: form.description,
+          facilities: form.facilities,
+        })
+      ).unwrap();
+    } else {
+      const createdHotel = await dispatch(
+        addHotel({
+          name: form.name,
+          star_rating: form.star_rating,
+          address: form.address,
+          city: form.city,
+          country: form.country,
+          description: form.description,
+          facilities: form.facilities,
+        })
+      ).unwrap();
 
-  if (editingList) {
-    dispatch(
-      updateListItem({
-        ...editingList,
-        name: form.name,
-        star_rating: form.star_rating,
-        address: form.address,
-        city: form.city,
-        country: form.country,
-        description: form.description,
-        facilities: form.facilities,
-        
-        
-      })
-    );
-  } else {
-    dispatch(
-      addHotel({
-        name: form.name,
-        star_rating: form.star_rating,
-        address: form.address,
-        city: form.city,
-        country: form.country,
-        description: form.description,
-        facilities: form.facilities,
-      })
-    );
-  }
+      if (image && createdHotel.id !== undefined) {
+        await dispatch(
+          uploadHotelImage({
+            hotelId: createdHotel.id,
+            image,
+          })
+        ).unwrap();
+      }
+    }
 
-  setForm({
-    name: "",
-    star_rating: 0,
-    address: "",
-    city: "",
-    country: "",
-    description: "",
-    facilities: "",
-  });
+    setForm({
+      name: "",
+      star_rating: 0,
+      address: "",
+      city: "",
+      country: "",
+      description: "",
+      facilities: "",
+    });
 
+    setImage(null);
+    setImagePreview("");
+    dispatch(clearEditHotel());
+  } catch (error) {
+    console.error("Error saving hotel:", error);
+  };
   dispatch(clearEditHotel());
 };
 

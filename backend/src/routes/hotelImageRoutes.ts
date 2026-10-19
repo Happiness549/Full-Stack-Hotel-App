@@ -6,7 +6,7 @@ import { upload } from "../middleware/autMiddleware";
 
 const router = Router();
 
-router.post("/:id/images", protect, adminOnlyAddHotel, addHotelImageByHotelId);
+router.post("/:id/images", protect, adminOnlyAddHotel,upload.single("image"), addHotelImageByHotelId);
 router.patch("/:id/images/:imageId/primary", protect, adminOnlyAddHotel, setPrimaryHotelImageById);
 router.put("/:id/images/:imageId", protect, adminOnlyAddHotel, updateHotelImageById);
 router.get("/:id/images", getHotelImagesByHotelId);

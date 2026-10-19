@@ -1,5 +1,6 @@
 
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import type{ RootState } from "../store";
 
 export interface HotelImage {
   id: number;
@@ -21,6 +22,48 @@ const initialState: HotelImageState = {
   loading: false,
   error: null,
 };
+
+export const uploadHotelImage = createAsyncThunk(
+  "hotels/uploadHotelImage",
+  async (
+    { hotelId, image }: { hotelId: number; image: File },
+    { getState, rejectWithValue }
+  ) => {
+    try {
+      const state = getState() as RootState;
+      const token = state.login.token;
+
+      if (!token) {
+        return rejectWithValue("No authentication token found");
+      }
+
+      const formData = new FormData();
+      formData.append("image", image);
+
+      const response = await fetch(
+        `https://full-stack-hotel-app.onrender.com/api/hotels/${hotelId}/images`,
+        {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+          body: formData,
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error("Failed to upload hotel image");
+      }
+
+      return await response.json();
+    } catch (error) {
+      return rejectWithValue(
+        error instanceof Error ? error.message : "Something went wrong"
+      );
+    }
+  }
+);
+
 
 export const fetchHotelImages = createAsyncThunk(
   "hotelImages/fetchHotelImages",
