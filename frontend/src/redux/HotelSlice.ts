@@ -4,7 +4,7 @@ import type{ PayloadAction } from "@reduxjs/toolkit";
 
 export interface Hotel {
   id?: number;
-  added_by?: number;
+  added_by: number;
   name: string;
   description: string;
   address: string;
@@ -12,7 +12,6 @@ export interface Hotel {
   country: string;
   star_rating: number;
   facilities: string;
-  created_at: Date;
 }
 
 
@@ -36,7 +35,7 @@ const initialState: HotelState = {
 export const addHotel = createAsyncThunk(
   "hotels/addHotel",
   async (
-    newHotel: Omit<Hotel, "id">,
+    newHotel: Omit<Hotel, "id" | "added_by" | "created_at">,
     { getState, rejectWithValue }
   ) => {
     try {
@@ -221,6 +220,6 @@ const HotelSlice = createSlice({
         },
         });
 
-export const { openHotelModal, closeHotelModal, setHotelModal  } = HotelSlice.actions;
+export const { openHotelModal, closeHotelModal, setHotelModal,  clearEditHotel, startEditHotel,  } = HotelSlice.actions;
 
 export default HotelSlice.reducer;
