@@ -19,7 +19,7 @@ export const Sidebar = () => {
 
     return(
         
-    <div className='bg-[#F9F5F2] min-h-screen w-50 rounderd-xl ml-5 border border-[#7E9E85]'>
+    <div className=' min-h-screen w-50 rounderd-xl ml-5 border border-[#7E9E85]'>
 
         
             <Text variant={'h1'} className='text-white text-md mt-10'>Admin</Text>
