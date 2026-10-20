@@ -45,7 +45,7 @@ const images = useSelector(
 
   const handleCardClick = () => {
   if (HotelList.id === undefined) return;
-       navigate(`/lists/${HotelList.id}`, {
+       navigate(`/hotel/${HotelList.id}`, {
        state: HotelList,
   });
 };
