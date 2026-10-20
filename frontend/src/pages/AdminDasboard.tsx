@@ -9,6 +9,7 @@ import type{ AppDispatch } from '../store'
 
 
 
+
 export const Admin = () =>{
     const dispatch = useDispatch<AppDispatch>();
 
@@ -18,12 +19,13 @@ export const Admin = () =>{
         <Sidebar/>
         <main className='flex-1'>
             
-        <div className=' h-20 w-screen border border-[#7E9E85]'>
-            <button className='bg-[#7E9E85] w-20 h-10 rounded-xl mt-5 ml-300'>Logout </button>
+        <div className='  flex gap-20 '>
+            <input  type="text" placeholder='Search' className='w-40 h-10 rounded-xl mt-5  pl-2'/>
+            <button className='bg-[#7E9E85] w-20 h-10 rounded-xl mt-5 justify-between items-center'>Logout </button>
         </div >
 
         <div className='flex gap-20 mt-10'>
-             <Card className='w-40 h-40 rounded-xl'>
+             {/* <Card className='w-40 h-40 rounded-xl'>
             <Text variant={'h1'}>Checkin today</Text>
         </Card>
          <Card className='w-40 h-40 rounded-xl'>
@@ -34,12 +36,12 @@ export const Admin = () =>{
         </Card>
          <Card className='w-40 h-40 rounded-xl'>
             <Text variant={'h1'}>Hotels</Text>
-        </Card>
+        </Card> */}
         </div>
-        <h1>Hi</h1>
+        
            <div>
             
-            <Button  text={'Add hotel'} className='w-300 bg-[#BCFEFE]' id="openModalBtn" onClick={() => dispatch(openHotelModal())}/>
+            <Button  text={'Add hotel'} className='w-30 rounded-xl bg-[#7E9E85]' id="openModalBtn" onClick={() => dispatch(openHotelModal())}/>
             <HotelForm/>
 
         </div>
