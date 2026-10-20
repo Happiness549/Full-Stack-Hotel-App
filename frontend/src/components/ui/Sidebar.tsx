@@ -19,12 +19,10 @@ export const Sidebar = () => {
 
     return(
         
-    <div className=' min-h-screen w-50 rounderd-xl ml-5 border border-[#7E9E85]'>
+    <div className=' min-h-screen w-40 rounderd-xl bg-[#7E9E85]'>
 
-        
-            <Text variant={'h1'} className='text-white text-md mt-10'>Admin</Text>
-        
-        <div className='flex flex-col ml-14 gap-10 mt-20 '>
+            
+        <div className='flex flex-col ml-7 gap-10 mt-20 '>
             <Link to='/Home'>
              <Text variant={'p'} className='text-white '>Accomodation</Text>
             </Link>
@@ -32,7 +30,7 @@ export const Sidebar = () => {
     
            {/* <button onClick={handleLogout}className="text-[#001C44] hover:text-[#2D99AE] transition-colors  ">
            <Text variant={'p'} className='text-white mr-25'>Logout</Text>
-           </button> */}
+           </button>  */}
            
             <Link to='/Profile'>
             <Text variant={'p'} className='text-white'>Profile</Text>
