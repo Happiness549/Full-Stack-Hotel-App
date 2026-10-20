@@ -32,12 +32,10 @@ export const Register = () => {
     return(
         <>
        
-         <div className="h-screen w-full bg-[url('https://res.cloudinary.com/g1cepfbn/image/upload/v1792064903/istockphoto-853258138-1024x1024.jpg')] bg-cover   bg-center bg-no-repeat ">
+         <div className="h-screen w-full bg-[url('https://res.cloudinary.com/g1cepfbn/image/upload/v1792433478/Bright_Scandinavian_Open-Plan_Interior_1.png')] bg-cover   bg-center bg-no-repeat ">
          <div className='flex ml-10 absolute mt-10'>
              <Text variant={'h1'} className='text-[#7E9E85] font-bold text-3xl'>Stay</Text>
-             <Text variant={'h1'} className='text-white font-bold text-3xl'>Clear</Text>
-            
-             
+             <Text variant={'h1'} className='text-white font-bold text-3xl'>Clear</Text>      
          </div>
         
         <Card className='bg-white/40 shadow-xl backdrop-blur-sm border border-white/50 h-150  p-8 w-120 ml-200 absolute mt-15'>
