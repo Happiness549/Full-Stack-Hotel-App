@@ -4,10 +4,7 @@ import { uploadImage } from "../services/cloudinaryService";
 import cloudinary from "../config/cloudinary";
 
 
-export const addHotelImageByHotelId = async (
-  req: Request,
-  res: Response
-) => {
+export const addHotelImageByHotelId = async (req: Request,res: Response) => {
   try {
     const hotel_id = Number(req.params.id);
 
@@ -33,10 +30,7 @@ export const addHotelImageByHotelId = async (
 
     const hotelImage = await addHotelImage(hotel_id, image_url);
 
-    return res.status(201).json({
-      message: "Hotel image added successfully",
-      hotelImage,
-    });
+    return res.status(201).json({message: "Hotel image added successfully",hotelImage,});
   } catch (error) {
     console.error("Error adding hotel image:", error);
     return res.status(500).json({ message: "Error adding hotel image" });
