@@ -6,6 +6,8 @@ import type{ RootState , AppDispatch} from "../store";
 import {Text} from '../components/ui/Text'
 import {BookingSearch} from '../components/ui/BookingSearch'
 import {Rooms} from '../components/ui/Rooms'
+import { Room } from "../components/ui/Room";
+
 
 const HotelDetails = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -85,6 +87,7 @@ const HotelDetails = () => {
   </div>
 
   <Rooms/>
+  <Room hotelId={hotel.id} />
 </div>
   );
 };
