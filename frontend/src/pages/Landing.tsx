@@ -22,7 +22,7 @@ export const Landing = () => {
             
         </section>
 
-        <HotelList limit={4} />
+        <HotelList limit={12} />
 
         
         </>
