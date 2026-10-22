@@ -5,7 +5,7 @@ import LoginReducer from './redux/LoginSlice'
 import HotelSlice from './redux/HotelSlice'
 import SearchSlice from './redux/SearchSlice'
 import ImageSlice from './redux/ImageSlice'
-
+import RoomSlice from "./redux/RoomSlice";
 
 
 const store = configureStore({
@@ -15,6 +15,7 @@ const store = configureStore({
         hotels: HotelSlice,
         search: SearchSlice,
         images: ImageSlice,
+        rooms: RoomSlice,
      
     },
      
