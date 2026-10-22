@@ -5,7 +5,7 @@ import {  fetchHotelImages} from '../redux/ImageSlice';
 import type{ RootState , AppDispatch} from "../store";
 import {Text} from '../components/ui/Text'
 import {BookingSearch} from '../components/ui/BookingSearch'
-import {Rooms} from './Rooms'
+import {Rooms} from '../components/ui/Rooms'
 
 const HotelDetails = () => {
   const dispatch = useDispatch<AppDispatch>();
