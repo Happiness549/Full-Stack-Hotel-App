@@ -66,7 +66,8 @@ const filteredLists = useMemo(() => {
 
       <div className="flex flex-wrap gap-5">
         {filteredLists.slice(0, limit).map((hotelItem) => (
-  <HotelCard key={hotelItem.id} HotelList={hotelItem} />
+        <HotelCard key={hotelItem.id}
+         HotelList={hotelItem} />
         ))}
       </div>
     </>
