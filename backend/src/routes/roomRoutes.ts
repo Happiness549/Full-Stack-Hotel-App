@@ -7,7 +7,7 @@ const router = Router();
 
 router.post("/:hotelId/rooms", protect, adminOnlyAddHotel, createRoomController);
 router.put("/:hotelId/rooms/:id", protect, adminOnlyAddHotel, updateRoomController);
-router.get('/rooms', protect, adminOnlyAddHotel, getAllRooms)
+router.get('/rooms', getAllRooms)
 router.delete('/:hotelId/rooms/:id', protect, adminOnlyAddHotel, deleteRoomById)
 
 export default router;
