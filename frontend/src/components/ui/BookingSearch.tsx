@@ -21,10 +21,10 @@ export const BookingSearch = () => {
   return (
     <form
       onSubmit={handleSearch}
-      className="mx-auto grid max-w-6xl grid-cols-1 gap-4 rounded-2xl bg-white p-5 shadow-xl md:grid-cols-2 lg:grid-cols-5 -mt-12"
+      className="mx-auto grid max-w-5xl grid-cols-1 gap-2 rounded-2xl bg-white p-2 shadow-xl md:grid-cols-2 lg:grid-cols-5 -mt-10  "
     >
       <div>
-        <label className="mb-2 block text-sm font-semibold text-gray-700">
+        <label className="mb-1 block text-sm font-semibold text-gray-700">
           Destination
         </label>
         <input
@@ -32,13 +32,13 @@ export const BookingSearch = () => {
           placeholder="Where are you going?"
           value={destination}
           onChange={(e) => setDestination(e.target.value)}
-          className="w-full rounded-lg border border-gray-300 p-3 outline-none focus:border-green-600"
+          className="w-full rounded-lg border border-gray-300 p-3 py-1 outline-none focus:border-green-600"
           required
         />
       </div>
 
       <div>
-        <label className="mb-2 block text-sm font-semibold text-gray-700">
+        <label className="mb-1 block text-sm font-semibold text-gray-700">
           Check-in
         </label>
         <input
@@ -46,13 +46,13 @@ export const BookingSearch = () => {
           value={checkIn}
           min={new Date().toLocaleDateString("en-CA")}
           onChange={(e) => setCheckIn(e.target.value)}
-          className="w-full rounded-lg border border-gray-300 p-3 outline-none focus:border-green-600"
+          className="w-full rounded-lg border border-gray-300 p-3 py-1 outline-none focus:border-green-600"
           required
         />
       </div>
 
       <div>
-        <label className="mb-2 block text-sm font-semibold text-gray-700">
+        <label className="mb-1 block text-sm font-semibold text-gray-700">
           Check-out
         </label>
         <input
@@ -60,19 +60,19 @@ export const BookingSearch = () => {
           value={checkOut}
           min={checkIn || new Date().toLocaleDateString("en-CA")}
           onChange={(e) => setCheckOut(e.target.value)}
-          className="w-full rounded-lg border border-gray-300 p-3 outline-none focus:border-green-600"
+          className="w-full rounded-lg border border-gray-300 p-3 py-1 outline-none focus:border-green-600"
           required
         />
       </div>
 
       <div>
-        <label className="mb-2 block text-sm font-semibold text-gray-700">
+        <label className="mb-1 block text-sm font-semibold text-gray-700">
           Guests
         </label>
         <select
           value={guests}
           onChange={(e) => setGuests(Number(e.target.value))}
-          className="w-full rounded-lg border border-gray-300 p-3 outline-none focus:border-green-600"
+          className="w-full rounded-lg border border-gray-300 p-3 py-1 outline-none focus:border-green-600"
         >
           <option value={1}>1 guest</option>
           <option value={2}>2 guests</option>
@@ -86,7 +86,7 @@ export const BookingSearch = () => {
       <div className="flex items-end">
         <button
           type="submit"
-          className="w-full rounded-lg bg-[#7E9E85] p-3 font-semibold text-white transition hover:bg-green-800"
+          className="w-full rounded-lg bg-[#7E9E85] p-3 py-1 font-semibold text-white transition hover:bg-green-800"
         >
           Search
         </button>
