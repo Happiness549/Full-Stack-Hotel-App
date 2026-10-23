@@ -17,6 +17,7 @@ interface RoomState {
   rooms: Room[];
   loading: boolean;
   error: string | null;
+  isRoomsModalOpen: boolean;
   isRoomModalOpen: boolean;
   selectedRoom: Room | null;
 
@@ -26,6 +27,7 @@ const initialState: RoomState = {
   rooms: [],
   loading: false,
   error: null,
+  isRoomsModalOpen: false,
   isRoomModalOpen: false,
   selectedRoom: null,
 };
@@ -99,6 +101,15 @@ const RoomSlice = createSlice({
      state.selectedRoom = action.payload;
      state.isRoomModalOpen = true;
 },
+    openRoomsModal: (state) => {
+      state.isRoomsModalOpen = true;
+    },
+    closeRoomsModal: (state) => {
+      state.isRoomsModalOpen = false;
+    },
+    setRoomsModal: (state, action: PayloadAction<boolean>) => {
+      state.isRoomsModalOpen = action.payload;
+    },
 
 
     
@@ -122,7 +133,7 @@ const RoomSlice = createSlice({
 
 
 
-export const { openRoomModal, closeRoomModal, selectRoom } = RoomSlice.actions;
+export const { openRoomModal, closeRoomModal, selectRoom, openRoomsModal, closeRoomsModal, setRoomsModal } = RoomSlice.actions;
 
 export default RoomSlice.reducer;
 
