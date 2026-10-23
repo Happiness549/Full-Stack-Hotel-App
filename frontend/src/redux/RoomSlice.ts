@@ -20,6 +20,7 @@ interface RoomState {
   isRoomsModalOpen: boolean;
   isRoomModalOpen: boolean;
   selectedRoom: Room | null;
+  editingRooms: Room | null;
 
 }
 
@@ -30,6 +31,7 @@ const initialState: RoomState = {
   isRoomsModalOpen: false,
   isRoomModalOpen: false,
   selectedRoom: null,
+  editingRooms: null,
 };
 
 
@@ -86,6 +88,41 @@ export const fetchRooms = createAsyncThunk(
   }
 );
 
+export const updateRooms = createAsyncThunk(
+  "rooms/updateRooms",
+  async (
+    updatedRoom: Room,
+    { rejectWithValue }
+  ) => {
+    try {
+      const response = await fetch(
+        `https://full-stack-hotel-app.onrender.com/api/hotels/${updatedRoom.hotel_id}/rooms/${updatedRoom.id}`,
+        {
+          method: "PATCH",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(updatedRoom),
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error("Failed to update item");
+      }
+
+      const data: Room = await response.json();
+
+      return data;
+    } catch (error) {
+      return rejectWithValue(
+        error instanceof Error
+          ? error.message
+          : "Something went wrong"
+      );
+    }
+  }
+);
+
 
 const RoomSlice = createSlice({
   name: "rooms",
@@ -127,7 +164,31 @@ const RoomSlice = createSlice({
     .addCase(fetchRooms.rejected, (state, action) => {
       state.loading = false;
       state.error = action.error.message || "Failed to fetch rooms";
-    });
+    })
+
+    // UPDATE
+        .addCase(updateRooms.pending, (state) => {
+          state.loading = true;
+          state.error = null;
+        })
+
+        .addCase(updateRooms.fulfilled, (state, action) => {
+          state.loading = false;
+          const index = state.rooms.findIndex((item) => item.id === action.payload.id);
+
+          if (index !== -1) {
+            state.rooms[index] = action.payload;
+          }
+
+          state.editingRooms = null;
+          state.isRoomsModalOpen = false;
+        })
+
+        .addCase(updateRooms.rejected, (state, action) => {
+          state.loading = false;
+          state.error =
+            typeof action.payload === "string" ? action.payload : "Failed to update room";
+        })
 },
 });
 
