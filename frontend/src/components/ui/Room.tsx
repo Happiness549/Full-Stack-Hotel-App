@@ -3,6 +3,7 @@ import type { RootState, AppDispatch } from "../../store";
 import { openRoomModal, closeRoomModal } from "../../redux/RoomSlice";
 import { useEffect } from "react";
 import { fetchRooms } from "../../redux/RoomSlice";
+import { selectRoom } from "../../redux/RoomSlice";
 
 
 interface RoomsProps {
@@ -10,7 +11,7 @@ interface RoomsProps {
 }
 export const Room = ({ hotelId }: RoomsProps) => {
 const dispatch = useDispatch<AppDispatch>();
-const { rooms, loading, error } = useSelector((state: RootState) => state.rooms);
+const { rooms, loading, error, selectedRoom, isRoomModalOpen } =useSelector((state: RootState) => state.rooms);
 const hotelRooms = rooms.filter((room) => room.hotel_id === hotelId);
 
 useEffect(() => {
@@ -56,7 +57,7 @@ useEffect(() => {
             <tr key={room.id} className="border-t">
                 <td className="px-5 py-4">
                 <button
-                    onClick={() => dispatch(openRoomModal())}
+                   onClick={() => dispatch(selectRoom(room))}
                     className="font-medium text-[#42694D] underline"
                 >
                     {room.room_type}
@@ -77,6 +78,48 @@ useEffect(() => {
           </tbody>
         </table>
       </div>
+
+      {isRoomModalOpen && selectedRoom && (
+  <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
+    <div className="w-full max-w-3xl max-h-[85vh] overflow-y-auto rounded-2xl bg-white p-8 shadow-xl">
+      <div className="flex items-center justify-between">
+        <h2 className="text-2xl font-semibold text-[#42694D]">
+          {selectedRoom.room_type}
+        </h2>
+
+        <button
+          onClick={() => dispatch(closeRoomModal())}
+          className="text-2xl text-gray-500 hover:text-gray-800"
+        >
+          &times;
+        </button>
+      </div>
+
+      <p className="mt-4 text-gray-700">
+        {selectedRoom.description}
+      </p>
+
+      <p className="mt-3 font-semibold text-[#42694D]">
+        R{selectedRoom.price_per_night} per night
+      </p>
+
+      <p className="mt-2 text-gray-600">
+        Capacity: {selectedRoom.capacity} guests
+      </p>
+
+      <p className="mt-2 text-gray-600">
+        Available rooms: {selectedRoom.quantity}
+      </p>
+
+      <div className="mt-4">
+        <h3 className="font-semibold text-[#42694D]">Facilities</h3>
+        <p className="mt-1 text-gray-600">
+          {selectedRoom.facilities}
+        </p>
+      </div>
+    </div>
+  </div>
+)}
     </section>
   )
 }
