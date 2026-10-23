@@ -32,24 +32,25 @@ const initialState: RoomState = {
 
 
 export const addRoom = createAsyncThunk(
-  "hotels/addHotel",
-  async (newRoom: Omit<Room, "id" | "created_at" | "updated_at">,{ getState, rejectWithValue }) => {
+  "rooms/addRoom",
+  async (
+    newRoom: Omit<Room, "id">,
+    { rejectWithValue }
+  ) => {
     try {
-
-
       const response = await fetch(
-        "https://full-stack-hotel-app.onrender.com/api/hotels/rooms",
+        `https://full-stack-hotel-app.onrender.com/api/hotels/${newRoom.hotel_id}/rooms`,
         {
-          method: 'POST',
+          method: "POST",
           headers: {
-            'Content-Type': 'application/json'
+            "Content-Type": "application/json",
           },
           body: JSON.stringify(newRoom),
         }
       );
 
-    if (!response.ok) {
-        throw new Error("Failed to add list");
+      if (!response.ok) {
+        throw new Error("Failed to add room");
       }
 
       const data: Room = await response.json();
