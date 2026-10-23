@@ -52,8 +52,8 @@ const images = useSelector(
   
 
   return (
-    <div className="  w-80 rounded-xl  has-[:hover]:bg-black-500 flex transition-colors duration-500 flex">
-    <div className="rounded-xl  mt-5 w-140 h-80 border border-gray-300 hover:bg-gray-100 transition-colors duration-200" onClick={handleCardClick}>
+    <div className="  w-[calc(33.33%-14px)] rounded-xl  has-[:hover]:bg-black-500 flex transition-colors duration-500 flex">
+    <div className="rounded-xl  mt-5 w-full h-80 border border-gray-300 hover:bg-gray-100 transition-colors duration-200" onClick={handleCardClick}>
       <div className="">
         
          </div>
