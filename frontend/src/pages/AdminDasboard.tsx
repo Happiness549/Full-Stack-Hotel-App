@@ -2,7 +2,9 @@ import { Button } from '../components/ui/Button'
 import {Text} from '../components/ui/Text'
 import { Sidebar } from '../components/ui/Sidebar'
 import { HotelForm } from '../components/ui/HotelForm'
+import {RoomForm} from '../components/ui/RoomForm'
 import { openHotelModal } from '../redux/HotelSlice'
+import {openRoomsModal} from '../redux/RoomSlice'
 import { useDispatch } from 'react-redux'
 import type { AppDispatch } from '../store'
 
@@ -73,10 +75,20 @@ export const Admin = () => {
                 id="openModalBtn"
                 onClick={() => dispatch(openHotelModal())}
               />
+
+              <Button
+                text="Add New Hotel"
+                className="rounded-xl bg-[#7E9E85] px-6 py-3 font-medium text-white transition hover:bg-[#64866D]"
+                id="openRoomModalBtn"
+                onClick={() => dispatch(openRoomsModal())}
+              />
             </div>
 
             <div className="mt-6 border-t border-[#7E9E85]/30 pt-6">
               <HotelForm />
+            </div>
+             <div className="mt-6 border-t border-[#7E9E85]/30 pt-6">
+              <RoomForm />
             </div>
           </section>
         </div>
