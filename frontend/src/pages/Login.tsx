@@ -59,7 +59,7 @@ const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
             <Text variant={'h3'} className="text-xl text-white mt-5 ml-5">StayClear</Text>
         </div >
         
-    <div  className='h-full mt-20 w-150 ml-50 '>
+    <div  className='h-full mt-20 w-150 ml-50 ml-150'>
        <Text variant={'h1'} className='text-[#001C44] text-xl ml-20 text-bold '> Sign in or create an account</Text>
         <Text variant={'h1'} className='text-[#001C44] text-sm ml-20 mt-10'>You can sign in using your StayClear account to access</Text>
         <Text variant={'h1'} className='text-[#001C44] text-sm ml-20'> our service.</Text>
