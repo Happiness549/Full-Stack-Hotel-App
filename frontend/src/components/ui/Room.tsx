@@ -4,6 +4,7 @@ import { openRoomModal, closeRoomModal } from "../../redux/RoomSlice";
 import { useEffect } from "react";
 import { fetchRooms } from "../../redux/RoomSlice";
 import { selectRoom } from "../../redux/RoomSlice";
+import {Text} from './Text'
 
 
 interface RoomsProps {
@@ -80,8 +81,8 @@ useEffect(() => {
       </div>
 
       {isRoomModalOpen && selectedRoom && (
-  <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
-    <div className="w-full max-w-3xl max-h-[85vh] overflow-y-auto rounded-2xl bg-white p-8 shadow-xl">
+  <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4 ">
+    <div className="w-full max-w-3xl max-h-[85vh] overflow-y-auto rounded-2xl bg-white p-8 shadow-xl max-w-3xl  h-[90vh]">
       <div className="flex items-center justify-between">
         <h2 className="text-2xl font-semibold text-[#42694D]">
           {selectedRoom.room_type}
@@ -111,12 +112,17 @@ useEffect(() => {
         Available rooms: {selectedRoom.quantity}
       </p>
 
-      <div className="mt-4">
-        <h3 className="font-semibold text-[#42694D]">Facilities</h3>
-        <p className="mt-1 text-gray-600">
-          {selectedRoom.facilities}
-        </p>
-      </div>
+
+      <section className="mt-8">
+        <Text variant={'h2'} className="text-xl font-bold text-[#42694D]">Most popular facilities</Text>
+      
+        <div className="mt-4 grid grid-cols-2 gap-4 ">
+          {selectedRoom.facilities.split(",").map((facility: string) => (
+            <Text variant={'p'} key={facility} className="text-gray-700"> ✓ {facility.trim()}</Text>
+          ))}
+        </div>
+      </section>
+
     </div>
   </div>
 )}
