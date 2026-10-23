@@ -62,9 +62,9 @@ const filteredLists = useMemo(() => {
 
   return (
     <>
-      <p>{filteredLists.length} hotels found</p>
+      <p className='ml-120 mt-10 text-2xl font-bold'>Stay at our unique properties</p>
 
-      <div className="flex flex-wrap gap-5">
+      <div className="mx-auto  flex w-full flex-wrap gap-5 justify-center  sm:w-[calc(50%-10px)] lg:w-[Calc(33.333%-14px)]">
         {filteredLists.slice(0, limit).map((hotelItem) => (
         <HotelCard key={hotelItem.id}
          HotelList={hotelItem} />
