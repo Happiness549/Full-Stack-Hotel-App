@@ -18,16 +18,16 @@ export const Home = () => {
       </nav>
 
 
-      <section className="px-8 py-12">
+      <section className="px-8 py-12 ml-118">
         <Text variant={'h2'} className="text-3xl font-bold text-gray-900">Find your perfect stay</Text>
 
         <Text variant={'p'} className="mt-3 text-gray-600">Discover comfortable stays and beautiful destinations.</Text>
       </section>
 
       <section className="px-8 pb-12">
-    <Text variant={'h2'} className="mb-6 text-2xl font-bold text-gray-900">Explore our hotels</Text>
+    <Text variant={'h2'} className="mb-6 text-2xl font-bold text-gray-900 ml-118">Explore our hotels</Text>
 
-  <HotelList />
+  <HotelList limit={9} />
 </section>
     </div>
   );
