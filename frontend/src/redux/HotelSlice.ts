@@ -34,10 +34,8 @@ const initialState: HotelState = {
 
 export const addHotel = createAsyncThunk(
   "hotels/addHotel",
-  async (
-    newHotel: Omit<Hotel, "id" | "added_by" | "created_at">,
-    { getState, rejectWithValue }
-  ) => {
+  async (newHotel: Omit<Hotel, "id" | "added_by" | "created_at">,
+    { getState, rejectWithValue }) => {
     try {
 
       const state = getState() as RootState;

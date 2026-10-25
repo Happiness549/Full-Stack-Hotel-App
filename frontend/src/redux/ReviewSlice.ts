@@ -1,4 +1,5 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import type{ RootState } from "../store";
 
 interface Review {
   id: number;
@@ -36,6 +37,35 @@ export const fetchReviews = createAsyncThunk(
   }
 );
 
+export const addReview = createAsyncThunk(
+  "reviews/addReview",async ({hotelId, rating, comment,}: {hotelId: number; rating: number; comment: string;},
+     { getState, rejectWithValue }
+  ) => {
+    
+          const state = getState() as RootState;
+          const token = state.login.token;
+          if(!token){
+            return rejectWithValue("No authentication token found");
+          }
+    const response = await fetch(`https://full-stack-hotel-app.onrender.com/api/reviews/${hotelId}`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+           'Authorization': `Bearer ${token}`,
+        },
+        body: JSON.stringify({ rating, comment }),
+      }
+    );
+
+    if (!response.ok) {
+      throw new Error("Failed to add review");
+    }
+
+    return response.json();
+  }
+);
+
 
 const reviewSlice = createSlice({
   name: "reviews",
@@ -54,7 +84,20 @@ extraReducers: (builder) => {
       .addCase(fetchReviews.rejected, (state, action) => {
         state.loading = false;
         state.error = action.error.message || "Failed to fetch reviews";
-      });
+      })
+
+      .addCase(addReview.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+        })
+        .addCase(addReview.fulfilled, (state, action) => {
+        state.loading = false;
+        state.reviews.unshift(action.payload.review);
+        })
+        .addCase(addReview.rejected, (state, action) => {
+        state.loading = false;
+        state.error =(action.payload as string) || action.error.message || "Failed to add review";
+     })
   },
 })
 

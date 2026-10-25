@@ -7,6 +7,8 @@ import {Text} from '../components/ui/Text'
 import {BookingSearch} from '../components/ui/BookingSearch'
 import { Room } from "../components/ui/Room";
 import { fetchReviews } from "../redux/ReviewSlice";
+import { Reviews } from "../components/ui/Reviews";
+
 
 
 const HotelDetails = () => {
@@ -14,7 +16,6 @@ const HotelDetails = () => {
   const [currentReview, setCurrentReview] = useState(0);
   const images = useSelector((state: RootState) => state.images.images);
   const reviews = useSelector((state: RootState) => state.reviews.reviews)
-  console.log("Reviews:", reviews);
   const location = useLocation();
   const hotel = location.state;
 
@@ -104,15 +105,14 @@ const visibleReviews = hotelReviews.slice(
 
   
   <Room hotelId={hotel.id} />
+  <Reviews hotelId={hotel.id} />
  <section className="w-full max-w-4xl px-6 py-8">
-  <Text variant="h2" className="text-xl font-bold">
-    Guest Reviews
-  </Text>
+  <Text variant="h2" className="text-xl font-bold">Guest Reviews</Text>
 
   <div className="mt-4 flex items-center gap-3">
     <button
       onClick={() =>
-        setCurrentReview(Math.max(0, currentReview - 2))
+      setCurrentReview(Math.max(0, currentReview - 2))
       }
       disabled={currentReview === 0}
       className="text-2xl disabled:opacity-30"
