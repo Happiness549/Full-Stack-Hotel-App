@@ -7,8 +7,8 @@ const router = Router();
 
 router.post("/:hotelId", protect, createReviewController);
 router.put('/:id', protect, updateReviewById)
-router.get('/', protect, getAllReviews)
-router.get('/:id', protect, getReviewById)
+router.get('/', getAllReviews)
+router.get('/:id', getReviewById)
 router.delete('/:id', protect, deleteUserById)
 
 export default router;

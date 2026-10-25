@@ -6,17 +6,21 @@ import type{ RootState , AppDispatch} from "../store";
 import {Text} from '../components/ui/Text'
 import {BookingSearch} from '../components/ui/BookingSearch'
 import { Room } from "../components/ui/Room";
-
+import { fetchReviews } from "../redux/ReviewSlice";
 
 const HotelDetails = () => {
   const dispatch = useDispatch<AppDispatch>();
   const images = useSelector((state: RootState) => state.images.images);
+  const reviews = useSelector((state: RootState) => state.reviews.reviews)
+  console.log("Reviews:", reviews);
   const location = useLocation();
   const hotel = location.state;
 
   useEffect(() => {
   if (hotel?.id) {
+        console.log("Hotel ID:", hotel.id);
     dispatch( fetchHotelImages(hotel.id));
+     dispatch(fetchReviews());
   }
 }, [dispatch, hotel?.id]);
 
@@ -87,6 +91,25 @@ const HotelDetails = () => {
 
   
   <Room hotelId={hotel.id} />
+  <section className="w-full max-w-4xl px-6 py-8">
+  <Text variant="h2" className="text-xl font-bold">
+    Guest Reviews
+  </Text>
+
+  {reviews
+    .filter((review) => review.hotel_id === hotel.id)
+    .map((review) => (
+      <div key={review.id} className="mt-4 rounded-xl bg-white p-4 shadow-sm">
+        <Text variant="p" className="text-yellow-500">
+          {"★".repeat(review.rating)}
+        </Text>
+
+        <Text variant="p" className="mt-2 text-gray-700">
+          {review.comment}
+        </Text>
+      </div>
+    ))}
+</section>
 </div>
   );
 };

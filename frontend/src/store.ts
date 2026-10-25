@@ -7,6 +7,7 @@ import SearchSlice from './redux/SearchSlice'
 import ImageSlice from './redux/ImageSlice'
 import RoomSlice from "./redux/RoomSlice";
 import favouriteSlice from './redux/FavouritesSlice'
+import reviewSlice from './redux/ReviewSlice'
 
 
 const store = configureStore({
@@ -18,6 +19,7 @@ const store = configureStore({
         images: ImageSlice,
         rooms: RoomSlice,
         favourites: favouriteSlice,
+        reviews: reviewSlice,
      
     },
      
