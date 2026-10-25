@@ -95,6 +95,32 @@ export const updateReview = createAsyncThunk(
 );
 
 
+export const deleteReview = createAsyncThunk(
+  "reviews/deleteReview",
+  async (id: number, { getState, rejectWithValue }) => {
+    const state = getState() as RootState;
+    const token = state.login.token;
+
+    const response = await fetch(
+      `https://full-stack-hotel-app.onrender.com/api/reviews/${id}`,
+      {
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+
+    if (!response.ok) {
+      return rejectWithValue("Failed to delete review");
+    }
+
+    return id;
+  }
+);
+
+
+
 const reviewSlice = createSlice({
   name: "reviews",
   initialState,
@@ -148,7 +174,27 @@ extraReducers: (builder) => {
             (action.payload as string) ||
             action.error.message ||
             "Failed to update review";
-        });
+        })
+
+        
+        .addCase(deleteReview.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+        })
+        .addCase(deleteReview.fulfilled, (state, action) => {
+        state.loading = false;
+        state.reviews = state.reviews.filter(
+            (review) => review.id !== action.payload
+        );
+        })
+        .addCase(deleteReview.rejected, (state, action) => {
+        state.loading = false;
+        state.error =
+            (action.payload as string) ||
+            action.error.message ||
+            "Failed to delete review";
+        })
+
   },
 })
 

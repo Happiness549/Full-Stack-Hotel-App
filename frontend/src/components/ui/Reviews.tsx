@@ -1,5 +1,5 @@
 
-import { fetchReviews } from "../../redux/ReviewSlice";
+import { fetchReviews, deleteReview } from "../../redux/ReviewSlice";
 import { useState, useEffect } from "react";
 import { Text } from "./Text";
 import { useDispatch, useSelector } from "react-redux";
@@ -52,6 +52,21 @@ export const Reviews = ({ hotelId }: ReviewsProps) => {
                 <Text variant="p" className="mt-2 text-gray-700">
                   {review.comment}
                 </Text>
+                <button
+                    type="button"
+                    onClick={async () => {
+                        const confirmed = window.confirm(
+                        "Are you sure you want to delete this review?"
+                        );
+
+                        if (confirmed) {
+                        await dispatch(deleteReview(review.id));
+                        }
+                    }}
+                    className="mt-3 text-sm font-medium text-red-600 hover:text-red-700"
+                    >
+                    Delete
+            </button>
               </div>
             ))}
           </div>
