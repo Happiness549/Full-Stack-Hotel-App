@@ -14,15 +14,15 @@ export const createReview = async (user_id: number, hotel_id: number, rating: nu
     return (result[0] as Review) || null;
 };
 
-export const updateReview = async (id: number, rating: number, comment: string): Promise<Review | null> => {
+export const updateReview = async (id: number, rating: number, comment: string, user_id: number,): Promise<Review | null> => {
     
     const results = await query(
         `UPDATE reviews
-         SET rating = COALESCE($2, rating),
-             comment = COALESCE($3, comment)
-         WHERE id = $1
+         SET rating = COALESCE($3, rating),
+             comment = COALESCE($4, comment)
+         WHERE id = $1 AND user_id = $2
          RETURNING *`,
-        [id, rating ?? null, comment ?? null]
+        [id, user_id, rating ?? null, comment ?? null]
     );
 
     return (results[0] as Review) || null;

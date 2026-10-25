@@ -30,8 +30,9 @@ export const createReviewController = async (req: Request, res: Response) => {
 export const updateReviewById = async(req: Request, res:Response) => {
     try{
         const id = parseInt(String(req.params.id));
+        const user_id = (req.user as User).id;
         const {rating, comment} = req.body;
-        const updatedReview = await reviewService.updateReview(id, rating, comment);
+        const updatedReview = await reviewService.updateReview(id,user_id, rating, comment);
         
         if(!updatedReview){
             return res.status(404).json({message: "Review not found"});
