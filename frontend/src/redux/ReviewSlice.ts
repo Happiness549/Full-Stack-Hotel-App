@@ -66,6 +66,34 @@ export const addReview = createAsyncThunk(
   }
 );
 
+export const updateReview = createAsyncThunk(
+  "reviews/updateReview",
+  async ({id, rating, comment,}: {id: number; rating: number; comment: string;},
+    { getState, rejectWithValue }) => {
+    
+    const state = getState() as RootState;
+    const token = state.login.token;
+
+    const response = await fetch(
+      `https://full-stack-hotel-app.onrender.com/api/reviews/${id}`,
+      {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({ rating, comment }),
+      }
+    );
+
+    if (!response.ok) {
+      return rejectWithValue("Failed to update review");
+    }
+
+    return response.json();
+  }
+);
+
 
 const reviewSlice = createSlice({
   name: "reviews",
@@ -98,6 +126,29 @@ extraReducers: (builder) => {
         state.loading = false;
         state.error =(action.payload as string) || action.error.message || "Failed to add review";
      })
+
+     .addCase(updateReview.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+        })
+        .addCase(updateReview.fulfilled, (state, action) => {
+        state.loading = false;
+
+        const index = state.reviews.findIndex(
+            (review) => review.id === action.payload.id
+        );
+
+        if (index !== -1) {
+            state.reviews[index] = action.payload;
+        }
+        })
+        .addCase(updateReview.rejected, (state, action) => {
+        state.loading = false;
+        state.error =
+            (action.payload as string) ||
+            action.error.message ||
+            "Failed to update review";
+        });
   },
 })
 
