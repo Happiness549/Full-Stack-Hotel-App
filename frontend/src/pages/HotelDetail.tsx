@@ -1,42 +1,31 @@
 import { useLocation } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useEffect} from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {  fetchHotelImages} from '../redux/ImageSlice';
 import type{ RootState , AppDispatch} from "../store";
 import {Text} from '../components/ui/Text'
 import {BookingSearch} from '../components/ui/BookingSearch'
 import { Room } from "../components/ui/Room";
-import { fetchReviews } from "../redux/ReviewSlice";
 import { Reviews } from "../components/ui/Reviews";
 
 
 
 const HotelDetails = () => {
   const dispatch = useDispatch<AppDispatch>();
-  const [currentReview, setCurrentReview] = useState(0);
   const images = useSelector((state: RootState) => state.images.images);
-  const reviews = useSelector((state: RootState) => state.reviews.reviews)
   const location = useLocation();
   const hotel = location.state;
 
   useEffect(() => {
-  if (hotel?.id) {
-        console.log("Hotel ID:", hotel.id);
+  if (hotel?.id) {  
     dispatch( fetchHotelImages(hotel.id));
-     dispatch(fetchReviews());
   }
 
  
 
 }, [dispatch, hotel?.id]);
 
- const hotelReviews = reviews.filter(
-  (review) => review.hotel_id === hotel.id
-);
-const visibleReviews = hotelReviews.slice(
-  currentReview,
-  currentReview + 2
-); 
+
 
   return (
     <div className='flex min-h-screen flex-col items-center justify-center bg-gray-50'>
@@ -102,54 +91,9 @@ const visibleReviews = hotelReviews.slice(
   </div>
 </section>
   </div>
-
-  
   <Room hotelId={hotel.id} />
   <Reviews hotelId={hotel.id} />
- <section className="w-full max-w-4xl px-6 py-8">
-  <Text variant="h2" className="text-xl font-bold">Guest Reviews</Text>
-
-  <div className="mt-4 flex items-center gap-3">
-    <button
-      onClick={() =>
-      setCurrentReview(Math.max(0, currentReview - 2))
-      }
-      disabled={currentReview === 0}
-      className="text-2xl disabled:opacity-30"
-    >
-      &#8592;
-    </button>
-
-    <div className="grid flex-1 grid-cols-1 gap-4 md:grid-cols-2">
-      {visibleReviews.map((review) => (
-        <div
-          key={review.id}
-          className="rounded-xl bg-white p-4 shadow-sm"
-        >
-          <Text variant="p" className="text-yellow-500">
-            {"★".repeat(review.rating)}
-          </Text>
-
-          <Text variant="p" className="mt-2 text-gray-700">
-            {review.comment}
-          </Text>
-        </div>
-      ))}
-    </div>
-
-    <button
-      onClick={() =>
-        setCurrentReview(
-          Math.min(hotelReviews.length - 1, currentReview + 2)
-        )
-      }
-      disabled={currentReview + 2 >= hotelReviews.length}
-      className="text-2xl disabled:opacity-30"
-    >
-      &#8594;
-    </button>
-  </div>
-</section>
+ 
 </div>
   );
 };
