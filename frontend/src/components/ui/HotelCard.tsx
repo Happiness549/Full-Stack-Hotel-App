@@ -8,6 +8,7 @@ import { useSelector } from "react-redux";
 import type{ RootState } from "../../store";
 // import { HotelImage } from "../../redux/ImageSlice";
 import { fetchHotelImages } from "../../redux/ImageSlice";
+import { addFavourite, removeFavourite } from "../../redux/FavouritesSlice";
 
 
 interface HotelProps {
@@ -22,10 +23,16 @@ export const HotelCard: React.FC<HotelProps> = ({HotelList}) => {
 const images = useSelector(
     (state: RootState) => state.images.images
   );
-
   const loadedHotelIds = useSelector(
     (state: RootState) => state.images.loadedHotelIds
   );
+  const favourites = useSelector(
+  (state: RootState) => state.favourites.favourites
+);
+
+const isFavourite = favourites.some(
+  (favourite) => favourite.hotel_id === HotelList.id
+);
 
   useEffect(() => {
     if (
@@ -35,7 +42,19 @@ const images = useSelector(
       dispatch(fetchHotelImages(HotelList.id));
     }
   }, [dispatch, HotelList.id, loadedHotelIds]);
+const handleFavouriteClick = (
+  e: React.MouseEvent<HTMLButtonElement>
+) => {
+  e.stopPropagation();
 
+  if (HotelList.id === undefined) return;
+
+  if (isFavourite) {
+    dispatch(removeFavourite(HotelList.id));
+  } else {
+    dispatch(addFavourite(HotelList.id));
+  }
+};
   const image =
     images.find(
       (img) => img.hotel_id === HotelList.id && img.is_primary
@@ -58,13 +77,26 @@ const images = useSelector(
         
          </div>
 
-        {image && (
-        <img
-          src={image.image_url}
-          alt={HotelList.name}
-          className="w-full h-40 object-cover rounded-t-xl"
-        />
-      )}
+    <div className="relative">
+          {image && (
+            <img
+              src={image.image_url}
+              alt={HotelList.name}
+              className="w-full h-40 object-cover rounded-t-xl"
+            />
+          )}
+
+          <button
+            type="button"
+            onClick={handleFavouriteClick}
+            className="absolute top-3 right-3 text-2xl bg-white rounded-full w-9 h-9 flex items-center justify-center shadow"
+            aria-label={isFavourite ? "Remove from favourites" : "Add to favourites"}
+          >
+            <span className={isFavourite ? "text-red-500" : "text-gray-500"}>
+              {isFavourite ? "♥" : "♡"}
+            </span>
+          </button>
+    </div>
       <div className="ml-3">
           <Text variant={"h2"} className="text-sm ">{HotelList.star_rating} stars</Text>
         <Text variant={"h2"} className="font-bold text-md mt-1">{HotelList.name}</Text>

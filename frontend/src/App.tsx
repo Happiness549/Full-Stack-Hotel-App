@@ -6,6 +6,7 @@ import {Login} from './pages/Login'
 import {Admin} from './pages/AdminDasboard'
 import HotelDetails from "./pages/HotelDetail";
 import {Home} from './pages/Home'
+import { Favourites } from './pages/Favourites'
 
 function App() {
  
@@ -19,6 +20,7 @@ function App() {
       <Route path='/dashboard' element={<Admin />} />
       <Route path="/hotel/:id" element={<HotelDetails />} />
       <Route path="/home" element={<Home />} />
+      <Route path="/favourites" element={<Favourites />} />
     </Routes>  
     </BrowserRouter>
       
