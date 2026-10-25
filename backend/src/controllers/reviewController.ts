@@ -69,18 +69,24 @@ export const getReviewById = async (req: Request, res: Response) => {
     }
 };
 
+
 export const deleteUserById = async (req: Request, res: Response) => {
-    try{
-        const id = parseInt(String(req.params.id));
-        const deletedReview = await reviewService.deleteReview(id)
-        if(!deletedReview){
-            return res.status(404).json({message: "Review not found"});
-        }
+  try {
+    const id = parseInt(String(req.params.id));
+    const user_id = (req.user as User).id;
 
-        return res.status(200).json({message: "Review deleted successfully"})
-         
-    }catch(error){
-        return res.status(500).json({message: "Error deleting the review"})
+    const deletedReview = await reviewService.deleteReview(id, user_id);
 
+    if (!deletedReview) {
+      return res.status(404).json({ message: "Review not found" });
     }
+
+    return res.status(200).json({
+      message: "Review deleted successfully",
+    });
+  } catch (error) {
+    return res.status(500).json({
+      message: "Error deleting the review",
+    });
+  }
 };
