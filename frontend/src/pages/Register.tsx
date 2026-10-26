@@ -12,7 +12,7 @@ import {Card } from '../components/ui/Card'
 
 export const Register = () => {
     const dispatch = useDispatch<AppDispatch>();
-    const {signupForm, loading, error,success, } = useSelector((state: RootState) => state.user);
+    const {signupForm, error,success, } = useSelector((state: RootState) => state.user);
 
     const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
         dispatch(updatedInputField({

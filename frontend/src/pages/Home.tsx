@@ -11,7 +11,7 @@ export const Home = () => {
 
         <div className="flex items-center gap-6">
           <Link to="/" className="text-gray-700 hover:text-green-700"> Home</Link>
-          <Link to="/bookings" className="text-gray-700 hover:text-green-700">My Bookings</Link>
+          <Link to="/my-bookings" className="text-gray-700 hover:text-green-700">My Bookings</Link>
           <Link to="/favourites" className="text-gray-700 hover:text-green-700">Favourites</Link>
           <Link to="/profile" className="text-gray-700 hover:text-green-700">Profile</Link>
         </div>

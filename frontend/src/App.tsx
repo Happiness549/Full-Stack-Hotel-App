@@ -10,6 +10,7 @@ import { Favourites } from './pages/Favourites'
 import {Profile} from './pages/Profile'
 import { Bookings } from './pages/Booking'
 import {BookingPage} from "./pages/BookingPage";
+import MyBookings from "./pages/MyBookings";
 
 function App() {
  
@@ -27,6 +28,7 @@ function App() {
       <Route path="/profile" element={<Profile />} />
       <Route path="/bookings" element={<Bookings />} />
       <Route path="/booking" element={<BookingPage />} />
+      <Route path="/my-bookings" element={<MyBookings />} />
     </Routes>  
     </BrowserRouter>
       

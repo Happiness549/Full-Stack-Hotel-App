@@ -1,6 +1,5 @@
 
 import { useLocation } from "react-router-dom";
-import {Text} from '../components/ui/Text'
 import {BookingForm} from "../components/ui/BookingForm";
 import type{ RootState } from "../store";
 import { useSelector } from "react-redux";

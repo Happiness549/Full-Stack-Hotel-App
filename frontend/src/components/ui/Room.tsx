@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from "react-redux";
 import type { RootState, AppDispatch } from "../../store";
-import { openRoomModal, closeRoomModal } from "../../redux/RoomSlice";
+import { closeRoomModal } from "../../redux/RoomSlice";
 import { useEffect } from "react";
 import { fetchRooms } from "../../redux/RoomSlice";
 import { selectRoom } from "../../redux/RoomSlice";

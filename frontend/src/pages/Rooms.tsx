@@ -1,8 +1,8 @@
 import {Text} from '../components/ui/Text'
-import { useNavigate } from "react-router-dom";
+
 
 export const Rooms = () => {
-  const navigate = useNavigate();
+
 
     return(
         <>

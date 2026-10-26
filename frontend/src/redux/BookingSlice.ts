@@ -56,6 +56,39 @@ export const fetchBookings = createAsyncThunk<Booking[], void,
 });
 
 
+
+export const fetchMyBookings = createAsyncThunk<
+  Booking[],
+  void,
+  { state: RootState; rejectValue: string }
+>("bookings/fetchMyBookings", async (_, { getState, rejectWithValue }) => {
+  const token = getState().login.token;
+
+  if (!token) {
+    return rejectWithValue("No authentication token found");
+  }
+
+  try {
+    const response = await fetch(`${API_URL}/my-bookings`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    if (!response.ok) {
+      throw new Error("Failed to fetch your bookings");
+    }
+
+    return (await response.json()) as Booking[];
+  } catch (error) {
+    return rejectWithValue(
+      error instanceof Error ? error.message : "Something went wrong"
+    );
+  }
+});
+
+
+
 export const addBooking = createAsyncThunk(
   "bookings/addBooking",
   async (
@@ -143,6 +176,18 @@ const bookingSlice = createSlice({
         state.loading = false;
         state.error = action.payload ?? "Failed to fetch bookings";
       })
+      .addCase(fetchMyBookings.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(fetchMyBookings.fulfilled, (state, action) => {
+        state.loading = false;
+        state.bookings = action.payload;
+      })
+      .addCase(fetchMyBookings.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload ?? "Failed to fetch your bookings";
+      })
       .addCase(addBooking.pending, (state) => {
         state.loading = true;
         state.error = null;
@@ -154,7 +199,30 @@ const bookingSlice = createSlice({
       .addCase(addBooking.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload as string;
+      })
+      
+      .addCase(updateBookingStatus.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(updateBookingStatus.fulfilled, (state, action) => {
+        state.loading = false;
+
+        const index = state.bookings.findIndex(
+          (booking) => booking.id === action.payload.id
+        );
+
+        if (index !== -1) {
+          state.bookings[index] = action.payload;
+        }
+      })
+      .addCase(updateBookingStatus.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload as string;
       });
+
+
+      
   },
 });
 

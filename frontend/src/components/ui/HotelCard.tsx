@@ -19,8 +19,8 @@ export const HotelCard: React.FC<HotelProps> = ({HotelList}) => {
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
 
-  const hotel = useSelector((state: RootState) => state.hotels.hotels);
-const images = useSelector(
+  
+ const images = useSelector(
     (state: RootState) => state.images.images
   );
   const loadedHotelIds = useSelector(
