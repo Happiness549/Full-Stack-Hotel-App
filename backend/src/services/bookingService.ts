@@ -8,7 +8,7 @@ export const createBooking = async (room_id: number, user_id: number, checkin: D
 
     const result = await query(
         `INSERT INTO bookings
-        (room_id, user_id, check_in, check_out, guests, rooms_booked, total_price, status)
+        (room_id, user_id, check_in, check_out, guests, rooms_booked, total_price)
         VALUES ($1, $2, $3, $4, $5, $6, $7)
         RETURNING *`,
         [room_id, user_id, checkin, checkout, guests, room_booked, total_price]
