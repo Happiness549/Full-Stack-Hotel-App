@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import * as bookingService from '../services/bookingService'
+import { User } from "../models/hotel.types";
 
 
 
@@ -34,7 +35,22 @@ export const createBookingController = async (req: Request, res: Response) => {
 };
 
 
+export const getMyBookingsController = async (req: Request, res: Response) => {
+    try {
+        const user_id = (req.user as User)?.id;
 
+        if (!user_id) {
+            return res.status(401).json({ message: "User not authorized" });
+        }
+
+        const bookings = await bookingService.findBookingsByUserId(user_id);
+
+        return res.status(200).json(bookings);
+    } catch (error) {
+        console.error("Error retrieving user bookings:", error);
+        return res.status(500).json({ message: "Error retrieving your bookings" });
+    }
+};
 
 export const getBookingById = async (req: Request, res: Response) => {
     try{
