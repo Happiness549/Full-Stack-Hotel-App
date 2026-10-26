@@ -11,6 +11,8 @@ import {Profile} from './pages/Profile'
 import { Bookings } from './pages/Booking'
 import {BookingPage} from "./pages/BookingPage";
 import MyBookings from "./pages/MyBookings";
+import { PaymentSuccess } from "./pages/PaymentSuccess";
+import { PaymentCancel } from "./pages/PaymentCancel";
 
 function App() {
  
@@ -29,6 +31,8 @@ function App() {
       <Route path="/bookings" element={<Bookings />} />
       <Route path="/booking" element={<BookingPage />} />
       <Route path="/my-bookings" element={<MyBookings />} />
+      <Route path="/payment/success" element={<PaymentSuccess />} />
+      <Route path="/payment/cancel" element={<PaymentCancel />} />
     </Routes>  
     </BrowserRouter>
       

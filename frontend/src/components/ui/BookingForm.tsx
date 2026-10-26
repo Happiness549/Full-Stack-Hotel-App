@@ -6,6 +6,7 @@ import type { RootState } from "../../store";
 import { useDispatch } from "react-redux";
 import type { AppDispatch } from "../../store";
 import { addBooking } from "../../redux/BookingSlice";
+import { createPayment } from "../../redux/PaymentSlice";
 
 interface BookingFormProps {
   room: Room;
@@ -46,22 +47,42 @@ export const BookingForm = ({ room }: BookingFormProps) => {
   }
 
     try {
-      await dispatch(
-        addBooking({
-          userId: userData.id,
-          roomId: room.id,
-          bookingData: {
-            checkin,
-            checkout,
-            guests,
-            room_booked,
-            total_price,
-          },
-          token,
-        })
-      ).unwrap();
+     const result = await dispatch(
+      addBooking({
+        userId: userData.id,
+        roomId: room.id,
+        bookingData: {
+          checkin,
+          checkout,
+          guests,
+          room_booked,
+          total_price,
+        },
+        token,
+      })
+    ).unwrap();
 
-      alert("Booking created successfully!");
+    const bookingId = result.booking.id;
+    const paymentResult = await dispatch(
+      createPayment({ bookingId, token })
+    ).unwrap();
+
+    const form = document.createElement("form");
+    form.method = "POST";
+    form.action = paymentResult.payfastUrl;
+
+    Object.entries(paymentResult.payfastFields).forEach(([key, value]) => {
+      const input = document.createElement("input");
+      input.type = "hidden";
+      input.name = key;
+      input.value = value;
+      form.appendChild(input);
+    });
+
+    document.body.appendChild(form);
+    form.submit();
+
+    alert(`Booking created successfully! Booking ID: ${bookingId}`);
     } catch (error) {
       alert(typeof error === "string" ? error : "Booking failed");
     }

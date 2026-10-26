@@ -9,7 +9,7 @@ import RoomSlice from "./redux/RoomSlice";
 import favouriteSlice from './redux/FavouritesSlice'
 import reviewSlice from './redux/ReviewSlice'
 import bookingReducer from './redux/BookingSlice'
-
+import paymentReducer from './redux/PaymentSlice'
 
 
 const store = configureStore({
@@ -23,6 +23,7 @@ const store = configureStore({
         favourites: favouriteSlice,
         reviews: reviewSlice,
         bookings: bookingReducer,
+        payment: paymentReducer,
 
      
     },
