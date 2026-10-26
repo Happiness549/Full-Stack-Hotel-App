@@ -55,6 +55,41 @@ export const fetchBookings = createAsyncThunk<Booking[], void,
   }
 });
 
+
+export const updateBookingStatus = createAsyncThunk(
+  "bookings/updateBookingStatus",
+  async (
+    { id, status }: { id: number; status: BookingStatus },
+    { getState, rejectWithValue }
+  ) => {
+    const token = (getState() as RootState).login.token;
+
+    try {
+      const response = await fetch(`${API_URL}/${id}`, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({ status }),
+      });
+
+      if (!response.ok) {
+        const data = await response.json();
+        throw new Error(data.message || "Failed to update booking");
+      }
+
+      const data = await response.json();
+      return data.booking as Booking;
+    } catch (error) {
+      return rejectWithValue(
+        error instanceof Error ? error.message : "Something went wrong"
+      );
+    }
+  }
+);
+
+
 const bookingSlice = createSlice({
   name: "bookings",
   initialState,
