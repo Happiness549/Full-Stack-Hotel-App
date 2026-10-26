@@ -56,6 +56,40 @@ export const fetchBookings = createAsyncThunk<Booking[], void,
 });
 
 
+export const addBooking = createAsyncThunk(
+  "bookings/addBooking",
+  async (
+    {userId,roomId,bookingData,token,}: {userId: number; roomId: number; bookingData: 
+      {checkin: string;checkout: string;guests: number;room_booked: number;total_price: number;};
+      token: string;
+    },{ rejectWithValue }) => {
+    try {
+      const response = await fetch(
+        `https://full-stack-hotel-app.onrender.com/api/bookings/${userId}/room/${roomId}`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify(bookingData),
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error("Failed to add booking");
+      }
+
+      return await response.json();
+    } catch (error) {
+      return rejectWithValue(
+        error instanceof Error ? error.message : "Failed to add booking"
+      );
+    }
+  }
+);
+
+
 export const updateBookingStatus = createAsyncThunk(
   "bookings/updateBookingStatus",
   async (
@@ -90,6 +124,7 @@ export const updateBookingStatus = createAsyncThunk(
 );
 
 
+
 const bookingSlice = createSlice({
   name: "bookings",
   initialState,
@@ -107,6 +142,18 @@ const bookingSlice = createSlice({
       .addCase(fetchBookings.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload ?? "Failed to fetch bookings";
+      })
+      .addCase(addBooking.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(addBooking.fulfilled, (state, action) => {
+        state.loading = false;
+        state.bookings.push(action.payload);
+      })
+      .addCase(addBooking.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload as string;
       });
   },
 });

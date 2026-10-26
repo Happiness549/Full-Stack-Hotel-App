@@ -11,6 +11,7 @@ import reviewSlice from './redux/ReviewSlice'
 import bookingReducer from './redux/BookingSlice'
 
 
+
 const store = configureStore({
     reducer: {
         user: RegisterReducer,
@@ -22,6 +23,7 @@ const store = configureStore({
         favourites: favouriteSlice,
         reviews: reviewSlice,
         bookings: bookingReducer,
+
      
     },
      

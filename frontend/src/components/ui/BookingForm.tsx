@@ -3,12 +3,16 @@ import type { Room } from "../../redux/RoomSlice";
 import { useState } from "react";
 import { useSelector } from "react-redux";
 import type { RootState } from "../../store";
+import { useDispatch } from "react-redux";
+import type { AppDispatch } from "../../store";
+import { addBooking } from "../../redux/BookingSlice";
 
 interface BookingFormProps {
   room: Room;
 }
 
 export const BookingForm = ({ room }: BookingFormProps) => {
+  const dispatch = useDispatch<AppDispatch>();
     const userData = useSelector((state: RootState) => state.login.userData);
     const token = useSelector((state: RootState) => state.login.token);
 
@@ -29,48 +33,39 @@ export const BookingForm = ({ room }: BookingFormProps) => {
 
     
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-      e.preventDefault();
+  e.preventDefault();
 
-      const token = localStorage.getItem("token");
+  if (!userData?.id || !token) {
+    alert("Please log in before booking");
+    return;
+  }
 
-        if (!userData?.id || !token) {
-        alert("Please log in before booking");
-        return;
-        }
+  if (nights <= 0) {
+    alert("Please select valid check-in and check-out dates");
+    return;
+  }
 
-        if (nights <= 0) {
-        alert("Please select valid check-in and check-out dates");
-        return;
-        }
+    try {
+      await dispatch(
+        addBooking({
+          userId: userData.id,
+          roomId: room.id,
+          bookingData: {
+            checkin,
+            checkout,
+            guests,
+            room_booked,
+            total_price,
+          },
+          token,
+        })
+      ).unwrap();
 
-        try {
-        const response = await fetch(
-            `https://full-stack-hotel-app.onrender.com/api/bookings/${userData.id}/room/${room.id}`,
-            {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-                Authorization: `Bearer ${token}`,
-            },
-            body: JSON.stringify({checkin, checkout, guests, room_booked, total_price,}),
-            }
-        );
-
-        const data = await response.json();
-
-        if (!response.ok) {
-            alert(data.message || "Booking failed");
-            return;
-        }
-
-            alert("Booking created successfully!");
-            } catch (error) {
-            alert("Unable to create booking. Please try again.");
-        }
-
-    };
-
-
+      alert("Booking created successfully!");
+    } catch (error) {
+      alert(typeof error === "string" ? error : "Booking failed");
+    }
+};
 
   
 return (
