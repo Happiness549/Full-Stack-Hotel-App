@@ -84,8 +84,9 @@ export const addFavourite = createAsyncThunk<
       });
 
       if (!response.ok) {
-        throw new Error("Failed to add favourite");
-      }
+  const errorData = await response.json();
+  throw new Error(errorData.message || "Failed to add favourite");
+}
 
       const data = await response.json();
 

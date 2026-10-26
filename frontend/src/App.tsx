@@ -8,6 +8,7 @@ import HotelDetails from "./pages/HotelDetail";
 import {Home} from './pages/Home'
 import { Favourites } from './pages/Favourites'
 import {Profile} from './pages/Profile'
+import { Bookings } from './pages/Booking'
 
 function App() {
  
@@ -23,6 +24,7 @@ function App() {
       <Route path="/home" element={<Home />} />
       <Route path="/favourites" element={<Favourites />} />
       <Route path="/profile" element={<Profile />} />
+       <Route path="/bookings" element={<Bookings />} />
     </Routes>  
     </BrowserRouter>
       
