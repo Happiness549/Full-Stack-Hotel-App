@@ -58,6 +58,42 @@ export const getBookingById = async (req: Request, res: Response) => {
     }
 };
 
+
+export const updateBookingController = async (req: Request, res: Response) => {
+  try {
+    const id = Number(req.params.id);
+    const { status } = req.body;
+
+    const allowedStatuses = ["Pending", "Confirmed", "Cancelled"];
+
+    if (!allowedStatuses.includes(status)) {
+      return res.status(400).json({
+        message: "Invalid booking status",
+      });
+    }
+
+    const booking = await bookingService.updateBookingStatus(id, status);
+
+    if (!booking) {
+      return res.status(404).json({
+        message: "Booking not found",
+      });
+    }
+
+    return res.status(200).json({
+      message: "Booking status updated successfully",
+      booking,
+    });
+  } catch (error) {
+    console.error("Error updating booking:", error);
+
+    return res.status(500).json({
+      message: "Error updating booking status",
+    });
+  }
+};
+
+
 export const deleteBookingController = async (req: Request, res: Response) => {
     try {
         const id = parseInt(String(req.params.id));

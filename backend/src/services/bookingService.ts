@@ -47,6 +47,21 @@ export const findBookingById = async (id: number): Promise<Booking | null> => {
 };
 
 
+
+export const updateBookingStatus = async (id: number, status: string) => {
+  const result = await query(
+    `UPDATE bookings
+     SET status = $1, updated_at = CURRENT_TIMESTAMP
+     WHERE id = $2
+     RETURNING *`,
+    [status, id]
+  );
+
+  return result[0] || null;
+};
+
+
+
 export const deleteBooking = async (id: number): Promise<Booking | null> => {
     const result = await query(
         `DELETE FROM bookings
