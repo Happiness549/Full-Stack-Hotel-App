@@ -5,15 +5,21 @@ import { useEffect } from "react";
 import { fetchRooms } from "../../redux/RoomSlice";
 import { selectRoom } from "../../redux/RoomSlice";
 import {Text} from './Text'
+import { useNavigate } from "react-router-dom";
+import type{ Hotel } from "../../redux/HotelSlice";
 
 
 interface RoomsProps {
   hotelId: number;
+   hotel: Hotel;
+  
 }
-export const Room = ({ hotelId }: RoomsProps) => {
+export const Room = ({ hotelId, hotel }: RoomsProps) => {
 const dispatch = useDispatch<AppDispatch>();
+const navigate = useNavigate();
 const { rooms, loading, error, selectedRoom, isRoomModalOpen } =useSelector((state: RootState) => state.rooms);
 const hotelRooms = rooms.filter((room) => room.hotel_id === hotelId);
+
 
 useEffect(() => {
   dispatch(fetchRooms());
@@ -70,7 +76,14 @@ useEffect(() => {
                 </td>
 
                 <td className="px-5 py-4">
-                <button className="rounded-lg bg-[#7E9E85] px-4 py-2 text-white hover:bg-[#64866D]">
+                <button
+                    onClick={() =>
+                        navigate("/booking", {
+                            state: {room, hotel, },
+                            })
+                    }
+                    className="rounded-lg bg-[#7E9E85] px-4 py-2 text-white hover:bg-[#64866D]"
+                    >
                     Reserve
                 </button>
                 </td>

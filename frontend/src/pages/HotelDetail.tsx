@@ -91,7 +91,7 @@ const HotelDetails = () => {
   </div>
 </section>
   </div>
-  <Room hotelId={hotel.id} />
+  <Room hotelId={hotel.id} hotel={hotel}/>
   <Reviews hotelId={hotel.id} />
  
 </div>

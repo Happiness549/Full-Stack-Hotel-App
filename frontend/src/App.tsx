@@ -9,6 +9,7 @@ import {Home} from './pages/Home'
 import { Favourites } from './pages/Favourites'
 import {Profile} from './pages/Profile'
 import { Bookings } from './pages/Booking'
+import {BookingPage} from "./pages/BookingPage";
 
 function App() {
  
@@ -24,7 +25,8 @@ function App() {
       <Route path="/home" element={<Home />} />
       <Route path="/favourites" element={<Favourites />} />
       <Route path="/profile" element={<Profile />} />
-       <Route path="/bookings" element={<Bookings />} />
+      <Route path="/bookings" element={<Bookings />} />
+      <Route path="/booking" element={<BookingPage />} />
     </Routes>  
     </BrowserRouter>
       
