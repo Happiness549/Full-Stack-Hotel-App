@@ -31,26 +31,29 @@ export const checkRoomAvailability = async (room_id: number, check_in: Date, che
 };
 
 export const findAllBookings = async () => {
-    const results = await query(
-        `SELECT
-            bookings.id,
-            bookings.user_id,
-            users.name AS guest_name,
-            users.surname AS guest_surname,
-            hotels.name AS hotel_name,
-            bookings.check_in,
-            bookings.check_out,
-            bookings.status
-        FROM bookings
-        JOIN users ON bookings.user_id = users.id
-        JOIN rooms ON bookings.room_id = rooms.id
-        JOIN hotels ON rooms.hotel_id = hotels.id
-        ORDER BY bookings.id DESC`
-    );
+  const results = await query(
+    `SELECT
+      bookings.id,
+      bookings.user_id,
+      bookings.room_id,
+      bookings.guests,
+      bookings.rooms_booked,
+      bookings.total_price,
+      bookings.status,
+      bookings.check_in,
+      bookings.check_out,
+      users.name AS guest_name,
+      users.surname AS guest_surname,
+      hotels.name AS hotel_name
+    FROM bookings
+    JOIN users ON bookings.user_id = users.id
+    JOIN rooms ON bookings.room_id = rooms.id
+    JOIN hotels ON rooms.hotel_id = hotels.id
+    ORDER BY bookings.id DESC`
+  );
 
-    return results;
+  return results;
 };
-
 export const findBookingsByUserId = async (user_id: number): Promise<Booking[]> => {
     const results = await query(
         "SELECT * FROM bookings WHERE user_id = $1 ORDER BY id DESC",

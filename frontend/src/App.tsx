@@ -13,7 +13,7 @@ import {BookingPage} from "./pages/BookingPage";
 import MyBookings from "./pages/MyBookings";
 import { PaymentSuccess } from "./pages/PaymentSuccess";
 import { PaymentCancel } from "./pages/PaymentCancel";
-
+import AdminHotels from './pages/AdminHotels'
 function App() {
  
   return (
@@ -33,6 +33,7 @@ function App() {
       <Route path="/my-bookings" element={<MyBookings />} />
       <Route path="/payment/success" element={<PaymentSuccess />} />
       <Route path="/payment/cancel" element={<PaymentCancel />} />
+      <Route path="/adminHotels" element={<AdminHotels />} />
     </Routes>  
     </BrowserRouter>
       

@@ -1,95 +1,137 @@
+
 import { Button } from '../components/ui/Button'
-import {Text} from '../components/ui/Text'
+import { Text } from '../components/ui/Text'
 import { Sidebar } from '../components/ui/Sidebar'
 import { HotelForm } from '../components/ui/HotelForm'
-import {RoomForm} from '../components/ui/RoomForm'
+import { RoomForm } from '../components/ui/RoomForm'
 import { openHotelModal } from '../redux/HotelSlice'
-import {openRoomsModal} from '../redux/RoomSlice'
+import { openRoomsModal } from '../redux/RoomSlice'
 import { useDispatch } from 'react-redux'
+import { useEffect } from 'react'
+import { useSelector } from 'react-redux'
+import { fetchBookings } from '../redux/BookingSlice'
+import type { RootState } from '../store'
 import type { AppDispatch } from '../store'
 
 export const Admin = () => {
   const dispatch = useDispatch<AppDispatch>()
+
+  const { bookings, loading, error } = useSelector((state: RootState) => state.bookings)
+
+useEffect(() => {
+  dispatch(fetchBookings())
+}, [dispatch])
 
   return (
     <div className="flex min-h-screen bg-white">
       <Sidebar />
 
       <main className="min-w-0 flex-1">
-    
-      <header className="flex min-h-20 items-center justify-between gap-4 bg-white border-b border-[#7E9E85]/30 px-6 py-4 md:px-10">
-        <div>
-            <Text variant={'h1'} className="text-2xl font-semibold text-[#42694D]">Admin Dashboard</Text>
-            <Text variant={'p'} className="mt-1 text-sm text-gray-600">Manage your hotel and reservations</Text>
-        </div>
+        <header className="flex items-center justify-between border-b px-8 py-5">
+          <div>
+            <Text variant="h1" className="text-2xl font-semibold text-[#42694D]">
+              Admin Dashboard
+            </Text>
+            <Text variant="p" className="mt-1 text-sm text-gray-500">
+              Manage booked users, hotels and rooms.
+            </Text>
+          </div>
 
-        <Button  text={"Logout"} className="rounded-lg bg-[#7E9E85] px-5 py-2.5 font-medium text-white transition hover:bg-[#64866D]"
-        />
-      </header>
+          <Button
+            text="Logout"
+            className="rounded-lg bg-[#7E9E85] px-5 py-2 text-white"
+          />
+        </header>
 
-        <div className="space-y-8 bg-white p-6 md:p-10">
-          {/* Booked Users */}
-          <section className="rounded-2xl border border-[#7E9E85]/40 bg-white p-6 shadow-sm md:p-8">
-            <Text variant={'h2'} className="text-xl font-semibold text-[#42694D]"> Booked Users</Text>
-            <Text variant={'p'} className="mt-1 text-sm text-[#42694D]">View guests who have booked a stay at your hotel.</Text>
+        <div className="space-y-10 p-8">
+          <section>
+            <Text variant="h2" className="mb-4 text-xl font-semibold text-[#42694D]">
+              Booked Users
+            </Text>
 
-            <div className="mt-6 overflow-x-auto rounded-xl border border-[#7E9E85]/30">
-              <table className="w-full min-w-[600px] text-left">
-                <thead>
-                  <tr className="bg-[#7E9E85] text-sm text-white">
-                    <th className="px-4 py-4 font-medium">Guest</th>
-                    <th className="px-4 py-4 font-medium">Hotel</th>
-                    <th className="px-4 py-4 font-medium">Check-in</th>
-                    <th className="px-4 py-4 font-medium">Check-out</th>
-                    <th className="px-4 py-4 font-medium">Status</th>
-                  </tr>
-                </thead>
+            <table className="w-full text-left">
+              <thead className="border-b bg-[#7E9E85] text-white">
+                <tr>
+                  <th className="p-3 font-medium">Guest</th>
+                  <th className="p-3 font-medium">Hotel</th>
+                  <th className="p-3 font-medium">Check-in</th>
+                  <th className="p-3 font-medium">Check-out</th>
+                  <th className="p-3 font-medium">Status</th>
+                </tr>
+              </thead>
 
-                <tbody>
-                  <tr className="bg-white">
-                    <td colSpan={5} className="px-4 py-12 text-center">
-                      <p className="font-medium text-[#42694D]">
-                        No bookings to display yet
-                      </p>
-                      <p className="mt-1 text-sm text-[#7E9E85]">
-                        Guest reservations will appear here.
-                      </p>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
+              <tbody>
+              {loading && (
+                <tr>
+                  <td colSpan={5} className="p-8 text-center text-gray-500">
+                    Loading booked users...
+                  </td>
+                </tr>
+              )}
+
+              {error && !loading && (
+                <tr>
+                  <td colSpan={5} className="p-8 text-center text-red-500">
+                    {error}
+                  </td>
+                </tr>
+              )}
+
+              {!loading && !error && bookings.map((booking) => (
+                <tr key={booking.id} className="border-b">
+                  <td className="p-3">
+                    {booking.guest_name} {booking.guest_surname}
+                  </td>
+                  <td className="p-3">{booking.hotel_name}</td>
+                  <td className="p-3">
+                    {new Date(booking.check_in).toLocaleDateString()}
+                  </td>
+                  <td className="p-3">
+                    {new Date(booking.check_out).toLocaleDateString()}
+                  </td>
+                  <td className="p-3 capitalize">{booking.status}</td>
+                </tr>
+              ))}
+
+              {!loading && !error && bookings.length === 0 && (
+                <tr>
+                  <td colSpan={5} className="p-8 text-center text-sm text-gray-500">
+                    No booked users to display yet.
+                  </td>
+                </tr>
+              )}
+            </tbody>
+            </table>
           </section>
 
           
-          <section className="rounded-2xl border border-[#7E9E85]/40 bg-white p-6 shadow-sm md:p-8">
-            <div className="flex flex-col justify-between gap-4 sm:flex-row sm:items-center">
-              <div>
-                <Text variant={'h2'} className="text-xl font-semibold text-[#42694D]">Hotel Management</Text>
-                <Text variant={'p'} className="mt-1 text-sm text-[#42694D]">Add and manage your accommodation listings.</Text>
-              </div>
 
-              <Button
-                text="Add New Hotel"
-                className="rounded-xl bg-[#7E9E85] px-6 py-3 font-medium text-white transition hover:bg-[#64866D]"
-                id="openModalBtn"
-                onClick={() => dispatch(openHotelModal())}
-              />
+          <section>
+            <Text variant="h2" className="mb-4 text-xl font-semibold text-[#42694D]">
+              Manage Hotels
+            </Text>
 
-              <Button
-                text="Add New Hotel"
-                className="rounded-xl bg-[#7E9E85] px-6 py-3 font-medium text-white transition hover:bg-[#64866D]"
-                id="openRoomModalBtn"
-                onClick={() => dispatch(openRoomsModal())}
-              />
-            </div>
+            <Button
+              text="Add Hotel"
+              className="mr-3 rounded-lg bg-[#7E9E85] px-5 py-2 text-white"
+              onClick={() => dispatch(openHotelModal())}
+            />
 
-            <div className="mt-6 border-t border-[#7E9E85]/30 pt-6">
-              <HotelForm />
-            </div>
-             <div className="mt-6 border-t border-[#7E9E85]/30 pt-6">
-              <RoomForm />
-            </div>
+            <HotelForm />
+          </section>
+
+          <section>
+            <Text variant="h2" className="mb-4 text-xl font-semibold text-[#42694D]">
+              Manage Rooms
+            </Text>
+
+            <Button
+              text="Add Room"
+              className="rounded-lg bg-[#7E9E85] px-5 py-2 text-white"
+              onClick={() => dispatch(openRoomsModal())}
+            />
+
+            <RoomForm />
           </section>
         </div>
       </main>

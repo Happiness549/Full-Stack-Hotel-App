@@ -23,7 +23,7 @@ export const Sidebar = () => {
 
             
         <div className='flex flex-col ml-7 gap-10 mt-20 '>
-            <Link to='/Home'>
+            <Link to='/adminHotels'>
              <Text variant={'p'} className='text-white '>Accomodation</Text>
             </Link>
 

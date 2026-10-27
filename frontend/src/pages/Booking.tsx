@@ -1,8 +1,9 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import type { AppDispatch, RootState } from "../store";
-import { fetchBookings } from "../redux/BookingSlice";
+import { fetchBookings, updateBookingStatus } from "../redux/BookingSlice";
 import { Text } from "../components/ui/Text";
+import type { BookingStatus } from "../redux/BookingSlice";
 
 export const Bookings = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -11,6 +12,10 @@ export const Bookings = () => {
   useEffect(() => {
     dispatch(fetchBookings());
   }, [dispatch]);
+
+  const handleStatusChange = (id: number, status: BookingStatus) => {
+    dispatch(updateBookingStatus({ id, status }));
+  };
 
   if (loading) {
     return <Text variant={'p'}>Loading bookings...</Text>;
@@ -49,7 +54,22 @@ export const Bookings = () => {
                 <td className="p-3">
                   R {Number(booking.total_price).toFixed(2)}
                 </td>
-                <td className="p-3 capitalize">{booking.status}</td>
+                <td className="p-3">
+                <select
+                  value={booking.status}
+                  onChange={(e) =>
+                    handleStatusChange(
+                      booking.id,
+                      e.target.value as BookingStatus
+                    )
+                  }
+                  className="rounded border border-gray-300 p-2"
+                >
+                  <option value="pending">Pending</option>
+                  <option value="confirmed">Confirmed</option>
+                  <option value="cancelled">Cancelled</option>
+                </select>
+              </td>
               </tr>
             ))}
 

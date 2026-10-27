@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Input } from "../ui/Input";
 import { useDispatch } from "react-redux";
 import { Button } from "../ui/Button";
-import {addHotel, updateListItem, clearEditHotel} from "../../redux/HotelSlice";
+import {addHotel, updateHotel, clearEditHotel} from "../../redux/HotelSlice";
 import {uploadHotelImage} from '../../redux/ImageSlice'
 import type { AppDispatch } from "../../store";
 import { useSelector } from "react-redux";
@@ -67,7 +67,7 @@ const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
   try {
     if (editingList) {
       await dispatch(
-        updateListItem({
+        updateHotel({
           ...editingList,
           name: form.name,
           star_rating: form.star_rating,
@@ -117,7 +117,6 @@ const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
   } catch (error) {
     console.error("Error saving hotel:", error);
   };
-  dispatch(clearEditHotel());
 };
 
 

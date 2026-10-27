@@ -13,6 +13,11 @@ export interface Booking {
   rooms_booked: number;
   total_price: number;
   status: BookingStatus;
+  guest_name: string;
+  guest_surname: string;
+  hotel_name: string;
+  check_in: string;
+  check_out: string;
 }
 
 interface BookingState {
