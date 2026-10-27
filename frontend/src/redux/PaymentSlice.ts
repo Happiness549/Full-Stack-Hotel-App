@@ -15,7 +15,7 @@ interface Payment {
 interface PaymentState {
     loading: boolean;
     error: string | null;
-    checkout: PayFastResponse | null;
+    checkout: PaystackResponse | null;
 }
 
 const initialState: PaymentState = {
@@ -27,16 +27,16 @@ const initialState: PaymentState = {
 
 
 
-interface PayFastResponse {
+interface PaystackResponse {
     message: string;
     payment: Payment;
-    payfastUrl: string;
-    payfastFields: Record<string, string>;
+    paystackUrl: string;
+    reference: string;
 }
 
 
     export const createPayment = createAsyncThunk<
-        PayFastResponse,
+        PaystackResponse,
         { bookingId: number; token: string },
         { rejectValue: string }
     >(
@@ -62,7 +62,7 @@ interface PayFastResponse {
                     );
                 }
 
-                return data as PayFastResponse;
+                return data as PaystackResponse;
             } catch {
                 return rejectWithValue("Something went wrong");
             }

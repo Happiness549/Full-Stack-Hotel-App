@@ -34,6 +34,7 @@ export const BookingForm = ({ room }: BookingFormProps) => {
 
     
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+       console.log("HandleSubmit is running");
   e.preventDefault();
 
   if (!userData?.id || !token) {
@@ -63,26 +64,13 @@ export const BookingForm = ({ room }: BookingFormProps) => {
     ).unwrap();
 
     const bookingId = result.booking.id;
+    
     const paymentResult = await dispatch(
       createPayment({ bookingId, token })
     ).unwrap();
+    
 
-    const form = document.createElement("form");
-    form.method = "POST";
-    form.action = paymentResult.payfastUrl;
-
-    Object.entries(paymentResult.payfastFields).forEach(([key, value]) => {
-      const input = document.createElement("input");
-      input.type = "hidden";
-      input.name = key;
-      input.value = value;
-      form.appendChild(input);
-    });
-
-    document.body.appendChild(form);
-    form.submit();
-
-    alert(`Booking created successfully! Booking ID: ${bookingId}`);
+    window.location.href = paymentResult.paystackUrl;
     } catch (error) {
       alert(typeof error === "string" ? error : "Booking failed");
     }

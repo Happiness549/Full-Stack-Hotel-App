@@ -14,13 +14,14 @@ const primaryImage = images.find(
   (image) => image.hotel_id === hotel.id && image.is_primary
 );
 
+ if (!room || !hotel) {
+  return <p>Hotel or room not found. Please select a room again.</p>;
+}
 const hotelImage =
   primaryImage?.image_url ||
   images.find((image) => image.hotel_id === hotel.id)?.image_url;
 
-  if (!room || !hotel) {
-  return <p>Hotel or room not found. Please select a room again.</p>;
-}
+ 
 
   
 return (

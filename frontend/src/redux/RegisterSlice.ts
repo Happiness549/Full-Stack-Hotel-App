@@ -56,7 +56,7 @@ export const AuthRegistration = createAsyncThunk('auth/registration',
             body: JSON.stringify(newUser),
         });
         if(!response.ok){
-            throw new Error("failed to add list")
+            throw new Error("failed to register user")
         }
 
         const userData = await response.json();
