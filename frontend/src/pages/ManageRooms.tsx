@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import type { AppDispatch, RootState } from "../store";
 import { fetchRooms, deleteRoom, selectRoom } from "../redux/RoomSlice";
 import { Text } from "../components/ui/Text";
+import { RoomForm } from "../components/ui/RoomForm";
 
 
 
@@ -89,6 +90,7 @@ if (error) {
           )}
         </tbody>
       </table>
+      <RoomForm />
     </div>
   </div>
 );

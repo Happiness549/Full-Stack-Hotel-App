@@ -98,7 +98,7 @@ export const updateRooms = createAsyncThunk(
       const response = await fetch(
         `https://full-stack-hotel-app.onrender.com/api/hotels/${updatedRoom.hotel_id}/rooms/${updatedRoom.id}`,
         {
-          method: "PATCH",
+          method: "PUT",
           headers: {
             "Content-Type": "application/json",
           },

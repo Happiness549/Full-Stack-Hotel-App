@@ -104,22 +104,6 @@ useEffect(() => {
             </table>
           </section>
 
-          
-
-          <section>
-            <Text variant="h2" className="mb-4 text-xl font-semibold text-[#42694D]">
-              Manage Hotels
-            </Text>
-
-            <Button
-              text="Add Hotel"
-              className="mr-3 rounded-lg bg-[#7E9E85] px-5 py-2 text-white"
-              onClick={() => dispatch(openHotelModal())}
-            />
-
-            <HotelForm />
-          </section>
-
           <section>
             <Text variant="h2" className="mb-4 text-xl font-semibold text-[#42694D]">
               Manage Rooms
