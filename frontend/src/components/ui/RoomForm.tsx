@@ -9,8 +9,6 @@ export const RoomForm = () => {
   const dispatch = useDispatch<AppDispatch>();
   const { isRoomModalOpen, selectedRoom } = useSelector((state: RootState) => state.rooms);
 
-  if (!isRoomModalOpen) return null;
-
   const [formData, setFormData] = useState({
     hotel_id: 0,
     room_type: "",
@@ -63,20 +61,25 @@ export const RoomForm = () => {
     }));
   };
 
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+  e.preventDefault();
 
-    if (selectedRoom) {
-      dispatch(
-        updateRooms({
-          ...formData,
-          id: selectedRoom.id,
-        })
-      );
-    } else {
-      dispatch(addRoom(formData));
-    }
-  };
+  if (selectedRoom) {
+    await dispatch(
+      updateRooms({
+        ...formData,
+        id: selectedRoom.id,
+      })
+    ).unwrap();
+
+    dispatch(closeRoomModal());
+  } else {
+    await dispatch(addRoom(formData)).unwrap();
+    dispatch(closeRoomModal());
+  }
+};
+
+    if (!isRoomModalOpen) return null;
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">

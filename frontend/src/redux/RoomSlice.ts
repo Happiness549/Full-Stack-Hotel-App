@@ -183,9 +183,14 @@ const RoomSlice = createSlice({
     setRoomsModal: (state, action: PayloadAction<boolean>) => {
       state.isRoomsModalOpen = action.payload;
     },
-
-
-    
+    startEditRoom: (state, action: PayloadAction<Room>) => {
+          state.editingRooms =action.payload;
+          state.isRoomModalOpen = true; 
+        },
+        clearEditRoom: (state) => {
+          state.editingRooms = null;
+          state.isRoomModalOpen =false;
+        },  
   },
   extraReducers: (builder) => {
   builder
@@ -244,7 +249,7 @@ const RoomSlice = createSlice({
 
 
 
-export const { openRoomModal, closeRoomModal, selectRoom, openRoomsModal, closeRoomsModal, setRoomsModal } = RoomSlice.actions;
+export const { openRoomModal, closeRoomModal, selectRoom, openRoomsModal, closeRoomsModal, setRoomsModal, startEditRoom, clearEditRoom } = RoomSlice.actions;
 
 export default RoomSlice.reducer;
 

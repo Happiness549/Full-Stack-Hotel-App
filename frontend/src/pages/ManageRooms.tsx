@@ -1,8 +1,9 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import type { AppDispatch, RootState } from "../store";
-import { fetchRooms, deleteRoom } from "../redux/RoomSlice";
+import { fetchRooms, deleteRoom, selectRoom } from "../redux/RoomSlice";
 import { Text } from "../components/ui/Text";
+
 
 
 
@@ -62,11 +63,12 @@ if (error) {
               <td className="p-3">{room.quantity}</td>
               <td className="p-3">
                 <button
-                    onClick={() => console.log("Edit room:", room.id)}
+                    onClick={() => dispatch(selectRoom(room))}
                     className="mr-2 rounded bg-green-700 px-3 py-1 text-white"
                     >
                 Edit
                 </button>
+
 
                 <button
                     onClick={() => handleDelete(room.id, room.hotel_id)}
