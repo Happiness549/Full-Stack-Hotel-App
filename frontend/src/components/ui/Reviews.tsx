@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { Text } from "./Text";
 import { useDispatch, useSelector } from "react-redux";
 import type { AppDispatch, RootState } from "../../store";
+import { ReviewForm } from "./ReviewForm";
 
 interface ReviewsProps {
   hotelId: number;
@@ -11,6 +12,7 @@ interface ReviewsProps {
 
 export const Reviews = ({ hotelId }: ReviewsProps) => {
   const reviews = useSelector((state: RootState) => state.reviews.reviews);
+  const user = useSelector((state: RootState) => state.login.userData);
   const [currentReview, setCurrentReview] = useState(0);
   const dispatch = useDispatch<AppDispatch>();
 
@@ -88,6 +90,7 @@ export const Reviews = ({ hotelId }: ReviewsProps) => {
           </button>
         </div>
       </section>
+      <ReviewForm hotelId={hotelId}/>
     </div>
   );
 };
