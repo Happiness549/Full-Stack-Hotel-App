@@ -2,21 +2,25 @@
 import { Button } from '../components/ui/Button'
 import { Text } from '../components/ui/Text'
 import { Sidebar } from '../components/ui/Sidebar'
-import { HotelForm } from '../components/ui/HotelForm'
-import { RoomForm } from '../components/ui/RoomForm'
-import { openHotelModal } from '../redux/HotelSlice'
-import { openRoomsModal } from '../redux/RoomSlice'
 import { useDispatch } from 'react-redux'
 import { useEffect } from 'react'
 import { useSelector } from 'react-redux'
 import { fetchBookings } from '../redux/BookingSlice'
 import type { RootState } from '../store'
 import type { AppDispatch } from '../store'
+import { useNavigate } from 'react-router-dom';
+import { logout } from '../redux/LoginSlice';
 
 export const Admin = () => {
   const dispatch = useDispatch<AppDispatch>()
-
+  const navigate = useNavigate();
   const { bookings, loading, error } = useSelector((state: RootState) => state.bookings)
+
+  
+  const handleLogout = () => {
+    dispatch(logout());
+    navigate('/');
+  };
 
 useEffect(() => {
   dispatch(fetchBookings())
@@ -37,10 +41,11 @@ useEffect(() => {
             </Text>
           </div>
 
-          <Button
-            text="Logout"
-            className="rounded-lg bg-[#7E9E85] px-5 py-2 text-white"
-          />
+        <Button
+          text="Logout"
+          className="rounded-lg bg-[#7E9E85] px-5 py-2 text-white"
+          onClick={handleLogout}
+        />
         </header>
 
         <div className="space-y-10 p-8">
@@ -104,19 +109,7 @@ useEffect(() => {
             </table>
           </section>
 
-          <section>
-            <Text variant="h2" className="mb-4 text-xl font-semibold text-[#42694D]">
-              Manage Rooms
-            </Text>
-
-            <Button
-              text="Add Room"
-              className="rounded-lg bg-[#7E9E85] px-5 py-2 text-white"
-              onClick={() => dispatch(openRoomsModal())}
-            />
-
-            <RoomForm />
-          </section>
+          
         </div>
       </main>
     </div>

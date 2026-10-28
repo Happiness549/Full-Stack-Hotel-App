@@ -169,6 +169,7 @@ const RoomSlice = createSlice({
   initialState,
   reducers: {
     openRoomModal: (state) => {
+       state.selectedRoom = null;
       state.isRoomModalOpen = true;
     },
     closeRoomModal: (state) => {

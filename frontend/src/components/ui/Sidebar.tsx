@@ -1,21 +1,21 @@
 
 import {Text} from '../ui/Text'
 import { Link }from 'react-router-dom'
-// import { useDispatch } from "react-redux";
-// import type { AppDispatch } from "../../store";
-// import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import type { AppDispatch } from "../../store";
+import { useNavigate } from "react-router-dom";
 
 
 
 export const Sidebar = () => {
-    // const dispatch = useDispatch<AppDispatch>();
-    // const navigate = useNavigate();
+    const dispatch = useDispatch<AppDispatch>();
+    const navigate = useNavigate();
 
-    // const handleLogout = () => {
-    // // dispatch(logout());
+    const handleLogout = () => {
+    // dispatch(logout());
      
-    // navigate("/login");
-    // };
+    navigate("/login");
+    };
 
     return(
         
@@ -34,14 +34,13 @@ export const Sidebar = () => {
              <Text variant={'p'} className='text-white '>Rooms</Text>
             </Link>
            
-    
-           {/* <button onClick={handleLogout}className="text-[#001C44] hover:text-[#2D99AE] transition-colors  ">
-           <Text variant={'p'} className='text-white mr-25'>Logout</Text>
-           </button>  */}
-           
             <Link to='/Profile'>
             <Text variant={'p'} className='text-white'>Profile</Text>
            </Link>
+
+           <button onClick={handleLogout}className="text-[#001C44] hover:text-[#2D99AE] transition-colors  ">
+           <Text variant={'p'} className='text-white mr-25'>Logout</Text>
+           </button> 
            
 
         </div>

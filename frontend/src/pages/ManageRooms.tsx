@@ -4,8 +4,8 @@ import type { AppDispatch, RootState } from "../store";
 import { fetchRooms, deleteRoom, selectRoom } from "../redux/RoomSlice";
 import { Text } from "../components/ui/Text";
 import { RoomForm } from "../components/ui/RoomForm";
-
-
+import { Button } from "../components/ui/Button";
+import { openRoomModal } from "../redux/RoomSlice";
 
 
 export const ManageRooms = () => {
@@ -33,11 +33,22 @@ if (error) {
 
     return(
         <>
-        return (
+        
   <div className="p-6">
     <Text variant="h1" className="mb-6 text-2xl font-bold">
       Manage Rooms
     </Text>
+    <section>
+    <button
+              
+              className="rounded-lg bg-[#7E9E85] px-5 py-2 text-white"
+              onClick={() => dispatch(openRoomModal())}
+            >
+                Add Room
+                </button>
+
+        
+          </section>
 
     <div className="overflow-x-auto rounded-lg border border-gray-200">
       <table className="w-full text-left">
@@ -65,7 +76,7 @@ if (error) {
               <td className="p-3">
                 <button
                     onClick={() => dispatch(selectRoom(room))}
-                    className="mr-2 rounded bg-green-700 px-3 py-1 text-white"
+                    className="mr-2 rounded bg-[#7E9E85] px-3 py-1 text-white"
                     >
                 Edit
                 </button>
@@ -73,7 +84,7 @@ if (error) {
 
                 <button
                     onClick={() => handleDelete(room.id, room.hotel_id)}
-                    className="rounded bg-red-600 px-3 py-1 text-white"
+                    className="rounded bg-red-400 px-3 py-1 text-white"
                 >
                     Delete
                 </button>
@@ -93,7 +104,7 @@ if (error) {
       <RoomForm />
     </div>
   </div>
-);
+
         </>
     )
 }
