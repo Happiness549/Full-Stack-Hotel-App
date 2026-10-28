@@ -10,6 +10,7 @@ import favouriteSlice from './redux/FavouritesSlice'
 import reviewSlice from './redux/ReviewSlice'
 import bookingReducer from './redux/BookingSlice'
 import paymentReducer from './redux/PaymentSlice'
+import adminReducer from "./redux/AdminSLice";
 
 
 const store = configureStore({
@@ -24,6 +25,7 @@ const store = configureStore({
         reviews: reviewSlice,
         bookings: bookingReducer,
         payment: paymentReducer,
+        admin: adminReducer,
 
      
     },
