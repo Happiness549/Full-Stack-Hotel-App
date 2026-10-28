@@ -11,8 +11,8 @@ interface HotelListProps {
 }
 
 export const HotelList: React.FC<HotelListProps> = ({limit}) => {
-  const dispatch = useDispatch<AppDispatch>();
-  const [searchParams, setSearchParams] = useSearchParams();
+ const dispatch = useDispatch<AppDispatch>();
+  const [searchParams] = useSearchParams();
 
   const hotels = useSelector((state: RootState) => state.hotels.hotels);
   const query = useSelector((state: RootState) => state.search.searchTerm);
@@ -22,43 +22,29 @@ export const HotelList: React.FC<HotelListProps> = ({limit}) => {
     dispatch(fetchHotels());
   }, [dispatch]);
 
-  // Update URL when the search changes
-  useEffect(() => {
-    const params = new URLSearchParams(searchParams);
-
-    if (query.trim()) {
-      params.set('category', query.trim());
-    } else {
-      params.delete('category');
-    }
-
-    setSearchParams(params);
-  }, [query]);
-
-  // Update search when the URL changes
+  // Update search from the URL
   useEffect(() => {
     const categoryUrl = searchParams.get('category') || '';
+    dispatch(setSearchTerm(categoryUrl));
+  }, [searchParams, dispatch]);
 
-    if (categoryUrl !== query) {
-      dispatch(setSearchTerm(categoryUrl));
+  // Filter hotels by name or city
+  const filteredLists = useMemo(() => {
+    let result = [...hotels];
+
+    if (query.trim()) {
+      const lowerQuery = query.trim().toLowerCase();
+
+      result = result.filter(
+        (hotel) =>
+          hotel.name.toLowerCase().includes(lowerQuery) ||
+          hotel.city.toLowerCase().includes(lowerQuery)
+      );
     }
-  }, [searchParams, query, dispatch]);
 
-const filteredLists = useMemo(() => {
-  let result = [...hotels];
+    return result;
+  }, [hotels, query]);
 
-  if (query.trim()) {
-    const lowerQuery = query.trim().toLowerCase();
-
-    result = result.filter(
-      (hotel) =>
-        hotel.name.toLowerCase().includes(lowerQuery) ||
-        hotel.city.toLowerCase().includes(lowerQuery)
-    );
-  }
-
-  return result;
-}, [hotels, query]);
 
   return (
     <>

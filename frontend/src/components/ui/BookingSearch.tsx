@@ -1,22 +1,24 @@
 
 import { useState } from "react";
+import { useDispatch } from "react-redux";
+import type { AppDispatch } from "../../store";
+import { setSearchTerm } from "../../redux/SearchSlice";
+import { useNavigate } from "react-router-dom";
 
 export const BookingSearch = () => {
+  const dispatch = useDispatch<AppDispatch>();
+const navigate = useNavigate();
   const [destination, setDestination] = useState("");
   const [checkIn, setCheckIn] = useState("");
   const [checkOut, setCheckOut] = useState("");
   const [guests, setGuests] = useState(2);
 
-  const handleSearch = (e: React.FormEvent) => {
-    e.preventDefault();
+const handleSearch = (e: React.FormEvent) => {
+  e.preventDefault();
 
-    console.log({
-      destination,
-      checkIn,
-      checkOut,
-      guests,
-    });
-  };
+  dispatch(setSearchTerm(destination.trim()));
+  navigate("/");
+};
 
   return (
     <form

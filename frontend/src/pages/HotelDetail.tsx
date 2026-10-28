@@ -1,5 +1,5 @@
 import { useLocation } from "react-router-dom";
-import { useEffect} from "react";
+import { useEffect,useState} from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {  fetchHotelImages} from '../redux/ImageSlice';
 import type{ RootState , AppDispatch} from "../store";
@@ -20,12 +20,40 @@ const HotelDetails = () => {
   if (hotel?.id) {  
     dispatch( fetchHotelImages(hotel.id));
   }
-
- 
-
 }, [dispatch, hotel?.id]);
 
 
+const [isSharing, setIsSharing] = useState(false);
+
+const handleShare = async () => {
+  if (isSharing) return;
+
+  setIsSharing(true);
+
+  const hotelUrl = `${window.location.origin}/hotel/${hotel.id}`;
+
+  try {
+    if (navigator.share) {
+      await navigator.share({
+        title: hotel.name,
+        text: `Check out ${hotel.name} in ${hotel.city}!`,
+        url: hotelUrl,
+      });
+    } else {
+      await navigator.clipboard.writeText(hotelUrl);
+      alert("Hotel link copied to clipboard!");
+    }
+  } catch (error) {
+    if (error instanceof Error && error.name === "AbortError") {
+      return;
+    }
+
+    console.error("Error sharing hotel:", error);
+    alert("Unable to share the hotel link.");
+  } finally {
+    setIsSharing(false);
+  }
+};
 
   return (
     <div className='flex min-h-screen flex-col items-center justify-center bg-gray-50'>
@@ -93,6 +121,12 @@ const HotelDetails = () => {
   </div>
   <Room hotelId={hotel.id} hotel={hotel}/>
   <Reviews hotelId={hotel.id} />
+  <button
+  onClick={handleShare}
+  className="rounded-lg border border-[#7E9E85] px-4 py-2 text-[#42694D] hover:bg-[#7E9E85] hover:text-white"
+>
+  Share
+</button>
  
 </div>
   );
