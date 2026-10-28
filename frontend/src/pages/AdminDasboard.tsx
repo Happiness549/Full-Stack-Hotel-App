@@ -10,6 +10,8 @@ import type { RootState } from '../store'
 import type { AppDispatch } from '../store'
 import { useNavigate } from 'react-router-dom';
 import { logout } from '../redux/LoginSlice';
+import { AdminForm } from '../components/ui/AdminForm';
+import { openAdminModal } from '../redux/AdminSLice';
 
 export const Admin = () => {
   const dispatch = useDispatch<AppDispatch>()
@@ -46,6 +48,16 @@ useEffect(() => {
           className="rounded-lg bg-[#7E9E85] px-5 py-2 text-white"
           onClick={handleLogout}
         />
+          <Button
+            text="Add Admin"
+            className="rounded-lg bg-[#7E9E85] px-5 py-2 text-white"
+            onClick={() => dispatch(openAdminModal())}
+          />
+
+          <Button
+            text="Logout"
+            className="rounded-lg bg-[#7E9E85] px-5 py-2 text-white"
+          />
         </header>
 
         <div className="space-y-10 p-8">
@@ -110,6 +122,7 @@ useEffect(() => {
           </section>
 
           
+          <AdminForm />
         </div>
       </main>
     </div>

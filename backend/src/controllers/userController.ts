@@ -7,9 +7,9 @@ import { User } from "../models/hotel.types";
 
 
 export const register = async (req: Request, res: Response) => {
-    const { email, password, role, name, phone, surname, profile_image } = req.body;
+    const { email, password, name, phone, surname, profile_image } = req.body;
 
-    if (!email || !password || !role || !name || !phone ||!surname) {
+    if (!email || !password  || !name || !phone ||!surname) {
         return res.status(400).json({message: "fill all required fields"});
     }
     if (phone.trim().length !== 10 || isNaN(Number(phone))) {
@@ -23,13 +23,42 @@ export const register = async (req: Request, res: Response) => {
             return res.status(409).json({message: "Email is already in use"});
         }
 
-        await UserService.createUser(email, password, role, name, phone, surname, profile_image);
+        await UserService.createUser(email, password, 'User', name, phone, surname, profile_image);
         return res.status(201).json({message: "User registered successfully"});
 
     } catch (error) {
         console.error("Register Error Details:", error);
 
         return res.status(500).json({message: "Error registering the user"});
+    }
+};
+
+export const createAdmin = async (req: Request, res: Response) => {
+    const { email, password, name, phone, surname, profile_image } = req.body;
+
+    if (!email || !password || !name || !phone || !surname) {
+        return res.status(400).json({ message: "Fill all required fields" });
+    }
+
+    if (phone.trim().length !== 10 || isNaN(Number(phone))) {
+        return res.status(400).json({ message: "Phone number must be exactly 10 digits"});
+    }
+
+    try {
+        const existingUser = await UserService.findUserByEmail(email);
+
+        if (existingUser) {
+            return res.status(409).json({ message: "Email is already in use" });
+        }
+
+        await UserService.createUser(email, password,'Admin', name, phone, surname,profile_image);
+
+        return res.status(201).json({message: "Admin created successfully"});
+
+    } catch (error) {
+        console.error("Create Admin Error:", error);
+
+        return res.status(500).json({message: "Error creating admin"});
     }
 };
 
