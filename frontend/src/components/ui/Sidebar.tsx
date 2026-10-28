@@ -30,6 +30,9 @@ export const Sidebar = () => {
             <Link to='/bookings'>
              <Text variant={'p'} className='text-white '>Bookings</Text>
             </Link>
+            <Link to='/rooms'>
+             <Text variant={'p'} className='text-white '>Rooms</Text>
+            </Link>
            
     
            {/* <button onClick={handleLogout}className="text-[#001C44] hover:text-[#2D99AE] transition-colors  ">

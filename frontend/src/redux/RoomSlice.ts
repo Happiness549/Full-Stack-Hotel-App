@@ -1,5 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import type{ PayloadAction } from "@reduxjs/toolkit";
+import type{ RootState } from "../store";
 
 export interface Room {
   id: number;
@@ -123,6 +124,42 @@ export const updateRooms = createAsyncThunk(
 );
 
 
+export const deleteRoom = createAsyncThunk(
+  "rooms/deleteRoom",
+  async (  { id, hotelId }: { id: number; hotelId: number },
+  { getState, rejectWithValue }) => {
+    const state = getState() as RootState;
+    const token = state.login.token;
+
+    if (!token) {
+      return rejectWithValue("No authentication token found");
+    }
+
+    try {
+      const response = await fetch(
+        `https://full-stack-hotel-app.onrender.com/api/hotels/${hotelId}/rooms/${id}`,
+        {
+          method: "DELETE",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error("Failed to delete room");
+      }
+
+      return id;
+    } catch (error) {
+      return rejectWithValue(
+        error instanceof Error ? error.message : "Something went wrong"
+      );
+    }
+  }
+);
+
+
 const RoomSlice = createSlice({
   name: "rooms",
   initialState,
@@ -188,6 +225,20 @@ const RoomSlice = createSlice({
           state.error =
             typeof action.payload === "string" ? action.payload : "Failed to update room";
         })
+        .addCase(deleteRoom.pending, (state) => {
+          state.loading = true;
+          state.error = null;
+        })
+        .addCase(deleteRoom.fulfilled, (state, action) => {
+          state.loading = false;
+          state.rooms = state.rooms.filter(
+            (room) => room.id !== action.payload
+          );
+        })
+        .addCase(deleteRoom.rejected, (state, action) => {
+          state.loading = false;
+          state.error = action.payload as string;
+        });
 },
 });
 

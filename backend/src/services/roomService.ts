@@ -49,11 +49,25 @@ export const findAllRooms = async (): Promise<Room[]> => {
 };
 
 
-export const deleteRoom = async (id:number, hotel_id: number): Promise<Room | null> =>{
-    const results = await query(" DELETE FROM rooms WHERE id = $1 AND hotel_id = $2 RETURNING *", [id, hotel_id]
+export const deleteRoom = async (id: number, hotel_id: number): Promise<Room | null> => {
+  const payments = await query(
+    `SELECT payments.id
+     FROM payments
+     JOIN bookings ON payments.booking_id = bookings.id
+     WHERE bookings.room_id = $1`,
+    [id]
+  );
 
-    );
-    return (results[0] as Room || null);
+  if (payments.length > 0) {
+    throw new Error("Cannot delete a room with payment records");
+  }
+
+  const results = await query(
+    "DELETE FROM rooms WHERE id = $1 AND hotel_id = $2 RETURNING *",
+    [id, hotel_id]
+  );
+
+  return (results[0] as Room) || null;
 };
 
 

@@ -14,6 +14,8 @@ import MyBookings from "./pages/MyBookings";
 import { PaymentSuccess } from "./pages/PaymentSuccess";
 import { PaymentCancel } from "./pages/PaymentCancel";
 import AdminHotels from './pages/AdminHotels'
+import { ManageRooms } from './pages/ManageRooms'
+
 function App() {
  
   return (
@@ -34,6 +36,7 @@ function App() {
       <Route path="/payment/success" element={<PaymentSuccess />} />
       <Route path="/payment/cancel" element={<PaymentCancel />} />
       <Route path="/adminHotels" element={<AdminHotels />} />
+      <Route path="/rooms" element={<ManageRooms />} />
     </Routes>  
     </BrowserRouter>
       

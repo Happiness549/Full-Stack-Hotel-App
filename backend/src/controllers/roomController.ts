@@ -86,9 +86,16 @@ export const deleteRoomById = async (req: Request, res: Response) => {
         }
 
         return res.status(200).json({ message: "Room deleted successfully" });
+} catch (error) {
+    console.log("Error deleting the Room:", error);
 
-    } catch (error) {
-        console.log("Error deleting the Room:", error);
-        return res.status(500).json({ message: "Error deleting the Room" });
+    if (
+        error instanceof Error &&
+        error.message === "Cannot delete a room with payment records"
+    ) {
+        return res.status(400).json({message: error.message});
     }
+
+    return res.status(500).json({message: "Error deleting the Room"});
+}
 };
