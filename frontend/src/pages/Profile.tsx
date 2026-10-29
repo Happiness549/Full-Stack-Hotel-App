@@ -4,6 +4,7 @@ import type { AppDispatch, RootState } from "../store";
 import { updateUser } from "../redux/LoginSlice";
 import { Text } from "../components/ui/Text";
 import type { UserData } from "../redux/RegisterSlice";
+import { Link } from "react-router-dom";
 
 export const Profile = () => {
     const dispatch = useDispatch<AppDispatch>();
@@ -18,7 +19,17 @@ export const Profile = () => {
 
   
 return (
-  <div className="min-h-screen bg-gray-50 p-6">
+  <div className="min-h-screen bg-gray-50">
+      <nav className="flex items-center justify-between bg-white px-8 py-5 shadow-sm mb-10">
+        <Text variant={'h1'} className="text-2xl font-bold text-green-800">StayClear</Text>
+
+        <div className="flex items-center gap-6">
+          <Link to="/" className="text-gray-700 hover:text-green-700"> Home</Link>
+          <Link to="/my-bookings" className="text-gray-700 hover:text-green-700">My Bookings</Link>
+          <Link to="/favourites" className="text-gray-700 hover:text-green-700">Favourites</Link>
+          <Link to="/profile" className="text-gray-700 hover:text-green-700">Profile</Link>
+        </div>
+      </nav>
     <div className="mx-auto max-w-3xl">
       <Text variant="h2" className="mb-2 text-2xl font-bold text-gray-800">
         My Profile
