@@ -5,6 +5,8 @@ import type { AppDispatch, RootState } from "../store";
 import { fetchFavourites } from "../redux/FavouritesSlice";
 import { HotelCard } from "../components/ui/HotelCard";
 import { fetchHotels } from "../redux/HotelSlice";
+import {Text} from '../components/ui/Text'
+import { Link } from "react-router-dom";
 
 export const Favourites = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -21,12 +23,23 @@ export const Favourites = () => {
 console.log("Loaded hotels:", hotels);
 
   return (
-    <div className="min-h-screen bg-white px-6 py-8">
-      <h1 className="text-2xl font-bold text-green-800 mb-2">
+    <div className="min-h-screen bg-gray-50">
+      <nav className="flex items-center justify-between bg-white px-8 py-5 shadow-sm">
+        <Text variant={'h1'} className="text-2xl font-bold text-green-800">StayClear</Text>
+
+        <div className="flex items-center gap-6">
+          <Link to="/" className="text-gray-700 hover:text-green-700"> Home</Link>
+          <Link to="/my-bookings" className="text-gray-700 hover:text-green-700">My Bookings</Link>
+          <Link to="/favourites" className="text-gray-700 hover:text-green-700">Favourites</Link>
+          <Link to="/profile" className="text-gray-700 hover:text-green-700">Profile</Link>
+        </div>
+      </nav>
+    <div >
+      <h1 className="text-2xl font-bold text-green-800 mt-10 ml-110">
         My Favourites
       </h1>
 
-      <p className="text-gray-600 mb-6">
+      <p className="text-gray-600 mt-4 ml-110">
         Hotels you have saved.
       </p>
 
@@ -35,12 +48,13 @@ console.log("Loaded hotels:", hotels);
           You haven't saved any hotels yet.
         </p>
       ) : (
-        <div className="flex flex-wrap gap-5">
+        <div className="flex flex-wrap gap-5 w-250 m-auto mt-6">
           {favouriteHotels.map((hotel) => (
             <HotelCard key={hotel.id} HotelList={hotel} />
           ))}
         </div>
       )}
+    </div>
     </div>
   );
 };
