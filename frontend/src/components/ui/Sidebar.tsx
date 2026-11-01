@@ -7,6 +7,7 @@ import { useNavigate } from "react-router-dom";
 
 
 
+
 export const Sidebar = () => {
     const dispatch = useDispatch<AppDispatch>();
     const navigate = useNavigate();
@@ -32,6 +33,10 @@ export const Sidebar = () => {
             </Link>
             <Link to='/rooms'>
              <Text variant={'p'} className='text-white '>Rooms</Text>
+            </Link>
+            
+             <Link to='/my-bookings'>
+             <Text variant={'p'} className='text-white '>My Bookings</Text>
             </Link>
            
             <Link to='/Profile'>
