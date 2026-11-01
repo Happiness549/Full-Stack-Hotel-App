@@ -4,7 +4,6 @@ import type { AppDispatch, RootState } from "../store";
 import { fetchRooms, deleteRoom, selectRoom } from "../redux/RoomSlice";
 import { Text } from "../components/ui/Text";
 import { RoomForm } from "../components/ui/RoomForm";
-import { Button } from "../components/ui/Button";
 import { openRoomModal } from "../redux/RoomSlice";
 
 
@@ -35,22 +34,19 @@ if (error) {
         <>
         
   <div className="p-6">
+    <div className="flex"> 
     <Text variant="h1" className="mb-6 text-2xl font-bold">
       Manage Rooms
     </Text>
-    <section>
-    <button
-              
-              className="rounded-lg bg-[#7E9E85] px-5 py-2 text-white"
-              onClick={() => dispatch(openRoomModal())}
-            >
-                Add Room
-                </button>
+    <button         
+        className="rounded-lg bg-[#7E9E85] px-1 py-1 text-white ml-250"
+        onClick={() => dispatch(openRoomModal())}>
+     Add Room
+     </button>
+     </div>
+    
 
-        
-          </section>
-
-    <div className="overflow-x-auto rounded-lg border border-gray-200">
+    <div className="overflow-x-auto rounded-lg border border-gray-200 mt-5">
       <table className="w-full text-left">
         <thead className="bg-green-100">
           <tr>

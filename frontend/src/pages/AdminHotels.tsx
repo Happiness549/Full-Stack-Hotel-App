@@ -27,7 +27,7 @@ const AdminHotels = () => {
 
        <button
         onClick={() => dispatch(openHotelModal())}
-        className="rounded-lg bg-green-700 px-4 py-2 text-white hover:bg-green-800"
+        className="rounded-lg bg-[#7E9E85] px-4 py-2 text-white hover:bg-green-200"
         >
         + Add Hotel
       </button>

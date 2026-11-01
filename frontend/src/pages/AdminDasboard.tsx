@@ -8,25 +8,16 @@ import { useSelector } from 'react-redux'
 import { fetchBookings } from '../redux/BookingSlice'
 import type { RootState } from '../store'
 import type { AppDispatch } from '../store'
-import { useNavigate } from 'react-router-dom';
-import { logout } from '../redux/LoginSlice';
 import { AdminForm } from '../components/ui/AdminForm';
 import { openAdminModal } from '../redux/AdminSLice';
 
 export const Admin = () => {
   const dispatch = useDispatch<AppDispatch>()
-  const navigate = useNavigate();
   const { bookings, loading, error } = useSelector((state: RootState) => state.bookings)
 
-  
-  const handleLogout = () => {
-    dispatch(logout());
-    navigate('/');
-  };
-
-useEffect(() => {
-  dispatch(fetchBookings())
-}, [dispatch])
+  useEffect(() => {
+    dispatch(fetchBookings())
+  }, [dispatch])
 
   return (
     <div className="flex min-h-screen bg-white">
@@ -43,21 +34,15 @@ useEffect(() => {
             </Text>
           </div>
 
-        <Button
-          text="Logout"
-          className="rounded-lg bg-[#7E9E85] px-5 py-2 text-white"
-          onClick={handleLogout}
-        />
-          <Button
-            text="Add Admin"
+       
+          <button
             className="rounded-lg bg-[#7E9E85] px-5 py-2 text-white"
             onClick={() => dispatch(openAdminModal())}
-          />
+          >
+            <Text>Add Admin</Text>
+            </button>
 
-          <Button
-            text="Logout"
-            className="rounded-lg bg-[#7E9E85] px-5 py-2 text-white"
-          />
+          
         </header>
 
         <div className="space-y-10 p-8">

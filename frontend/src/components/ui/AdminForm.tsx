@@ -125,11 +125,12 @@ export const AdminForm = () => {
           />
 
           <div className="mt-4 flex gap-5">
-            <Button text="Create Admin" />
-            <Button
-                text="Cancel"
+            <button >Create Admin</button>
+            <button
                 onClick={() => dispatch(closeAdminModal())}
-                />
+                >
+                Cancel
+            </button>
           </div>
         </form>
       </div>
