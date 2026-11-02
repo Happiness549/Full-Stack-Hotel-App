@@ -135,7 +135,7 @@ return (
       />
     </div>
 
-    <div className="rounded-lg bg-green-50 p-4">
+    <div className="rounded-lg bg-green-50 p-4 h-20">
       <p className="text-sm text-gray-600">Total Price</p>
       <p className="mt-1 text-2xl font-bold text-green-700">
         R{nights > 0 && checkin && checkout ? total_price : 0}
@@ -144,7 +144,7 @@ return (
 
     <button
       type="submit"
-      className="w-full rounded-lg bg-green-700 px-6 py-3 font-semibold text-white transition hover:bg-green-800"
+      className="w-full rounded-lg bg-[#7E9E85] px-6 py-3 font-semibold text-white transition hover:bg-green-800"
     >
       Confirm Booking
     </button>

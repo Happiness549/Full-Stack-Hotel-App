@@ -4,6 +4,7 @@ import { Link }from 'react-router-dom'
 import { useDispatch } from "react-redux";
 import type { AppDispatch } from "../../store";
 import { useNavigate } from "react-router-dom";
+import { logout } from '../../redux/LoginSlice';
 
 
 
@@ -12,10 +13,9 @@ export const Sidebar = () => {
     const dispatch = useDispatch<AppDispatch>();
     const navigate = useNavigate();
 
-    const handleLogout = () => {
-    // dispatch(logout());
-     
-    navigate("/login");
+   const handleLogout = () => {
+        dispatch(logout());
+        navigate("/login");
     };
 
     return(

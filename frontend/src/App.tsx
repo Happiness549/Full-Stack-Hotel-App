@@ -16,6 +16,7 @@ import { PaymentCancel } from "./pages/PaymentCancel";
 import AdminHotels from './pages/AdminHotels'
 import { ManageRooms } from './pages/ManageRooms'
 import { MainLayout } from './components/ui/MainLayout'
+import { ProtectedRoute } from './components/ui/ProtectedRoutes'
 
 function App() {
  
@@ -40,8 +41,13 @@ function App() {
        <Route element={<MainLayout/>}>
        <Route path="/adminHotels" element={<AdminHotels />} />
        <Route path="/rooms" element={<ManageRooms />} />
+
+
+        <Route element={<ProtectedRoute/>}>
+         <Route path="/home" element={<Home />} />
+        </Route> 
        
-       </Route>
+       </Route>  
     </Routes>  
     </BrowserRouter>
       

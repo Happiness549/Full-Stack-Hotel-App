@@ -5,6 +5,8 @@ import { Text } from "./Text";
 import { useDispatch, useSelector } from "react-redux";
 import type { AppDispatch, RootState } from "../../store";
 import { ReviewForm } from "./ReviewForm";
+import { fetchMyBookings } from "../../redux/BookingSlice";
+import { fetchRooms } from "../../redux/RoomSlice";
 
 interface ReviewsProps {
   hotelId: number;
@@ -13,14 +15,26 @@ interface ReviewsProps {
 export const Reviews = ({ hotelId }: ReviewsProps) => {
   const reviews = useSelector((state: RootState) => state.reviews.reviews);
   const user = useSelector((state: RootState) => state.login.userData);
+  const bookings = useSelector((state: RootState) => state.bookings.bookings  );
+const rooms = useSelector((state: RootState) => state.rooms.rooms);
   const [currentReview, setCurrentReview] = useState(0);
   const dispatch = useDispatch<AppDispatch>();
 
   const hotelReviews = reviews.filter((review) => review.hotel_id === hotelId);
+  const hasBookedHotel = bookings.some((booking) =>
+  rooms.some(
+    (room) =>
+      room.id === booking.room_id &&
+      room.hotel_id === hotelId &&
+      (booking.status === "Confirmed" || booking.status === "Approved")
+  )
+);
 
-  useEffect(() => {
-    dispatch(fetchReviews());
-  }, [dispatch]);
+ useEffect(() => {
+  dispatch(fetchReviews());
+  dispatch(fetchMyBookings());
+  dispatch(fetchRooms());
+}, [dispatch]);
 
   const visibleReviews = hotelReviews.slice(currentReview, currentReview + 2);
 
@@ -90,7 +104,11 @@ export const Reviews = ({ hotelId }: ReviewsProps) => {
           </button>
         </div>
       </section>
-      <ReviewForm hotelId={hotelId}/>
+      {hasBookedHotel && user ? (
+      <ReviewForm hotelId={hotelId} />
+    ) : (
+      <Text variant="p" className="mt-6 text-gray-500">Only guests who have booked this hotel can leave a review.</Text>
+    )}
     </div>
   );
 };
