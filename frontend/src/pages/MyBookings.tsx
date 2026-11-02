@@ -4,11 +4,10 @@ import { useDispatch, useSelector } from "react-redux";
 import type { AppDispatch, RootState } from "../store";
 import { fetchMyBookings } from "../redux/BookingSlice";
 
-const MyBookings = () => {
+export const MyBookings = () => {
   const dispatch = useDispatch<AppDispatch>();
 
-  const { bookings, loading, error } = useSelector(
-    (state: RootState) => state.bookings);
+  const { bookings, loading, error } = useSelector((state: RootState) => state.bookings);
 
   useEffect(() => {
     dispatch(fetchMyBookings());
@@ -172,4 +171,4 @@ const MyBookings = () => {
   );
 };
 
-export default MyBookings;
+

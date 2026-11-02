@@ -84,7 +84,7 @@ return (
 
 
       {/* Right side: Booking form */}
-      <div className="h-150 rounded-2xl border border-gray-200 bg-white p-8 shadow-md">
+      <div className=" rounded-2xl border border-gray-200 bg-white p-8 shadow-md">
         <h2 className="mb-4 text-2xl font-bold text-gray-800">
           Complete Your Booking
         </h2>

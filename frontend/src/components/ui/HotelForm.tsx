@@ -124,9 +124,9 @@ const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 
   return (
     <>
-     <div className="fixed inset-0 flex  items-center justify-center bg-black/40 z-50">
-     <div className="bg-white rounded-4xl p-8 w-140">
-      <form onSubmit={handleSubmit}>
+     <div className="fixed inset-0 flex  items-center justify-center bg-black/40 z-50 ">
+     <div className="bg-white rounded-4xl p-8  w-110 h-150 ">
+      <form onSubmit={handleSubmit} className="flex flex-col gap-4">
         <Input
           label="Hotel name"
           placeholder="Enter your list title"
@@ -145,7 +145,7 @@ const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
             onChange={handleChange}
             />
         <Input
-         label='Adress'
+         label='Address'
          name="address"
          type="text"
          value={form.address}
@@ -188,10 +188,6 @@ const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
           value={form.facilities}
           onChange={handleChange}
         />
-
-
-
-        
 
         <input
             type="file"
