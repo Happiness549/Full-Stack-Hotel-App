@@ -65,16 +65,6 @@ export const Register = () => {
 
 
                 <Input
-                
-                label='Role'
-                type='text'
-                name='role'
-                value={signupForm.role}
-                onChange= {handleChange}
-                placeholder='Enter surname'
-                />
-
-                <Input
                 label='Phone Number'
                 type='number'
                 name="phone"

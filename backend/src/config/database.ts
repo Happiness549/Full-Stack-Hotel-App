@@ -1,8 +1,7 @@
-import { Request, Response } from "express";
+
 import { neon } from "@neondatabase/serverless";
 import dotenv from "dotenv";
-import * as userService from '../services/userService'
-import bcrypt from 'bcrypt';
+
 
 dotenv.config();
 

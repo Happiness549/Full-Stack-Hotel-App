@@ -35,12 +35,10 @@ interface PaystackResponse {
 }
 
 
-    export const createPayment = createAsyncThunk<
-        PaystackResponse,
+    export const createPayment = createAsyncThunk<PaystackResponse,
         { bookingId: number; token: string },
-        { rejectValue: string }
-    >(
-        "payment/createPayment",
+        { rejectValue: string }>
+        ("payment/createPayment",
         async ({ bookingId, token }, { rejectWithValue }) => {
             try {
                 const response = await fetch(

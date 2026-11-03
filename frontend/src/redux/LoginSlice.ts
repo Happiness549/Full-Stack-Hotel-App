@@ -26,8 +26,7 @@ const initialState: LoginState = {
   success: null,
 };
 
-export const loginUser = createAsyncThunk(
-  'login/loginUser',
+export const loginUser = createAsyncThunk('login/loginUser',
   async (_, { getState, rejectWithValue }) => {
     try {
       const state = getState() as RootState;

@@ -10,11 +10,13 @@ import { Favourites } from './pages/Favourites'
 import {Profile} from './pages/Profile'
 import { Bookings } from './pages/Booking'
 import {BookingPage} from "./pages/BookingPage";
-import MyBookings from "./pages/MyBookings";
+import {MyBookings} from "./pages/MyBookings";
 import { PaymentSuccess } from "./pages/PaymentSuccess";
 import { PaymentCancel } from "./pages/PaymentCancel";
 import AdminHotels from './pages/AdminHotels'
 import { ManageRooms } from './pages/ManageRooms'
+import { MainLayout } from './components/ui/MainLayout'
+import { ProtectedRoute } from './components/ui/ProtectedRoutes'
 
 function App() {
  
@@ -30,13 +32,22 @@ function App() {
       <Route path="/home" element={<Home />} />
       <Route path="/favourites" element={<Favourites />} />
       <Route path="/profile" element={<Profile />} />
-      <Route path="/bookings" element={<Bookings />} />
       <Route path="/booking" element={<BookingPage />} />
-      <Route path="/my-bookings" element={<MyBookings />} />
       <Route path="/payment/success" element={<PaymentSuccess />} />
       <Route path="/payment/cancel" element={<PaymentCancel />} />
-      <Route path="/adminHotels" element={<AdminHotels />} />
-      <Route path="/rooms" element={<ManageRooms />} />
+      <Route path="/my-bookings" element={<MyBookings />} />
+       <Route path="/bookings" element={<Bookings />} />
+      
+       <Route element={<MainLayout/>}>
+       <Route path="/adminHotels" element={<AdminHotels />} />
+       <Route path="/rooms" element={<ManageRooms />} />
+
+
+        <Route element={<ProtectedRoute/>}>
+         <Route path="/home" element={<Home />} />
+        </Route> 
+       
+       </Route>  
     </Routes>  
     </BrowserRouter>
       

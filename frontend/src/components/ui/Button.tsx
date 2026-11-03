@@ -14,7 +14,7 @@ export const Button:React.FC<ButtonProps> = ({text,onClick,className}) => {
         
         onClick={onClick}
         className={`
-           w-80 
+           w-40 
            h-10
             rounded-md
             bg-[#7E9E85]

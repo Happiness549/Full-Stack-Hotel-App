@@ -75,8 +75,8 @@ export const AdminForm = () => {
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40">
-      <div className="w-[560px] rounded-4xl bg-white p-8">
-        <form onSubmit={handleSubmit}>
+      <div className="w-110 h-120 rounded-4xl bg-white p-8">
+        <form onSubmit={handleSubmit} className="flex flex-col gap-4">
           <h2 className="mb-4 text-xl font-bold">Add Admin</h2>
 
           <Input
@@ -125,11 +125,12 @@ export const AdminForm = () => {
           />
 
           <div className="mt-4 flex gap-5">
-            <Button text="Create Admin" />
-            <Button
-                text="Cancel"
+            <button >Create Admin</button>
+            <button
                 onClick={() => dispatch(closeAdminModal())}
-                />
+                >
+                Cancel
+            </button>
           </div>
         </form>
       </div>

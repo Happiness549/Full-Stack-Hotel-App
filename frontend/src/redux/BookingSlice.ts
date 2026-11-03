@@ -63,10 +63,10 @@ export const fetchBookings = createAsyncThunk<Booking[], void,
 
 
 export const fetchMyBookings = createAsyncThunk<
-  Booking[],
-  void,
-  { state: RootState; rejectValue: string }
->("bookings/fetchMyBookings", async (_, { getState, rejectWithValue }) => {
+  Booking[], void,
+  { state: RootState; rejectValue: string }>
+  ("bookings/fetchMyBookings", async (_, { getState, rejectWithValue }) => {
+    
   const token = getState().login.token;
 
   if (!token) {

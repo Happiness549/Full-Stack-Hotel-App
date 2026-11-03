@@ -1,8 +1,21 @@
 import { Link } from "react-router-dom";
 import { HotelList } from "../components/ui/HotelList";
 import { Text } from "../components/ui/Text";
+import { useNavigate } from "react-router-dom";
+import { logout } from "../redux/LoginSlice";
+import { useDispatch } from "react-redux";
+import type { AppDispatch } from "../store";
 
 export const Home = () => {
+  const dispatch = useDispatch<AppDispatch>();
+
+   const navigate = useNavigate();
+
+    const handleLogout = () => {
+      dispatch(logout());
+      navigate("/login");
+    };
+
   return (
     <div className="min-h-screen bg-gray-50">
     
@@ -11,9 +24,12 @@ export const Home = () => {
 
         <div className="flex items-center gap-6">
           <Link to="/" className="text-gray-700 hover:text-green-700"> Home</Link>
-          <Link to="/bookings" className="text-gray-700 hover:text-green-700">My Bookings</Link>
+          <Link to="/my-bookings" className="text-gray-700 hover:text-green-700">My Bookings</Link>
           <Link to="/favourites" className="text-gray-700 hover:text-green-700">Favourites</Link>
           <Link to="/profile" className="text-gray-700 hover:text-green-700">Profile</Link>
+          <button onClick={handleLogout}className="text-[#001C44] hover:text-[#2D99AE] transition-colors  ">
+           <Text variant={'p'} >Logout</Text>
+           </button>
         </div>
       </nav>
 
