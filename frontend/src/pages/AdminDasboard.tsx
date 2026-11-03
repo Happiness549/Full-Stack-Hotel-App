@@ -1,5 +1,4 @@
 
-import { Button } from '../components/ui/Button'
 import { Text } from '../components/ui/Text'
 import { Sidebar } from '../components/ui/Sidebar'
 import { useDispatch } from 'react-redux'
