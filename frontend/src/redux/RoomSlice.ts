@@ -39,10 +39,16 @@ export const addRoom = createAsyncThunk(
   "rooms/addRoom",
   async (newRoom: Omit<Room, "id">,
     { rejectWithValue, getState },
-  ) => {
-    const state = getState() as RootState;
-    const token = state.login.token
+) => {
+
     try {
+      
+      const state = getState() as RootState;
+      const token = state.login.token;
+      if(!token){
+        return rejectWithValue("No authentication token found");
+      }
+
       const response = await fetch(
         `https://full-stack-hotel-app.onrender.com/api/hotels/${newRoom.hotel_id}/rooms`,
         {
