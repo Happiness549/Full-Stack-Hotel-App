@@ -37,10 +37,11 @@ const initialState: RoomState = {
 
 export const addRoom = createAsyncThunk(
   "rooms/addRoom",
-  async (
-    newRoom: Omit<Room, "id">,
-    { rejectWithValue }
+  async (newRoom: Omit<Room, "id">,
+    { rejectWithValue, getState },
   ) => {
+    const state = getState() as RootState;
+    const token = state.login.token
     try {
       const response = await fetch(
         `https://full-stack-hotel-app.onrender.com/api/hotels/${newRoom.hotel_id}/rooms`,
@@ -48,6 +49,8 @@ export const addRoom = createAsyncThunk(
           method: "POST",
           headers: {
             "Content-Type": "application/json",
+            "Authorization": `Bearer ${token}`,
+
           },
           body: JSON.stringify(newRoom),
         }
