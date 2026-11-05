@@ -45,6 +45,7 @@ export const addRoom = createAsyncThunk(
       
       const state = getState() as RootState;
       const token = state.login.token;
+      console.log("Token:",token)
       if(!token){
         return rejectWithValue("No authentication token found");
       }
