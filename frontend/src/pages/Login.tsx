@@ -2,11 +2,12 @@ import { useDispatch, useSelector } from "react-redux";
 import type { ChangeEvent, FormEvent } from "react";
 import type { RootState, AppDispatch } from "../store";
 import {  useNavigate } from "react-router-dom";
-import { loginUser } from "../redux/LoginSlice";
+import { loginUser, setGoogleLogin } from "../redux/LoginSlice";
 import { updatedInputField } from "../redux/RegisterSlice";
 import {Input} from "../components/ui/Input";
 import {Text} from "../components/ui/Text";
 import {Button} from "../components/ui/Button";
+import {useEffect} from "react";
 
 
 
@@ -14,13 +15,35 @@ export const Login = () => {
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
 
-  const signupForm = useSelector(
-    (state: RootState) => state.user.signupForm
-  );
+  const signupForm = useSelector((state: RootState) => state.user.signupForm);
+  const { loading, error, success } = useSelector((state: RootState) => state.login);
 
-  const { loading, error, success } = useSelector(
-    (state: RootState) => state.login
-  );
+  useEffect(() => {
+  const handleGoogleMessage = (event: MessageEvent) => {
+    if (event.origin !== "https://full-stack-hotel-app.onrender.com") {
+      return;
+    }
+
+    if (event.data?.type === "GOOGLE_AUTH_SUCCESS") {
+      const { token, user } = event.data.payload;
+
+      dispatch(setGoogleLogin({ token, user }));
+
+      if (user.role === "Admin") {
+        navigate("/dashboard");
+      } else {
+        navigate("/home");
+      }
+    }
+  };
+
+  window.addEventListener("message", handleGoogleMessage);
+
+  return () => {
+    window.removeEventListener("message", handleGoogleMessage);
+  };
+}, [dispatch, navigate]);
+
 
   const handleChange = (
     e: ChangeEvent<HTMLInputElement>
@@ -32,6 +55,14 @@ export const Login = () => {
       })
     );
   };
+
+  const handleGoogleLogin = () => {
+  window.open(
+    "https://full-stack-hotel-app.onrender.com/auth/google",
+    "googleLogin",
+    "width=500,height=600"
+  );
+};
 
 const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
   e.preventDefault();
@@ -91,6 +122,12 @@ const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
         <Button
           text={loading ? "Logging in..." : "Login"}
           className="text-white -mt-4 w-80 "
+        />
+
+        <Button
+          text="Continue with Google"
+          onClick={handleGoogleLogin}
+          className="w-80"
         />
 
         <div className="flex gap-29 -mt-4 ">
