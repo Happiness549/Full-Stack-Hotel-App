@@ -217,12 +217,18 @@ export const googleAuthCallback = (req: Request, res: Response) => {
         <html>
             <body>
                 <script>
+                    console.log("Google callback page loaded");
+                    console.log("Window opener:", window.opener);
+
                     if (window.opener) {
                         window.opener.postMessage(
                             ${safeAuthData},
                             ${JSON.stringify(frontendUrl)}
                         );
-                        window.close();
+
+                        document.body.innerText = "Message sent. Waiting for frontend...";
+                    } else {
+                        document.body.innerText = "Window opener is missing!";
                     }
                 </script>
                 Google login successful. You can close this window.

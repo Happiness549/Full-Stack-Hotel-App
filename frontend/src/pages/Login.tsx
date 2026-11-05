@@ -20,10 +20,12 @@ export const Login = () => {
 
   useEffect(() => {
   const handleGoogleMessage = (event: MessageEvent) => {
+    console.log("Google message received:", event.origin, event.data);
+    
     if (event.origin !== "https://full-stack-hotel-app.onrender.com") {
       return;
     }
-
+     console.log("Google message received:", event.origin, event.data);
     if (event.data?.type === "GOOGLE_AUTH_SUCCESS") {
       const { token, user } = event.data.payload;
 
@@ -57,6 +59,7 @@ export const Login = () => {
   };
 
   const handleGoogleLogin = () => {
+    
   window.open(
     "https://full-stack-hotel-app.onrender.com/auth/google",
     "googleLogin",
