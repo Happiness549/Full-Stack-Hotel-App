@@ -58,6 +58,7 @@ export const addHotel = createAsyncThunk(
       );
 
     if (!response.ok) {
+
         throw new Error("Failed to add list");
       }
 

@@ -76,7 +76,9 @@ const handleShare = async () => {
       <Text variant={'p'} className="mt-2 text-gray-600">{hotel.address}, {hotel.city}, {hotel.country}</Text>
      
 <div className="mt-6 max-w-4xl  grid grid-cols-1 md:grid-cols-4 gap-3">
-  {images?.map((image, index) => (
+  {images
+  .filter((image) => image.hotel_id === hotel.id)
+  .map((image, index) => (
     <img
       key={image.id}
       src={image.image_url}

@@ -105,6 +105,14 @@ const LoginSlice = createSlice({
       state.error = null;
       state.success = null;
     },
+    setGoogleLogin: (state, action) => {
+    state.userData = action.payload.user;
+    state.token = action.payload.token;
+    state.error = null;
+    state.success = 'Google login successful!';
+
+    saveUser(action.payload);
+  },
   },
 
   extraReducers: (builder) => {
@@ -153,6 +161,6 @@ const LoginSlice = createSlice({
   },
 });
 
-export const { logout, clearLoginMessage } = LoginSlice.actions;
+export const { logout, clearLoginMessage, setGoogleLogin  } = LoginSlice.actions;
 
 export default LoginSlice.reducer;

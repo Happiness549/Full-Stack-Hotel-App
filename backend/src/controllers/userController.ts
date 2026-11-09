@@ -181,21 +181,62 @@ export const deleteUserById = async (req: Request, res: Response) => {
 
 //Google controllers
 
+
 export const googleAuthCallback = (req: Request, res: Response) => {
     const user = req.user as User;
 
-    const token = jwt.sign({id: user.id, email: user.email, role: user.role,},process.env.JWT_SECRET!,
+    const token = jwt.sign(
+        {
+            id: user.id,
+            email: user.email,
+            role: user.role,
+        },
+        process.env.JWT_SECRET!,
         { expiresIn: "1h" }
     );
 
-    return res.status(200).json({message: "Google login successful", token, user: {
-            id: user.id,
-            email: user.email,
-            name: user.name,
-            role: user.role,
+    const authData = {
+        type: "GOOGLE_AUTH_SUCCESS",
+        payload: {
+            token,
+            user: {
+                id: user.id,
+                email: user.email,
+                name: user.name,
+                role: user.role,
+            },
         },
-    });
+    };
+
+    const frontendUrl = process.env.CLIENT_URL!;
+
+    const safeAuthData = JSON.stringify(authData).replace(/</g, "\\u003c");
+
+    return res.send(`
+        <!DOCTYPE html>
+        <html>
+            <body>
+                <script>
+                    console.log("Google callback page loaded");
+                    console.log("Window opener:", window.opener);
+
+                    if (window.opener) {
+                        window.opener.postMessage(
+                            ${safeAuthData},
+                            ${JSON.stringify(frontendUrl)}
+                        );
+
+                        document.body.innerText = "Message sent. Waiting for frontend...";
+                    } else {
+                        document.body.innerText = "Window opener is missing!";
+                    }
+                </script>
+                Google login successful. You can close this window.
+            </body>
+        </html>
+    `);
 };
+
 
 export const googleAuthFailure = (_req: Request, res: Response) => {
     return res.status(401).json({
