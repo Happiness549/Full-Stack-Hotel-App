@@ -10,7 +10,7 @@ export const Landing = () => {
         <>
         
         <section className="bg-[url('https://res.cloudinary.com/g1cepfbn/image/upload/v1791972025/pexels-darrell-fraser-1187740-2259226.jpg')] bg-cover bg-center h-[45vh] w-full"> 
-        <div className='flex gap-5 ml-360'>
+        <div className="flex gap-5 ml-0 justify-end px-5 md:ml-0 sm:ml-0">
             <Text variant={'h3'}className='text-white text-2xl'><Link to='/register'>Register</Link></Text>
             <Text variant={'h3'} className='text-white text-2xl'><Link to='/login'>Login</Link></Text>
         </div>
