@@ -1,5 +1,6 @@
 
 import React, { useState } from "react";
+import {Button} from "../ui/Button";
 import { Input } from "../ui/Input";
 import { useDispatch, useSelector } from "react-redux";
 import type { AppDispatch, RootState } from "../../store";
@@ -124,12 +125,14 @@ export const AdminForm = () => {
           />
 
           <div className="mt-4 flex gap-5">
-            <button >Create Admin</button>
-            <button
+            <Button type="submit" text="Create Admin" />
+            <Button
+
+                variant="secondary"
+                text="Cancel"
                 onClick={() => dispatch(closeAdminModal())}
-                >
-                Cancel
-            </button>
+                />
+              
           </div>
         </form>
       </div>
