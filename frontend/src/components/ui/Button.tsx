@@ -4,6 +4,8 @@ interface ButtonProps{
     onClick?: (e: React.MouseEvent<HTMLButtonElement>) => void;
     className?: string;
     id?: string;
+    type?: "button" | "submit" | "reset";
+    variant?: "primary" | "secondary" | "tertiary";
 }
 
 export const Button:React.FC<ButtonProps> = ({text,onClick,className}) => {
