@@ -7,7 +7,8 @@ import {Text} from '../components/ui/Text'
 import {BookingSearch} from '../components/ui/BookingSearch'
 import { Room } from "../components/ui/Room";
 import { Reviews } from "../components/ui/Reviews";
-
+import {ReviewForm} from '../components/ui/ReviewForm'
+ 
 
 
 const HotelDetails = () => {
@@ -123,6 +124,7 @@ const handleShare = async () => {
   </div>
   <Room hotelId={hotel.id} hotel={hotel}/>
   <Reviews hotelId={hotel.id} />
+  <ReviewForm hotelId={hotel}/>
   <button
   onClick={handleShare}
   className="rounded-lg border border-[#7E9E85] px-4 py-2 text-[#42694D] hover:bg-[#7E9E85] hover:text-white"

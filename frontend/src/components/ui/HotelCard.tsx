@@ -20,19 +20,11 @@ export const HotelCard: React.FC<HotelProps> = ({HotelList}) => {
   const navigate = useNavigate();
 
   
- const images = useSelector(
-    (state: RootState) => state.images.images
-  );
-  const loadedHotelIds = useSelector(
-    (state: RootState) => state.images.loadedHotelIds
-  );
-  const favourites = useSelector(
-  (state: RootState) => state.favourites.favourites
-);
+ const images = useSelector((state: RootState) => state.images.images);
+  const loadedHotelIds = useSelector((state: RootState) => state.images.loadedHotelIds);
+  const favourites = useSelector((state: RootState) => state.favourites.favourites);
 
-const isFavourite = favourites.some(
-  (favourite) => favourite.hotel_id === HotelList.id
-);
+const isFavourite = favourites.some((favourite) => favourite.hotel_id === HotelList.id);
 
   useEffect(() => {
     if (
