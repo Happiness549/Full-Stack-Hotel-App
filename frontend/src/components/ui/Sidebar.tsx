@@ -4,6 +4,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
 import type { AppDispatch } from '../../store'
 import { logout } from '../../redux/LoginSlice'
+import { Admin} from '../../pages/AdminDasboard'
 
 export const Sidebar = () => {
   const dispatch = useDispatch<AppDispatch>()
@@ -40,12 +41,12 @@ export const Sidebar = () => {
           🛏️ <Text className="text-white">Rooms</Text>
         </Link>
 
-        <Link to="/my-bookings" className="flex items-center gap-3 rounded-lg px-3 py-3 text-white hover:bg-[#7E9E85]">
-          📋 <Text className="text-white">My Bookings</Text>
-        </Link>
-
         <Link to="/Profile" className="flex items-center gap-3 rounded-lg px-3 py-3 text-white hover:bg-[#7E9E85]">
           👤 <Text className="text-white">Profile</Text>
+        </Link>
+
+         <Link to="/dashboard" className="flex items-center gap-3 rounded-lg px-3 py-3 text-white hover:bg-[#7E9E85]">
+           📊 <Text className="text-white">Dashboard</Text>
         </Link>
 
       </div>

@@ -4,9 +4,11 @@ import type { AppDispatch, RootState } from "../store";
 import { updateUser } from "../redux/LoginSlice";
 import { Text } from "../components/ui/Text";
 import type { UserData } from "../redux/RegisterSlice";
+import { useNavigate } from "react-router-dom";
 
 export const Profile = () => {
     const dispatch = useDispatch<AppDispatch>();
+    const navigate = useNavigate();
     const [isEditing, setIsEditing] = useState(false);
     const [formData, setFormData] = useState<UserData | null>(null);
 
@@ -172,6 +174,14 @@ return (
           )
         )}
       </div>
+      <button
+        type="button"
+        onClick={() => navigate(-1)}
+        className="mb-4 flex h-10 w-10 items-center justify-center rounded-full border border-gray-200 bg-white text-xl text-gray-600 shadow-sm transition hover:bg-[#EAF1EB] hover:text-[#42694D]"
+        aria-label="Go back"
+      >
+        ←
+      </button>
     </div>
   </div>
 );

@@ -36,11 +36,12 @@ function App() {
       <Route path="/payment/success" element={<PaymentSuccess />} />
       <Route path="/payment/cancel" element={<PaymentCancel />} />
       <Route path="/my-bookings" element={<MyBookings />} />
-       <Route path="/bookings" element={<Bookings />} />
+      
       
        <Route element={<MainLayout/>}>
        <Route path="/adminHotels" element={<AdminHotels />} />
        <Route path="/rooms" element={<ManageRooms />} />
+       <Route path="/bookings" element={<Bookings />} />
 
 
         <Route element={<ProtectedRoute/>}>
