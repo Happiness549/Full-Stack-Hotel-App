@@ -4,10 +4,18 @@ import type { ChangeEvent, FormEvent } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import type { AppDispatch, RootState } from "../../store";
 import { addRoom, updateRooms, closeRoomModal } from "../../redux/RoomSlice";
+import { fetchHotels } from "../../redux/HotelSlice";
 
 export const RoomForm = () => {
   const dispatch = useDispatch<AppDispatch>();
-  const { isRoomModalOpen, selectedRoom } = useSelector((state: RootState) => state.rooms);
+
+  const { isRoomModalOpen, selectedRoom } = useSelector(
+    (state: RootState) => state.rooms
+  );
+
+  const { hotels, loading } = useSelector(
+    (state: RootState) => state.hotels
+  );
 
   const [formData, setFormData] = useState({
     hotel_id: 0,
@@ -19,6 +27,14 @@ export const RoomForm = () => {
     facilities: "",
   });
 
+  // Fetch hotels when the room form opens
+  useEffect(() => {
+    if (isRoomModalOpen && hotels.length === 0) {
+      dispatch(fetchHotels());
+    }
+  }, [isRoomModalOpen, hotels.length, dispatch]);
+
+  // Populate form when editing a room
   useEffect(() => {
     if (selectedRoom) {
       setFormData({
@@ -44,7 +60,7 @@ export const RoomForm = () => {
   }, [selectedRoom]);
 
   const handleChange = (
-    e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+    e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
   ) => {
     const { name, value } = e.target;
 
@@ -62,28 +78,28 @@ export const RoomForm = () => {
   };
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
-  e.preventDefault();
+    e.preventDefault();
 
-  if (selectedRoom) {
-    await dispatch(
-      updateRooms({
-        ...formData,
-        id: selectedRoom.id,
-      })
-    ).unwrap();
+    if (selectedRoom) {
+      await dispatch(
+        updateRooms({
+          ...formData,
+          id: selectedRoom.id,
+        })
+      ).unwrap();
+    } else {
+      await dispatch(addRoom(formData)).unwrap();
+    }
 
     dispatch(closeRoomModal());
-  } else {
-    await dispatch(addRoom(formData)).unwrap();
-    dispatch(closeRoomModal());
-  }
-};
+  };
 
-    if (!isRoomModalOpen) return null;
+  if (!isRoomModalOpen) return null;
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
       <div className="max-h-[90vh] w-full max-w-2xl overflow-y-auto rounded-2xl bg-white p-6 shadow-xl">
+
         <div className="mb-6 flex items-center justify-between">
           <h2 className="text-2xl font-semibold text-[#42694D]">
             {selectedRoom ? "Edit Room" : "Add Room"}
@@ -99,25 +115,44 @@ export const RoomForm = () => {
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-4">
+
+          {/* Hotel Selection */}
           <div>
             <label className="mb-1 block font-medium text-[#42694D]">
-              Hotel ID
+              Select Hotel
             </label>
-            <input
+
+            <select
               name="hotel_id"
-              type="number"
-              min="1"
               value={formData.hotel_id || ""}
               onChange={handleChange}
               required
-              className="w-full rounded-lg border border-gray-300 p-3 outline-none focus:border-[#7E9E85]"
-            />
+              className="w-full rounded-lg border border-gray-300 bg-white p-3 outline-none focus:border-[#7E9E85]"
+            >
+              <option value="">
+                {loading ? "Loading hotels..." : "Choose a hotel"}
+              </option>
+
+              {hotels.map((hotel) => (
+                <option key={hotel.id} value={hotel.id}>
+                  {hotel.name}
+                </option>
+              ))}
+            </select>
+
+            {hotels.length === 0 && !loading && (
+              <p className="mt-1 text-sm text-red-500">
+                No hotels found. Please add a hotel first.
+              </p>
+            )}
           </div>
 
+          {/* Room Type */}
           <div>
             <label className="mb-1 block font-medium text-[#42694D]">
               Room Type
             </label>
+
             <input
               name="room_type"
               value={formData.room_type}
@@ -128,10 +163,12 @@ export const RoomForm = () => {
             />
           </div>
 
+          {/* Description */}
           <div>
             <label className="mb-1 block font-medium text-[#42694D]">
               Description
             </label>
+
             <textarea
               name="description"
               value={formData.description}
@@ -142,11 +179,13 @@ export const RoomForm = () => {
             />
           </div>
 
+          {/* Price, Capacity and Quantity */}
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
             <div>
               <label className="mb-1 block font-medium text-[#42694D]">
                 Price Per Night
               </label>
+
               <input
                 name="price_per_night"
                 type="number"
@@ -163,6 +202,7 @@ export const RoomForm = () => {
               <label className="mb-1 block font-medium text-[#42694D]">
                 Guest Capacity
               </label>
+
               <input
                 name="capacity"
                 type="number"
@@ -178,6 +218,7 @@ export const RoomForm = () => {
               <label className="mb-1 block font-medium text-[#42694D]">
                 Quantity
               </label>
+
               <input
                 name="quantity"
                 type="number"
@@ -190,10 +231,12 @@ export const RoomForm = () => {
             </div>
           </div>
 
+          {/* Facilities */}
           <div>
             <label className="mb-1 block font-medium text-[#42694D]">
               Facilities
             </label>
+
             <textarea
               name="facilities"
               value={formData.facilities}
@@ -205,6 +248,7 @@ export const RoomForm = () => {
             />
           </div>
 
+          {/* Buttons */}
           <div className="flex justify-end gap-3 pt-2">
             <button
               type="button"
@@ -216,11 +260,13 @@ export const RoomForm = () => {
 
             <button
               type="submit"
-              className="rounded-lg bg-[#7E9E85] px-5 py-2 font-semibold text-white hover:bg-[#64866D]"
+              disabled={loading || hotels.length === 0}
+              className="rounded-lg bg-[#7E9E85] px-5 py-2 font-semibold text-white hover:bg-[#64866D] disabled:cursor-not-allowed disabled:opacity-50"
             >
               {selectedRoom ? "Save Changes" : "Add Room"}
             </button>
           </div>
+
         </form>
       </div>
     </div>
